@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>Spring MVC参数绑定相关注解 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Spring MVC,参数绑定," />
+  
+
+  
+  <meta name="description" content="Spring MVC参数绑定相关注解：@PathVariable@RequestHeader@CookieValue">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-29
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Spring MVC参数绑定相关注解
+  </h1>
+  
+  <article class="passage-article">
+    <blockquote>
+<p>web.xml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;web-app xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; </span><br><span class="line">	xmlns&#x3D;&quot;http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee&quot; </span><br><span class="line">	xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee </span><br><span class="line">	http:&#x2F;&#x2F;xmlns.jcp.org&#x2F;xml&#x2F;ns&#x2F;javaee&#x2F;web-app_3_1.xsd&quot; </span><br><span class="line">	id&#x3D;&quot;WebApp_ID&quot; version&#x3D;&quot;3.1&quot;&gt;</span><br><span class="line">	&lt;!-- 定义Spring MVC的前端控制器 --&gt;</span><br><span class="line">  &lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;springmvc&lt;&#x2F;servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;</span><br><span class="line">        org.springframework.web.servlet.DispatcherServlet</span><br><span class="line">    &lt;&#x2F;servlet-class&gt;</span><br><span class="line">    &lt;init-param&gt;</span><br><span class="line">      &lt;param-name&gt;contextConfigLocation&lt;&#x2F;param-name&gt;</span><br><span class="line">      &lt;param-value&gt;&#x2F;WEB-INF&#x2F;springmvc-config.xml&lt;&#x2F;param-value&gt;</span><br><span class="line">    &lt;&#x2F;init-param&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;&#x2F;load-on-startup&gt;</span><br><span class="line">  &lt;&#x2F;servlet&gt;</span><br><span class="line">  &lt;!-- 让Spring MVC的前端控制器拦截所有请求 --&gt;</span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;springmvc&lt;&#x2F;servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;&#x2F;&lt;&#x2F;url-pattern&gt;</span><br><span class="line">  &lt;&#x2F;servlet-mapping&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;!-- 编码过滤器 --&gt;</span><br><span class="line">  &lt;filter&gt;</span><br><span class="line">		&lt;filter-name&gt;characterEncodingFilter&lt;&#x2F;filter-name&gt;</span><br><span class="line">		&lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;&#x2F;filter-class&gt;</span><br><span class="line">		&lt;init-param&gt;</span><br><span class="line">			&lt;param-name&gt;encoding&lt;&#x2F;param-name&gt;</span><br><span class="line">			&lt;param-value&gt;UTF-8&lt;&#x2F;param-value&gt;</span><br><span class="line">		&lt;&#x2F;init-param&gt;</span><br><span class="line"> &lt;&#x2F;filter&gt;</span><br><span class="line">	&lt;filter-mapping&gt;</span><br><span class="line">		&lt;filter-name&gt;characterEncodingFilter&lt;&#x2F;filter-name&gt;</span><br><span class="line">		&lt;url-pattern&gt;&#x2F;*&lt;&#x2F;url-pattern&gt;</span><br><span class="line">	&lt;&#x2F;filter-mapping&gt;</span><br><span class="line">	</span><br><span class="line">&lt;&#x2F;web-app&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>springmvc-config.xml</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">    xmlns:mvc&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;mvc&quot;</span><br><span class="line">    xmlns:context&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans-4.2.xsd</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;mvc</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;mvc&#x2F;spring-mvc-4.2.xsd     </span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&#x2F;spring-context-4.2.xsd&quot;&gt;</span><br><span class="line">        </span><br><span class="line">    &lt;!-- spring可以自动去扫描base-pack下面的包或者子包下面的java文件，</span><br><span class="line">    	如果扫描到有Spring的相关注解的类，则把这些类注册为Spring的bean --&gt;</span><br><span class="line">    &lt;context:component-scan base-package&#x3D;&quot;org.zhangxueliang.controller&quot;&#x2F;&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;!-- 视图解析器  --&gt;</span><br><span class="line">     &lt;bean id&#x3D;&quot;viewResolver&quot;</span><br><span class="line">          class&#x3D;&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt; </span><br><span class="line">        &lt;!-- 前缀 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;prefix&quot;&gt;</span><br><span class="line">            &lt;value&gt;&#x2F;WEB-INF&#x2F;content&#x2F;&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line">        &lt;!-- 后缀 --&gt;</span><br><span class="line">        &lt;property name&#x3D;&quot;suffix&quot;&gt;</span><br><span class="line">            &lt;value&gt;.jsp&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;property&gt;</span><br><span class="line">    &lt;&#x2F;bean&gt;</span><br><span class="line">    </span><br><span class="line">&lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>DataBindingController.java</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package org.zhangxueliang.controller;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.logging.Log;</span><br><span class="line">import org.apache.commons.logging.LogFactory;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.web.bind.annotation.CookieValue;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestHeader;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Controller注解用于指示该类是一个控制器，可以同时处理多个请求动作</span><br><span class="line">@Controller</span><br><span class="line">public class DataBindingController&#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 静态的日志类LogFactory</span><br><span class="line">	private static final Log logger &#x3D; LogFactory</span><br><span class="line">            .getLog(DataBindingController.class);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 测试@PathVariable注解</span><br><span class="line">	&#x2F;&#x2F; 该方法映射的请求为http:&#x2F;&#x2F;localhost:8080&#x2F;DataBindingTest&#x2F;pathVariableTest&#x2F;&#123;userId&#125;</span><br><span class="line">	@RequestMapping(value&#x3D;&quot;&#x2F;pathVariableTest&#x2F;&#123;userId&#125;&quot;)</span><br><span class="line">	 public void pathVariableTest(</span><br><span class="line">			 @PathVariable() Integer userId) &#123;</span><br><span class="line">		 logger.info(&quot;通过@PathVariable获得数据： &quot; + userId);</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 测试@RequestHeader注解</span><br><span class="line">	&#x2F;&#x2F; 该方法映射的请求为http:&#x2F;&#x2F;localhost:8080&#x2F;DataBindingTest&#x2F;requestHeaderTest</span><br><span class="line">	@RequestMapping(value&#x3D;&quot;&#x2F;requestHeaderTest&quot;)</span><br><span class="line">	 public void requestHeaderTest(</span><br><span class="line">			 @RequestHeader(&quot;User-Agent&quot;) String userAgent,  </span><br><span class="line">		     @RequestHeader(value&#x3D;&quot;Accept&quot;) String[] accepts) &#123;</span><br><span class="line">		 logger.info(&quot;通过@requestHeaderTest获得数据： &quot; + userAgent);</span><br><span class="line">		 for(String accept : accepts)&#123;</span><br><span class="line">			 logger.info(accept);</span><br><span class="line">		 &#125;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 测试@CookieValue注解</span><br><span class="line">	@RequestMapping(value&#x3D;&quot;&#x2F;cookieValueTest&quot;)</span><br><span class="line">	 public void cookieValueTest(</span><br><span class="line">			 @CookieValue(value&#x3D;&quot;JSESSIONID&quot;, defaultValue&#x3D;&quot;&quot;) String sessionId) &#123;</span><br><span class="line">		 logger.info(&quot;通过@requestHeaderTest获得数据： &quot; + sessionId);</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>SessionAttributesController.java</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">package org.zhangxueliang.controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import org.apache.commons.logging.Log;</span><br><span class="line">import org.apache.commons.logging.LogFactory;</span><br><span class="line">import org.springframework.stereotype.Controller;</span><br><span class="line">import org.springframework.ui.Model;</span><br><span class="line">import org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestParam;</span><br><span class="line">import org.springframework.web.bind.annotation.SessionAttributes;</span><br><span class="line">import org.zhangxueliang.domain.User;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Controller注解用于指示该类是一个控制器，可以同时处理多个请求动作</span><br><span class="line">@Controller</span><br><span class="line">&#x2F;&#x2F; 将Model中的属性名为user的放入HttpSession对象当中</span><br><span class="line">@SessionAttributes(&quot;user&quot;)</span><br><span class="line">public class SessionAttributesController&#123;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 静态的日志类LogFactory</span><br><span class="line">	private static final Log logger &#x3D; LogFactory</span><br><span class="line">            .getLog(SessionAttributesController.class);</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 该方法映射的请求为http:&#x2F;&#x2F;localhost:8080&#x2F;DataBindingTest&#x2F;&#123;formName&#125;</span><br><span class="line">	@RequestMapping(value&#x3D;&quot;&#x2F;&#123;formName&#125;&quot;)</span><br><span class="line">	 public String loginForm(@PathVariable String formName)&#123;</span><br><span class="line">		&#x2F;&#x2F; 动态跳转页面</span><br><span class="line">		return formName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 该方法映射的请求为http:&#x2F;&#x2F;localhost:8080&#x2F;DataBindingTest&#x2F;login</span><br><span class="line">	@RequestMapping(value&#x3D;&quot;&#x2F;login&quot;)</span><br><span class="line">	 public String login(</span><br><span class="line">			 @RequestParam(&quot;loginname&quot;) String loginname,</span><br><span class="line">			 @RequestParam(&quot;password&quot;) String password,</span><br><span class="line">			 Model model ) &#123;</span><br><span class="line">		 &#x2F;&#x2F; 创建User对象，装载用户信息</span><br><span class="line">		 User user &#x3D; new User();</span><br><span class="line">		 user.setLoginname(loginname);</span><br><span class="line">		 user.setPassword(password);</span><br><span class="line">		 user.setUsername(&quot;admin&quot;);</span><br><span class="line">		 &#x2F;&#x2F; 将user对象添加到Model当中</span><br><span class="line">		 model.addAttribute(&quot;user&quot;,user);</span><br><span class="line">		 return &quot;welcome&quot;;</span><br><span class="line">	 &#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>User.java</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">package org.zhangxueliang.domain;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 域对象，实现序列化接口</span><br><span class="line">public class User implements Serializable&#123;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 私有字段</span><br><span class="line">	private String loginname;</span><br><span class="line">	private String password;</span><br><span class="line">	private String username;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F; 公共构造器</span><br><span class="line">	public User() &#123;</span><br><span class="line">		super();</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F; set&#x2F;get方法</span><br><span class="line">	public String getLoginname() &#123;</span><br><span class="line">		return loginname;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setLoginname(String loginname) &#123;</span><br><span class="line">		this.loginname &#x3D; loginname;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getPassword() &#123;</span><br><span class="line">		return password;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setPassword(String password) &#123;</span><br><span class="line">		this.password &#x3D; password;</span><br><span class="line">	&#125;</span><br><span class="line">	public String getUsername() &#123;</span><br><span class="line">		return username;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setUsername(String username) &#123;</span><br><span class="line">		this.username &#x3D; username;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>loginForm.jsp</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span><br><span class="line">    pageEncoding&#x3D;&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-&#x2F;&#x2F;W3C&#x2F;&#x2F;DTD HTML 4.01 Transitional&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.w3.org&#x2F;TR&#x2F;html4&#x2F;loose.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv&#x3D;&quot;Content-Type&quot; content&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;登录页面&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h3&gt;测试@SessionAttributes注解&lt;&#x2F;h3&gt;</span><br><span class="line">&lt;form action&#x3D;&quot;login&quot; method&#x3D;&quot;post&quot;&gt;</span><br><span class="line">     &lt;table&gt;</span><br><span class="line">         &lt;tr&gt;</span><br><span class="line">         	&lt;td&gt;&lt;label&gt;登录名: &lt;&#x2F;label&gt;&lt;&#x2F;td&gt;</span><br><span class="line">             &lt;td&gt;&lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;loginname&quot; name&#x3D;&quot;loginname&quot; &gt;&lt;&#x2F;td&gt;</span><br><span class="line">         &lt;&#x2F;tr&gt;</span><br><span class="line">         &lt;tr&gt;</span><br><span class="line">         	&lt;td&gt;&lt;label&gt;密码: &lt;&#x2F;label&gt;&lt;&#x2F;td&gt;</span><br><span class="line">             &lt;td&gt;&lt;input type&#x3D;&quot;password&quot; id&#x3D;&quot;password&quot; name&#x3D;&quot;password&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">         &lt;&#x2F;tr&gt;</span><br><span class="line">         &lt;tr&gt;</span><br><span class="line">             &lt;td&gt;&lt;input id&#x3D;&quot;submit&quot; type&#x3D;&quot;submit&quot; value&#x3D;&quot;登录&quot;&gt;&lt;&#x2F;td&gt;</span><br><span class="line">         &lt;&#x2F;tr&gt;</span><br><span class="line">     &lt;&#x2F;table&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>welcome.jsp</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page language&#x3D;&quot;java&quot; contentType&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;</span><br><span class="line">    pageEncoding&#x3D;&quot;UTF-8&quot;%&gt;</span><br><span class="line">&lt;!DOCTYPE html PUBLIC &quot;-&#x2F;&#x2F;W3C&#x2F;&#x2F;DTD HTML 4.01 Transitional&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.w3.org&#x2F;TR&#x2F;html4&#x2F;loose.dtd&quot;&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv&#x3D;&quot;Content-Type&quot; content&#x3D;&quot;text&#x2F;html; charset&#x3D;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;测试@SessionAttributes注解&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">访问request作用范围域中的user对象：$&#123;requestScope.user.username &#125;&lt;br&gt;</span><br><span class="line">&lt;br&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/29/Spring-MVC%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/Spring-MVC/"><i class="fa fa-tags"></i>Spring MVC</a>
+     
+      <a href="/tags/%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A/"><i class="fa fa-tags"></i>参数绑定</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/30/springMVC%E4%B8%80%E4%B8%AAController%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E8%AF%B7%E6%B1%82%E7%9A%84%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/29/%E3%80%90Spring-MVC%E3%80%91-RequestParam%E6%B3%A8%E8%A7%A3%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>Java正则表达式代码案例 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="java基础,正则表达式," />
+  
+
+  
+  <meta name="description" content="正则表达式是专门解决字符串规则匹配的工具。正则表达式也是一个字符串，用来定义匹配规则。参照帮助文档，在Pattern类中有简单的规则定义，可以结合字符串类的方法使用。">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-29
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Java正则表达式代码案例
+  </h1>
+  
+  <article class="passage-article">
+    <p><strong>正则表达式匹配规则</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">参照帮助文档，在Pattern类中有正则表达式的的规则定义，正则表达式中明确区分大小写字母。我们来学习语法规则。</span><br><span class="line">正则表达式的语法规则：</span><br><span class="line">字符：x</span><br><span class="line">含义：代表的是字符x</span><br><span class="line">例如：匹配规则为 &quot;a&quot;，那么需要匹配的字符串内容就是 ”a”</span><br><span class="line"></span><br><span class="line">字符：\\</span><br><span class="line">含义：代表的是反斜线字符&#39;\&#39;</span><br><span class="line">例如：匹配规则为&quot;\\&quot; ，那么需要匹配的字符串内容就是 ”\”</span><br><span class="line"></span><br><span class="line">字符类：[abc]</span><br><span class="line">含义：代表的是字符a、b 或 c</span><br><span class="line">例如：匹配规则为&quot;[abc]&quot; ，那么需要匹配的内容就是字符a，或者字符b，或字符c的一个</span><br><span class="line"></span><br><span class="line">字符类：[^abc]</span><br><span class="line">含义：代表的是除了 a、b 或 c以外的任何字符</span><br><span class="line">例如：匹配规则为&quot;[^abc]&quot;，那么需要匹配的内容就是不是字符a，或者不是字符b，或不是字符c的任意一个字符</span><br><span class="line"></span><br><span class="line">字符类：[a-zA-Z]</span><br><span class="line">含义：代表的是a 到 z 或 A 到 Z，两头的字母包括在内</span><br><span class="line">例如：匹配规则为&quot;[a-zA-Z]&quot;，那么需要匹配的是一个大写或者小写字母</span><br><span class="line"></span><br><span class="line">字符类：[0-9]</span><br><span class="line">含义：代表的是 0到9数字，两头的数字包括在内</span><br><span class="line">例如：匹配规则为&quot;[0-9]&quot;，那么需要匹配的是一个数字</span><br><span class="line"></span><br><span class="line">字符类：[a-zA-Z_0-9]</span><br><span class="line">含义：代表的字母或者数字或者下划线(即单词字符)</span><br><span class="line">例如：匹配规则为&quot; [a-zA-Z_0-9] &quot;，那么需要匹配的是一个字母或者是一个数字或一个下滑线</span><br><span class="line"></span><br><span class="line">预定义字符类：.</span><br><span class="line">含义：代表的是任何字符</span><br><span class="line">例如：匹配规则为&quot; . &quot;，那么需要匹配的是一个任意字符。如果，就想使用 . 的话，使用匹配规则&quot;\\.&quot;来实现</span><br><span class="line"></span><br><span class="line">预定义字符类：\d [0-9]</span><br><span class="line">含义：代表的是 0到9数字，两头的数字包括在内，相当于[0-9]</span><br><span class="line">例如：匹配规则为&quot;\d &quot;，那么需要匹配的是一个数字</span><br><span class="line"></span><br><span class="line">预定义字符类：\w  [a-zA-Z_0-9]</span><br><span class="line">含义：代表的字母或者数字或者下划线(即单词字符)，相当于[a-zA-Z_0-9]</span><br><span class="line">例如：匹配规则为&quot;\w &quot;，，那么需要匹配的是一个字母或者是一个数字或一个下滑线</span><br><span class="line">数量词：X?</span><br><span class="line">含义：代表的是X出现一次或一次也没有</span><br><span class="line">例如：匹配规则为&quot;a?&quot;，那么需要匹配的内容是一个字符a，或者一个a都没有</span><br><span class="line"></span><br><span class="line">数量词：X*</span><br><span class="line">含义：代表的是X出现零次或多次</span><br><span class="line">例如：匹配规则为&quot;a*&quot; ，那么需要匹配的内容是多个字符a，或者一个a都没有</span><br><span class="line"></span><br><span class="line">数量词：X+</span><br><span class="line">含义：代表的是X出现一次或多次</span><br><span class="line">例如：匹配规则为&quot;a+&quot;，那么需要匹配的内容是多个字符a，或者一个a</span><br><span class="line"></span><br><span class="line">数量词：X&#123;n&#125;</span><br><span class="line">含义：代表的是X出现恰好 n 次</span><br><span class="line">例如：匹配规则为&quot;a&#123;5&#125;&quot;，那么需要匹配的内容是5个字符a</span><br><span class="line"></span><br><span class="line">数量词：X&#123;n,&#125;</span><br><span class="line">含义：代表的是X出现至少 n 次</span><br><span class="line">例如：匹配规则为&quot;a&#123;5, &#125;&quot;，那么需要匹配的内容是最少有5个字符a</span><br><span class="line"></span><br><span class="line">数量词：X&#123;n,m&#125;</span><br><span class="line">含义：代表的是X出现至少 n 次，但是不超过 m 次</span><br><span class="line">例如：匹配规则为&quot;a&#123;5,8&#125;&quot;，那么需要匹配的内容是有5个字符a 到 8个字符a之间</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码示例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * 	校验qq号码</span><br><span class="line">* 		要求必须是5-15位</span><br><span class="line">* 		0不能开头</span><br><span class="line">* 		必须都是数字</span><br><span class="line">	</span><br><span class="line">	正则表达式：就是一套规则，可以用于匹配字符串</span><br><span class="line">	</span><br><span class="line">	boolean matches(String regex) ：判断当前字符串是否匹配指定的正则表达式，如果匹配则返回true，否则返回false</span><br><span class="line">* </span><br><span class="line">*  </span><br><span class="line"> *&#x2F;</span><br><span class="line">public class RegexDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		String qq &#x3D; &quot;12a345&quot;;</span><br><span class="line">		&#x2F;*boolean flag &#x3D; checkQQ(qq);</span><br><span class="line">		System.out.println(flag);*&#x2F;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		boolean flag &#x3D; qq.matches(&quot;[1-9][0-9]&#123;4,14&#125;&quot;);</span><br><span class="line">		System.out.println(flag);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static boolean checkQQ(String qq) &#123;</span><br><span class="line">		int length &#x3D; qq.length();</span><br><span class="line">		&#x2F;&#x2F;要求必须是5-15位</span><br><span class="line">		if(length &lt; 5 || length &gt; 15) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;0不能开头</span><br><span class="line">		if(qq.startsWith(&quot;0&quot;)) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;必须都是数字</span><br><span class="line">		for (int i &#x3D; 0; i &lt; length; i++) &#123;</span><br><span class="line">			&#x2F;&#x2F;得到参数的每一个字符</span><br><span class="line">			char c &#x3D; qq.charAt(i);</span><br><span class="line">			if(c &lt; &#39;0&#39; || c &gt; &#39;9&#39;) &#123;</span><br><span class="line">				return false;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return true;&#x2F;&#x2F;符合要求</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/29/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B-1/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/java%E5%9F%BA%E7%A1%80/"><i class="fa fa-tags"></i>java基础</a>
+     
+      <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><i class="fa fa-tags"></i>正则表达式</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/29/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/29/Spring-Boot%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%90%AF%E5%BC%82%E6%AD%A5%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

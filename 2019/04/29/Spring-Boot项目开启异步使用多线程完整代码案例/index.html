@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>Spring Boot项目开启异步使用多线程完整代码案例 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="多线程,spring boot,异步," />
+  
+
+  
+  <meta name="description" content="本文通过代码来演示如果在spring boot的项目中使用多线程，也就是异步。要异步并不难，我们写的代码天天都在跟异步多线程打交道，容易让人感到迷惑的是异步的底层原理，不仅要会使用，更要熟悉其实现原理，才能更加灵活地在项目中进行运用。">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-29
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Spring Boot项目开启异步使用多线程完整代码案例
+  </h1>
+  
+  <article class="passage-article">
+    <blockquote>
+<p>首先在pom.xml中引入依赖。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">	xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0 http:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven-4.0.0.xsd&quot;&gt;</span><br><span class="line">	&lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;</span><br><span class="line"></span><br><span class="line">	&lt;groupId&gt;com.zhangxueliang.demo&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;springbootdemo&lt;&#x2F;artifactId&gt;</span><br><span class="line">	&lt;version&gt;0.0.1-SNAPSHOT&lt;&#x2F;version&gt;</span><br><span class="line">	&lt;packaging&gt;jar&lt;&#x2F;packaging&gt;</span><br><span class="line"></span><br><span class="line">	&lt;name&gt;springbootdemo&lt;&#x2F;name&gt;</span><br><span class="line">	&lt;description&gt;Demo project for Spring Boot&lt;&#x2F;description&gt;</span><br><span class="line"></span><br><span class="line">	&lt;parent&gt;</span><br><span class="line">		&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-boot-starter-parent&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;version&gt;2.1.0.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;relativePath&#x2F;&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">	&lt;&#x2F;parent&gt;</span><br><span class="line"></span><br><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;project.build.sourceEncoding&gt;UTF-8&lt;&#x2F;project.build.sourceEncoding&gt;</span><br><span class="line">		&lt;project.reporting.outputEncoding&gt;UTF-8&lt;&#x2F;project.reporting.outputEncoding&gt;</span><br><span class="line">		&lt;java.version&gt;1.8&lt;&#x2F;java.version&gt;</span><br><span class="line">	&lt;&#x2F;properties&gt;</span><br><span class="line">	&lt;dependencies&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;scope&gt;test&lt;&#x2F;scope&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.httpcomponents&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;fluent-hc&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;4.5.3&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;!-- jsoup HTML parser library @ https:&#x2F;&#x2F;jsoup.org&#x2F; --&gt;</span><br><span class="line">			&lt;groupId&gt;org.jsoup&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;jsoup&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.10.3&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;com.alibaba&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;fastjson&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.2.31&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.springframework.boot&#x2F;spring-boot-starter-jdbc --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--mysql驱动--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;8.0.12&lt;&#x2F;version&gt;</span><br><span class="line">			&lt;scope&gt;runtime&lt;&#x2F;scope&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--集成mybatis--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.mybatis.spring.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;mybatis-spring-boot-starter&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.3.1&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合freemarker--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-freemarker&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合thymleaf--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合alibaba easyPOI--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;cn.afterturn&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;easypoi-base&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.2.0&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;cn.afterturn&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;easypoi-web&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.2.0&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;cn.afterturn&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;easypoi-annotation&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.2.0&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!-- lombok可使代码更简洁 --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;scope&gt;provided&lt;&#x2F;scope&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--热部署--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-devtools&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;optional&gt;true&lt;&#x2F;optional&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--引入AOP依赖--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-aop&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合MongoDB--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合rabbitmq--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">        &lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--使用@Slf4j注解--&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--爬虫相关依赖--&gt;</span><br><span class="line">		&lt;!-- jsoup HTML parser library @ https:&#x2F;&#x2F;jsoup.org&#x2F; --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.jsoup&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;jsoup&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;1.11.2&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!--整合POI--&gt;</span><br><span class="line">		&lt;!--&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;poi&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;poi-ooxml&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;--&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;poi&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.15&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;poi-ooxml-schemas&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.15&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.apache.poi&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;poi-ooxml&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;3.15&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!-- webMagic start --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;us.codecraft&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;webmagic-core&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;0.7.3&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;us.codecraft&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;webmagic-extension&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;0.7.3&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;us.codecraft&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;webmagic-extension&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;0.7.3&lt;&#x2F;version&gt;</span><br><span class="line">			&lt;exclusions&gt;</span><br><span class="line">				&lt;exclusion&gt;</span><br><span class="line">					&lt;groupId&gt;org.slf4j&lt;&#x2F;groupId&gt;</span><br><span class="line">					&lt;artifactId&gt;slf4j-log4j12&lt;&#x2F;artifactId&gt;</span><br><span class="line">				&lt;&#x2F;exclusion&gt;</span><br><span class="line">			&lt;&#x2F;exclusions&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		&lt;!-- webMagic end --&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!--引入log工程jar--&gt;</span><br><span class="line">		&lt;!--&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;com.fengyuncx.log&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;fy-log&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;0.0.1-SNAPSHOT&lt;&#x2F;version&gt;</span><br><span class="line">			&lt;scope&gt;system&lt;&#x2F;scope&gt;</span><br><span class="line">			&lt;systemPath&gt;$&#123;project.basedir&#125;&#x2F;src&#x2F;main&#x2F;resources&#x2F;lib&#x2F;fy-log-0.0.1-SNAPSHOT.jar&lt;&#x2F;systemPath&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;--&gt;</span><br><span class="line">	&lt;&#x2F;dependencies&gt;</span><br><span class="line"></span><br><span class="line">	&lt;build&gt;</span><br><span class="line">		&lt;plugins&gt;</span><br><span class="line">			&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-boot-maven-plugin&lt;&#x2F;artifactId&gt;</span><br><span class="line">				&lt;!--打包时将引入的本地jar打进去--&gt;</span><br><span class="line">				&lt;configuration&gt;</span><br><span class="line">					&lt;includeSystemScope&gt;true&lt;&#x2F;includeSystemScope&gt;</span><br><span class="line">				&lt;&#x2F;configuration&gt;</span><br><span class="line">			&lt;&#x2F;plugin&gt;</span><br><span class="line">		&lt;&#x2F;plugins&gt;</span><br><span class="line">	&lt;&#x2F;build&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;&#x2F;project&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在启动类上添加@EnableAsync注解，开启异步.注意：如果在配置类上添加了该注解，启动类上就无需添加。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication</span><br><span class="line">&#x2F;&#x2F;@EnableAsync&#x2F;&#x2F;开启异步</span><br><span class="line">public class ZxlDemoApplication &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(ZxlDemoApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编写多线程配置类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 线程配置类</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Configuration</span><br><span class="line">@EnableAsync</span><br><span class="line">public class AsyncTaskConfig implements AsyncConfigurer &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; ThredPoolTaskExcutor的处理流程</span><br><span class="line">    &#x2F;&#x2F; 当池子大小小于corePoolSize，就新建线程，并处理请求</span><br><span class="line">    &#x2F;&#x2F; 当池子大小等于corePoolSize，把请求放入workQueue中，池子里的空闲线程就去workQueue中取任务并处理</span><br><span class="line">    &#x2F;&#x2F; 当workQueue放不下任务时，就新建线程入池，并处理请求，如果池子大小撑到了maximumPoolSize，就用RejectedExecutionHandler来做拒绝处理</span><br><span class="line">    &#x2F;&#x2F; 当池子的线程数大于corePoolSize时，多余的线程会等待keepAliveTime长时间，如果无请求可处理就自行销毁</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Executor getAsyncExecutor() &#123;</span><br><span class="line">        ThreadPoolTaskExecutor taskExecutor &#x3D; new ThreadPoolTaskExecutor();</span><br><span class="line">        taskExecutor.setCorePoolSize(50);&#x2F;&#x2F; 核心线程数</span><br><span class="line">        taskExecutor.setMaxPoolSize(50);&#x2F;&#x2F; 最大线程数</span><br><span class="line">        taskExecutor.setQueueCapacity(200);&#x2F;&#x2F; 等待队列</span><br><span class="line">        taskExecutor.setThreadNamePrefix(&quot;zxl_taskExecutor-&quot;);&#x2F;&#x2F;线程名称前缀</span><br><span class="line">        taskExecutor.initialize();</span><br><span class="line">        return taskExecutor;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() &#123;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编写线程任务执行类</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangxueliang.demo.springbootdemo.async;</span><br><span class="line"></span><br><span class="line">import java.util.Random;</span><br><span class="line">import java.util.concurrent.Future;</span><br><span class="line"></span><br><span class="line">import org.slf4j.Logger;</span><br><span class="line">import org.slf4j.LoggerFactory;</span><br><span class="line">import org.springframework.scheduling.annotation.Async;</span><br><span class="line">import org.springframework.scheduling.annotation.AsyncResult;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * 线程执行任务类</span><br><span class="line"> *&#x2F;</span><br><span class="line">@Service</span><br><span class="line">public class AsyncTaskService &#123;</span><br><span class="line"></span><br><span class="line">    private Logger logger &#x3D; LoggerFactory.getLogger(AsyncTaskService.class);</span><br><span class="line"></span><br><span class="line">    Random random &#x3D; new Random();&#x2F;&#x2F; 默认构造方法</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    &#x2F;&#x2F; 表明是异步方法</span><br><span class="line">    &#x2F;&#x2F; 无返回值</span><br><span class="line">    public void executeAsyncTask(String msg) &#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName()+&quot;开启新线程执行&quot; + msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;String&gt; doReturn(int i)&#123;</span><br><span class="line">        logger.info(&quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;线程名&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&quot;+Thread.currentThread().getName());</span><br><span class="line">        try &#123;</span><br><span class="line">            &#x2F;&#x2F; 这个方法需要调用500毫秒</span><br><span class="line">            Thread.sleep(500);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 消息汇总</span><br><span class="line">        return new AsyncResult&lt;&gt;(String.format(&quot;这个是第&#123;%s&#125;个异步调用的证书&quot;, i));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 异常调用返回Future</span><br><span class="line">     * @return</span><br><span class="line">     * @throws InterruptedException</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;Long&gt; asyncInvokeReturnFuture() throws InterruptedException &#123;</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        Thread.sleep(5000);</span><br><span class="line">        Future&lt;Long&gt; future &#x3D; new AsyncResult&lt;Long&gt;((System.currentTimeMillis()-start));&#x2F;&#x2F; Future接收返回值，这里是String类型，可以指明其他类型</span><br><span class="line">        return future;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;Long&gt; asyncInvokeReturnFuture2() throws InterruptedException &#123;</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        Thread.sleep(3500);</span><br><span class="line">        Future&lt;Long&gt; future &#x3D; new AsyncResult&lt;Long&gt;((System.currentTimeMillis()-start));&#x2F;&#x2F; Future接收返回值，这里是String类型，可以指明其他类型</span><br><span class="line">        return future;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Async</span><br><span class="line">    public Future&lt;Long&gt; asyncInvokeReturnFuture3() throws InterruptedException &#123;</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        Thread.sleep(2500);</span><br><span class="line">        Future&lt;Long&gt; future &#x3D; new AsyncResult&lt;Long&gt;((System.currentTimeMillis()-start));&#x2F;&#x2F; Future接收返回值，这里是String类型，可以指明其他类型</span><br><span class="line">        return future;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编写测试类，也就是调用多线程任务。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">@RunWith(SpringRunner.class)</span><br><span class="line">@SpringBootTest</span><br><span class="line">public class ZxlTest &#123;</span><br><span class="line">	private Logger logger &#x3D; LoggerFactory.getLogger(ZxlTest.class);</span><br><span class="line">	@Autowired</span><br><span class="line">    private AsyncTaskService asyncTaskService;</span><br><span class="line">	@Test</span><br><span class="line">    public void testAsync()&#123;</span><br><span class="line">&#x2F;&#x2F;        String msg&#x3D;&quot;测试测试&quot;;</span><br><span class="line">&#x2F;&#x2F;        System.out.println(Thread.currentThread().getName()+&quot;:&quot;+msg);</span><br><span class="line">&#x2F;&#x2F;        asyncTaskService.executeAsyncTask(msg);</span><br><span class="line">        try &#123;</span><br><span class="line">            long start &#x3D; System.currentTimeMillis();</span><br><span class="line">            Future&lt;Long&gt; future &#x3D; asyncTaskService.asyncInvokeReturnFuture();</span><br><span class="line">            Future&lt;Long&gt; future2 &#x3D; asyncTaskService.asyncInvokeReturnFuture2();</span><br><span class="line">            Future&lt;Long&gt; future3 &#x3D; asyncTaskService.asyncInvokeReturnFuture3();</span><br><span class="line">            Long l1 &#x3D; future.get();&#x2F;&#x2F;5000</span><br><span class="line">            Long l2 &#x3D; future2.get();&#x2F;&#x2F;3500</span><br><span class="line">            Long l3 &#x3D; future3.get();&#x2F;&#x2F;2500</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+&quot;*************************************&quot;);</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+(l1+l2+l3 ));</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+&quot;-------------------------------------&quot;);</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+(System.currentTimeMillis()-start));</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+&quot;+++++++++++++++++++++++++++++++++++++&quot;);</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/29/Spring-Boot%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%90%AF%E5%BC%82%E6%AD%A5%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><i class="fa fa-tags"></i>多线程</a>
+     
+      <a href="/tags/spring-boot/"><i class="fa fa-tags"></i>spring boot</a>
+     
+      <a href="/tags/%E5%BC%82%E6%AD%A5/"><i class="fa fa-tags"></i>异步</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/29/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B-1/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/29/Java%E5%8C%85%E8%A3%85%E7%B1%BBAPI%E8%AF%A6%E8%A7%A3/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

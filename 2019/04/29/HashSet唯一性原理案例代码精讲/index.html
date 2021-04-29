@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>HashSet唯一性原理案例代码精讲 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="HashSet," />
+  
+
+  
+  <meta name="description" content="Set体系的集合:    A:存入集合的顺序和取出集合的顺序不一致    B:没有索引    C:存入集合的元素没有重复">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-29
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    HashSet唯一性原理案例代码精讲
+  </h1>
+  
+  <article class="passage-article">
+    <p><strong>HashSet使用 &amp; 唯一性原理</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class HashSetDemo2 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建集合对象</span><br><span class="line">		HashSet&lt;Student&gt; hs &#x3D; new HashSet&lt;Student&gt;();</span><br><span class="line">		&#x2F;&#x2F;创建元素对象</span><br><span class="line">		Student s &#x3D; new Student(&quot;zhangsan&quot;,18);</span><br><span class="line">		Student s2 &#x3D; new Student(&quot;lisi&quot;,19);</span><br><span class="line">		Student s3 &#x3D; new Student(&quot;lisi&quot;,19);</span><br><span class="line">		&#x2F;&#x2F;添加元素对象</span><br><span class="line">		hs.add(s);</span><br><span class="line">		hs.add(s2);</span><br><span class="line">		hs.add(s3);</span><br><span class="line">		&#x2F;&#x2F;遍历集合对象</span><br><span class="line">		for (Student student : hs) &#123;</span><br><span class="line">			System.out.println(student);</span><br><span class="line">		&#125;</span><br><span class="line">		 </span><br><span class="line">	&#125;</span><br><span class="line">		 </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>HashSet唯一性原理</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">规则:新添加到HashSet集合的元素都会与集合中已有的元素一一比较</span><br><span class="line">	首先比较哈希值(每个元素都会调用hashCode()产生一个哈希值)</span><br><span class="line">	如果新添加的元素与集合中已有的元素的哈希值都不同,新添加的元素存入集合</span><br><span class="line">	如果新添加的元素与集合中已有的某个元素哈希值相同,此时还需要调用equals(Object obj)比较</span><br><span class="line">	如果equals(Object obj)方法返回true,说明新添加的元素与集合中已有的某个元素的属性值相同,那么新添加的元素不存入集合</span><br><span class="line">	如果equals(Object obj)方法返回false, 说明新添加的元素与集合中已有的元素的属性值都不同, 那么新添加的元素存入集合</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> *	使用HashSet存储自定义对象并遍历 	</span><br><span class="line"> *	通过查看源码发现：</span><br><span class="line"> *				HashSet的add()方法，首先会使用当前集合中的每一个元素和新添加的元素进行hash值比较，</span><br><span class="line"> *				如果hash值不一样，则直接添加新的元素</span><br><span class="line"> *				如果hash值一样，比较地址值或者使用equals方法进行比较</span><br><span class="line"> *				比较结果一样，则认为是重复不添加</span><br><span class="line"> *				所有的比较结果都不一样则添加</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class HashSetDemo2 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建集合对象</span><br><span class="line">		HashSet&lt;Student&gt; hs &#x3D; new HashSet&lt;Student&gt;();</span><br><span class="line">		&#x2F;&#x2F;创建元素对象</span><br><span class="line">		Student s &#x3D; new Student(&quot;zhangsan&quot;,18);</span><br><span class="line">		Student s2 &#x3D; new Student(&quot;lisi&quot;,19);</span><br><span class="line">		Student s3 &#x3D; new Student(&quot;lisi&quot;,19);</span><br><span class="line">		&#x2F;&#x2F;添加元素对象</span><br><span class="line">		hs.add(s);</span><br><span class="line">		hs.add(s2);</span><br><span class="line">		hs.add(s3);</span><br><span class="line">		&#x2F;&#x2F;遍历集合对象</span><br><span class="line">		for (Student student : hs) &#123;</span><br><span class="line">			System.out.println(student);</span><br><span class="line">		&#125;</span><br><span class="line">		 </span><br><span class="line">	&#125;</span><br><span class="line">		 </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Student &#123;</span><br><span class="line">	String name;</span><br><span class="line">	int age;</span><br><span class="line">	</span><br><span class="line">	public Student(String name,int age) &#123;</span><br><span class="line">		this.name &#x3D; name;</span><br><span class="line">		this.age &#x3D; age;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return &quot;Student [name&#x3D;&quot; + name + &quot;, age&#x3D;&quot; + age + &quot;]&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public boolean equals(Object obj) &#123;</span><br><span class="line">		&#x2F;&#x2F;System.out.println(&quot;-------------------&quot;);</span><br><span class="line">		Student s &#x3D; (Student)obj;&#x2F;&#x2F;向下转型，可以获取子类特有成员</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;比较年龄是否相等，如果不等则返回false</span><br><span class="line">		if(this.age !&#x3D; s.age) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;比较姓名是否相等，如果不等则返回false</span><br><span class="line">		if(!this.name.equals(s.name)) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;默认返回true，说明两个学生是相等的</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public int hashCode() &#123;</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>hashCode()方法优化</strong></p>
+<blockquote>
+<p>如果让hashCode()方法返回一个固定值,那么每个新添加的元素都要调用equals(Object obj)方法比较,那么效率较低<br>   只需要让不同属性的值的元素产生不同的哈希值,那么就可以不再调用equals方法比较提高效率</p>
+</blockquote>
+<p><strong>代码案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">public class Person &#123;</span><br><span class="line">	String name;</span><br><span class="line">	int age;</span><br><span class="line">	</span><br><span class="line">	public Person(String name,int age) &#123;</span><br><span class="line">		this.name &#x3D; name;</span><br><span class="line">		this.age &#x3D; age;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return &quot;Person [name&#x3D;&quot; + name + &quot;, age&#x3D;&quot; + age + &quot;]&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public int hashCode() &#123;</span><br><span class="line">		final int prime &#x3D; 31;</span><br><span class="line">		int result &#x3D; 1;</span><br><span class="line">		result &#x3D; prime * result + age;</span><br><span class="line">		result &#x3D; prime * result + ((name &#x3D;&#x3D; null) ? 0 : name.hashCode());</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public boolean equals(Object obj) &#123;</span><br><span class="line">		if (this &#x3D;&#x3D; obj)</span><br><span class="line">			return true;</span><br><span class="line">		if (obj &#x3D;&#x3D; null)</span><br><span class="line">			return false;</span><br><span class="line">		if (getClass() !&#x3D; obj.getClass())</span><br><span class="line">			return false;</span><br><span class="line">		Person other &#x3D; (Person) obj;</span><br><span class="line">		if (age !&#x3D; other.age)</span><br><span class="line">			return false;</span><br><span class="line">		if (name &#x3D;&#x3D; null) &#123;</span><br><span class="line">			if (other.name !&#x3D; null)</span><br><span class="line">				return false;</span><br><span class="line">		&#125; else if (!name.equals(other.name))</span><br><span class="line">			return false;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	&#x2F;*</span><br><span class="line">	@Override</span><br><span class="line">	public int hashCode() &#123;</span><br><span class="line">		</span><br><span class="line">		 * 我们发现当hashCode方法永远返回整数1时，所有对象的hash值都是一样的，</span><br><span class="line">		 * 有一些对象他的成员变量完全不同，但是他们还需要进行hash和equals方法的比较，</span><br><span class="line">		 * 如果我们可以让成员变量不同的对象，他们的hash值也不同，这就可以减少一部分equals方法的比较</span><br><span class="line">		 * 从而可以提高我们程序的效率</span><br><span class="line">		 * </span><br><span class="line">		 * 可以尝试着让hashCode方法的返回值和对象的成员变量有关</span><br><span class="line">		 * 可以让hashCode方法返回所有成员变量之和，</span><br><span class="line">		 * 让基本数据类型直接想加，然后引用数据类型获取hashCode方法返回值后再相加（boolean不可以参与运算）</span><br><span class="line">		 * </span><br><span class="line">		 </span><br><span class="line">		&#x2F;&#x2F;return age;</span><br><span class="line">		return age + name.hashCode();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public boolean equals(Object obj) &#123;</span><br><span class="line">		System.out.println(&quot;-------------&quot;);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;提高效率</span><br><span class="line">		if(this &#x3D;&#x3D; obj) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;提高健壮性</span><br><span class="line">		if(this.getClass() !&#x3D; obj.getClass()) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;向下转型</span><br><span class="line">		Person p &#x3D; (Person)obj;</span><br><span class="line">		</span><br><span class="line">		if(!this.name.equals(p.name)) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		if(this.age !&#x3D; p.age) &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return true;</span><br><span class="line">		</span><br><span class="line">	&#125;*&#x2F;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码测试案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class HashSetDemo3 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建集合对象</span><br><span class="line">		HashSet&lt;Person&gt; hs &#x3D; new HashSet&lt;Person&gt;();</span><br><span class="line">		&#x2F;&#x2F;创建元素对象</span><br><span class="line">		Person p &#x3D; new Person(&quot;zhangsan&quot;,18);</span><br><span class="line">		Person p2 &#x3D; new Person(&quot;lisi&quot;,18);</span><br><span class="line">		Person p3 &#x3D; new Person(&quot;lisi&quot;,18); </span><br><span class="line">       </span><br><span class="line">		&#x2F;&#x2F;添加元素对象</span><br><span class="line">		hs.add(p);</span><br><span class="line">		hs.add(p2);</span><br><span class="line">		hs.add(p3);</span><br><span class="line">		&#x2F;&#x2F;遍历集合对象</span><br><span class="line">		for (Person person : hs) &#123;</span><br><span class="line">			System.out.println(person);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/29/HashSet%E5%94%AF%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86%E6%A1%88%E4%BE%8B%E4%BB%A3%E7%A0%81%E7%B2%BE%E8%AE%B2/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/HashSet/"><i class="fa fa-tags"></i>HashSet</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/29/Collections%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/29/ArrayList%E5%92%8CLinkedList%E7%9A%84%E5%8C%BA%E5%88%AB/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>ArrayList和LinkedList的区别 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="LinkedList,ArrayList,java集合," />
+  
+
+  
+  <meta name="description" content="List子体系特点：A:有序的（存储和读取的顺序是一致的）B:有整数索引C:允许重复的">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-29
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    ArrayList和LinkedList的区别
+  </h1>
+  
+  <article class="passage-article">
+    <p><strong>List的特有功能</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void add(int index, E element) :将元素添加到index索引位置上</span><br><span class="line">E get(int index) :根据index索引获取元素</span><br><span class="line">E remove(int index) :根据index索引删除元素</span><br><span class="line">E set(int index, E element):将index索引位置的的元素设置为element</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>List代码案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * List:</span><br><span class="line"> * 		有序的（存储和读取的顺序是一致的）</span><br><span class="line"> * 		有整数索引</span><br><span class="line"> * 		允许重复的</span><br><span class="line"> * </span><br><span class="line"> * List的特有功能：</span><br><span class="line"> * 			void add(int index, E element)  </span><br><span class="line"> * 			E get(int index)  </span><br><span class="line"> * 			E remove(int index)  </span><br><span class="line"> *  		E set(int index, E element)</span><br><span class="line"> *  </span><br><span class="line"> * 增删改查</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class ListDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建的列表对象</span><br><span class="line">		List list &#x3D; new ArrayList();</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;void add(int index, E element)  : 在指定索引位置添加指定元素</span><br><span class="line">		list.add(0, &quot;hello&quot;);</span><br><span class="line">		list.add(0, &quot;world&quot;);</span><br><span class="line">		list.add(1, &quot;java&quot;);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;E get(int index)  :根据索引返回元素</span><br><span class="line">		&#x2F;*System.out.println(list.get(0));</span><br><span class="line">		System.out.println(list.get(1));</span><br><span class="line">		System.out.println(list.get(2));*&#x2F;</span><br><span class="line">		&#x2F;&#x2F;System.out.println(list.get(3));</span><br><span class="line">		</span><br><span class="line">		&#x2F;*for (int i &#x3D; 0; i &lt; list.size(); i++) &#123;</span><br><span class="line">			System.out.println(list.get(i));</span><br><span class="line">		&#125;*&#x2F;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;E remove(int index)  : 删除指定元素并返回</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;System.out.println(list.remove(5));</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;E set(int index, E element) : 将指定索引位置的元素替换为指定元素，并将原先的元素返回</span><br><span class="line">		System.out.println(list.set(0, &quot;android&quot;));</span><br><span class="line">		</span><br><span class="line">		System.out.println(list);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>LinkedList特有功能</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LinkedList底层使用的是链表结构,因此增删快,查询相对ArrayList较慢</span><br><span class="line">void addFirst(E e) :向链表的头部添加元素</span><br><span class="line"> void addLast(E e):向链表的尾部添加元素</span><br><span class="line"> E getFirst():获取链头的元素,不删除元素</span><br><span class="line"> E getLast():获取链尾的元素,不删除元素</span><br><span class="line"> E removeFirst():返回链头的元素并删除链头的元素</span><br><span class="line"> E removeLast():返回链尾的元素并删除链尾的元素</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>LinkedList代码案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * List的常用子类：</span><br><span class="line"> * 		ArrayList</span><br><span class="line"> * 			底层是数组结构，查询快，增删慢</span><br><span class="line"> * 		LinkedList</span><br><span class="line"> * 			底层结构是链表，查询慢，增删快</span><br><span class="line"> * </span><br><span class="line"> * 如何选择使用不同的集合？</span><br><span class="line"> * 		如果查询多，增删少，则使用ArrayList</span><br><span class="line"> * 		如果查询少，增删多，则使用LinkedList</span><br><span class="line"> * 		如果你不知道使用什么，则使用ArrayList</span><br><span class="line"> * </span><br><span class="line"> * LinkedList的特有功能：</span><br><span class="line"> * 			void addFirst(E e)  </span><br><span class="line"> * 			void addLast(E e) </span><br><span class="line"> 			E getFirst()  </span><br><span class="line"> 			E getLast()  </span><br><span class="line"> 			E removeFirst() </span><br><span class="line"> 			E removeLast() </span><br><span class="line"> * 				</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class LinkedListDemo &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">			LinkedList list &#x3D; new LinkedList();</span><br><span class="line">			list.add(&quot;hello&quot;);</span><br><span class="line">			list.add(&quot;world&quot;);</span><br><span class="line">		</span><br><span class="line">			&#x2F;&#x2F;void addFirst(E e)  :将元素添加到索引为0的位置</span><br><span class="line"> 			&#x2F;&#x2F;void addLast(E e) ：将元素添加到索引为size()-1的位置</span><br><span class="line">			list.addFirst(&quot;java&quot;);</span><br><span class="line">			list.addLast(&quot;android&quot;);</span><br><span class="line">			</span><br><span class="line"> 			&#x2F;&#x2F;E getFirst()  :获取索引为0的元素</span><br><span class="line"> 			&#x2F;&#x2F;E getLast()  ：获取索引为size()-1的元素</span><br><span class="line">			&#x2F;&#x2F;System.out.println(list.getFirst());</span><br><span class="line">			&#x2F;&#x2F;System.out.println(list.getLast());</span><br><span class="line">			</span><br><span class="line"> 			&#x2F;&#x2F;E removeFirst() :删除索引为0的元素并返回</span><br><span class="line"> 			&#x2F;&#x2F;E removeLast() ：删除索引为size()-1的元素并返回</span><br><span class="line">			System.out.println(list.removeFirst());</span><br><span class="line">			System.out.println(list.removeLast());</span><br><span class="line"></span><br><span class="line">			System.out.println(list);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码案例</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * 需求：定义一个方法，返回指定列表中指定元素的索引位置</span><br><span class="line"> * </span><br><span class="line"> * 判断元素是否存在</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">public class ListTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		List list &#x3D; new ArrayList();</span><br><span class="line">		list.add(&quot;hello&quot;);</span><br><span class="line">		list.add(&quot;world&quot;);</span><br><span class="line">		list.add(&quot;java&quot;);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;int index &#x3D; index(list,&quot;php&quot;);</span><br><span class="line">		&#x2F;&#x2F;System.out.println(index);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;boolean flag &#x3D; contains(list, &quot;php&quot;);</span><br><span class="line">		&#x2F;&#x2F;System.out.println(flag);</span><br><span class="line">		</span><br><span class="line">		boolean flag &#x3D; list.contains(&quot;php&quot;);</span><br><span class="line">		System.out.println(flag);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static int index(List list,Object other) &#123;</span><br><span class="line">		for(int x &#x3D; 0;x &lt; list.size();x++) &#123;</span><br><span class="line">			&#x2F;&#x2F;获取列表中的元素</span><br><span class="line">			Object obj &#x3D; list.get(x);</span><br><span class="line">			&#x2F;&#x2F;使用列表中的元素和指定的元素进行比较</span><br><span class="line">			if(obj.equals(other)) &#123;</span><br><span class="line">				return x;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		&#x2F;&#x2F;查找不到指定的元素</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static boolean contains(List list,Object other) &#123;</span><br><span class="line">		&#x2F;&#x2F;获取指定元素在指定列表中的索引位置</span><br><span class="line">		int index &#x3D; index(list,other);</span><br><span class="line">		&#x2F;&#x2F;如果索引位置大于等于0，则认为元素存在，否则不存在</span><br><span class="line">		if(index &gt;&#x3D; 0) &#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/29/ArrayList%E5%92%8CLinkedList%E7%9A%84%E5%8C%BA%E5%88%AB/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/LinkedList/"><i class="fa fa-tags"></i>LinkedList</a>
+     
+      <a href="/tags/ArrayList/"><i class="fa fa-tags"></i>ArrayList</a>
+     
+      <a href="/tags/java%E9%9B%86%E5%90%88/"><i class="fa fa-tags"></i>java集合</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/29/HashSet%E5%94%AF%E4%B8%80%E6%80%A7%E5%8E%9F%E7%90%86%E6%A1%88%E4%BE%8B%E4%BB%A3%E7%A0%81%E7%B2%BE%E8%AE%B2/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/29/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E4%B8%AD%E5%B8%B8%E8%A7%81%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-1/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

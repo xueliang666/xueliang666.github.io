@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>Java多线程安全问题解决的两种方式代码案例 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="多线程,线程安全问题," />
+  
+
+  
+  <meta name="description" content="需求:用三个线程模拟三个售票窗口,共同卖100张火车票,每个线程打印出卖第几张票.">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-30
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    Java多线程安全问题解决的两种方式代码案例
+  </h1>
+  
+  <article class="passage-article">
+    <h3 id="多线程安全问题"><a href="#多线程安全问题" class="headerlink" title="多线程安全问题"></a>多线程安全问题</h3><blockquote>
+<p>需求:用三个线程模拟三个售票窗口,共同卖100张火车票,每个线程打印出卖第几张票.</p>
+</blockquote>
+<h4 id="模拟安全问题"><a href="#模拟安全问题" class="headerlink" title="模拟安全问题"></a>模拟安全问题</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class TicketThread implements Runnable &#123;</span><br><span class="line">	int tickets &#x3D; 100;&#x2F;&#x2F;火车票数量</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		&#x2F;&#x2F;出售火车票</span><br><span class="line">		while(true) &#123;</span><br><span class="line">			&#x2F;&#x2F;当火车票小于0张，则停止售票</span><br><span class="line">			if(tickets &gt; 0) &#123;</span><br><span class="line">				&#x2F;*</span><br><span class="line">				 * t1,t2,t3</span><br><span class="line">				 * 假设只剩一张票</span><br><span class="line">				 * t1过来了，他一看有票，他就进来了，但是他突然肚子不舒服，然后他就去上卫生间了</span><br><span class="line">				 * t2也过来了，他一看也有票，他也进来了，但是他的肚子也不舒服，他也去上卫生间了</span><br><span class="line">				 * </span><br><span class="line">				 * t1上完了卫生间回来了，开始售票</span><br><span class="line">				 * 	tickets &#x3D; 0;</span><br><span class="line">				 * t2也上完卫生间回来了，他也进行售票</span><br><span class="line">				 *  tickets &#x3D; -1;</span><br><span class="line">				 * </span><br><span class="line">				 * </span><br><span class="line">				 *&#x2F;</span><br><span class="line">				try &#123;</span><br><span class="line">					Thread.sleep(100);</span><br><span class="line">				&#125; catch (InterruptedException e) &#123;</span><br><span class="line">					&#x2F;&#x2F; TODO Auto-generated catch block</span><br><span class="line">					e.printStackTrace();</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				System.out.println(Thread.currentThread().getName() + &quot;:&quot; +tickets--);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用同步代码块解决多线程安全问题"><a href="#使用同步代码块解决多线程安全问题" class="headerlink" title="使用同步代码块解决多线程安全问题"></a>使用同步代码块解决多线程安全问题</h4><p><em>格式</em></p>
+<blockquote>
+<p>格式:<br>  synchronized(锁对象){<br>      //需要同步的代码<br>}</p>
+</blockquote>
+<p><strong>案例代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * 问题出现的原因：</span><br><span class="line"> * 		要有多个线程</span><br><span class="line"> * 		要有被多个线程所共享的数据</span><br><span class="line"> * 		多个线程并发的访问共享的数据</span><br><span class="line"> * </span><br><span class="line"> * 在火车上上厕所</span><br><span class="line"> * 张三来了，一看门是绿的，他就进去了，把门锁上了，门就变红了</span><br><span class="line"> * 李四来了，一看门市红色的，他就只能憋着</span><br><span class="line"> * 张三用完了厕所，把锁打开了，门就变成了绿色</span><br><span class="line"> * 李四一看门变绿了，他就进去了，把门锁上，门就变红了</span><br><span class="line"> * 王五来了，一看们是红色的，他也只能憋着</span><br><span class="line"> * 李四用完测试了，把锁打开了，肚子又不舒服了，扭头回去了，又把门锁上了，</span><br><span class="line"> * </span><br><span class="line"> * synchronized:同步（锁），可以修饰代码块和方法，被修饰的代码块和方法一旦被某个线程访问，则直接锁住，其他的线程将无法访问</span><br><span class="line"> * </span><br><span class="line"> * 同步代码块：</span><br><span class="line"> * 			synchronized(锁对象)&#123;</span><br><span class="line"> * </span><br><span class="line"> * 			&#125;</span><br><span class="line"> * </span><br><span class="line"> * 注意：锁对象需要被所有的线程所共享</span><br><span class="line"> * </span><br><span class="line"> * </span><br><span class="line"> * 同步：安全性高，效率低</span><br><span class="line"> * 非同步：效率高，但是安全性低</span><br><span class="line"> * </span><br><span class="line"> *&#x2F;</span><br><span class="line">public class TicketThread implements Runnable &#123;</span><br><span class="line">	int tickets &#x3D; 100;&#x2F;&#x2F;火车票数量</span><br><span class="line">	Object obj &#x3D; new Object();</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		&#x2F;&#x2F;出售火车票</span><br><span class="line">		while(true) &#123;</span><br><span class="line">			synchronized (obj) &#123;</span><br><span class="line"></span><br><span class="line">				if(tickets &gt; 0) &#123;</span><br><span class="line">					</span><br><span class="line">					try &#123;</span><br><span class="line">						Thread.sleep(100);</span><br><span class="line">					&#125; catch (InterruptedException e) &#123;</span><br><span class="line">						&#x2F;&#x2F; TODO Auto-generated catch block</span><br><span class="line">						e.printStackTrace();</span><br><span class="line">					&#125;</span><br><span class="line">					</span><br><span class="line">					System.out.println(Thread.currentThread().getName() + &quot;:&quot; +tickets--);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>测试</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class TicktetTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建线程对象</span><br><span class="line">		TicketThread tt &#x3D; new TicketThread();</span><br><span class="line">		</span><br><span class="line">		Thread t &#x3D; new Thread(tt);</span><br><span class="line">		t.setName(&quot;窗口1&quot;);</span><br><span class="line">		Thread t2 &#x3D; new Thread(tt);</span><br><span class="line">		t2.setName(&quot;窗口2&quot;);</span><br><span class="line">		Thread t3 &#x3D; new Thread(tt);</span><br><span class="line">		t3.setName(&quot;窗口3&quot;);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;启动线程对象</span><br><span class="line">		t.start();</span><br><span class="line">		t2.start();</span><br><span class="line">		t3.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="使用同步方法解决多线程安全问题"><a href="#使用同步方法解决多线程安全问题" class="headerlink" title="使用同步方法解决多线程安全问题"></a>使用同步方法解决多线程安全问题</h4><blockquote>
+<p>格式:<br>  修饰符 synchronized 返回值 方法名(){<br>}</p>
+</blockquote>
+<p><strong>案例代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*</span><br><span class="line"> * 同步方法:使用关键字synchronized修饰的方法，一旦被一个线程访问，则整个方法全部锁住，其他线程则无法访问</span><br><span class="line"> * </span><br><span class="line"> * synchronized</span><br><span class="line"> * 注意：</span><br><span class="line"> * 		非静态同步方法的锁对象是this</span><br><span class="line"> * 		静态的同步方法的锁对象是当前类的字节码对象</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class TicketThread implements Runnable &#123;</span><br><span class="line">	static int tickets &#x3D; 100;&#x2F;&#x2F; 火车票数量</span><br><span class="line">	Object obj &#x3D; new Object();</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void run() &#123;</span><br><span class="line">		&#x2F;&#x2F; 出售火车票</span><br><span class="line">		while (true) &#123;</span><br><span class="line">			&#x2F;*synchronized (obj) &#123;</span><br><span class="line">				method();</span><br><span class="line">			&#125;*&#x2F;</span><br><span class="line">			</span><br><span class="line">			&#x2F;&#x2F;method();</span><br><span class="line">			method2();</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private synchronized void method() &#123;</span><br><span class="line">		if (tickets &gt; 0) &#123;</span><br><span class="line">           </span><br><span class="line">			try &#123;</span><br><span class="line">				Thread.sleep(100);</span><br><span class="line">			&#125; catch (InterruptedException e) &#123;</span><br><span class="line">				&#x2F;&#x2F; TODO Auto-generated catch block</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			System.out.println(Thread.currentThread().getName() + &quot;:&quot; + tickets--);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	private static synchronized void method2() &#123;</span><br><span class="line">	</span><br><span class="line">		if (tickets &gt; 0) &#123;</span><br><span class="line"></span><br><span class="line">			try &#123;</span><br><span class="line">				Thread.sleep(100);</span><br><span class="line">			&#125; catch (InterruptedException e) &#123;</span><br><span class="line">				&#x2F;&#x2F; TODO Auto-generated catch block</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			System.out.println(Thread.currentThread().getName() + &quot;:&quot; + tickets--);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>代码测试</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class TicktetTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建线程对象</span><br><span class="line">		TicketThread tt &#x3D; new TicketThread();</span><br><span class="line">		</span><br><span class="line">		Thread t &#x3D; new Thread(tt);</span><br><span class="line">		t.setName(&quot;窗口1&quot;);</span><br><span class="line">		Thread t2 &#x3D; new Thread(tt);</span><br><span class="line">		t2.setName(&quot;窗口2&quot;);</span><br><span class="line">		Thread t3 &#x3D; new Thread(tt);</span><br><span class="line">		t3.setName(&quot;窗口3&quot;);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;启动线程对象</span><br><span class="line">		t.start();</span><br><span class="line">		t2.start();</span><br><span class="line">		t3.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-text">多线程安全问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-text">模拟安全问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%90%8C%E6%AD%A5%E4%BB%A3%E7%A0%81%E5%9D%97%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-text">使用同步代码块解决多线程安全问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95%E8%A7%A3%E5%86%B3%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="toc-text">使用同步方法解决多线程安全问题</span></a></li></ol></li></ol>
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"><i class="fa fa-tags"></i>多线程</a>
+     
+      <a href="/tags/%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/"><i class="fa fa-tags"></i>线程安全问题</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/30/Java%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

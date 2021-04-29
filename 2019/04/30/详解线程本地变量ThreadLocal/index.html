@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>详解线程本地变量ThreadLocal | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="ThreadLocal," />
+  
+
+  
+  <meta name="description" content="并发应用的一个关键地方就是共享数据。如果你创建一个类对象，实现Runnable接口，然后多个Thread对象使用同样的Runnable对象，全部的线程都共享同样的属性。这意味着，如果你在一个线程里改变一个属性，全部的线程都会受到这个改变的影响。有时，你希望程序里的各个线程的属性不会被共享。 Java 并发 API提供了一个很清楚的机制叫本地线程变量即ThreadLocal。模拟ThreadLocal类实现：线程范围内的共享变量，每个线程只能访问他自己的，不能访问别的线程。">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-30
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    详解线程本地变量ThreadLocal
+  </h1>
+  
+  <article class="passage-article">
+    <p><strong>一、本地线程变量使用场景</strong></p>
+<blockquote>
+<p>并发应用的一个关键地方就是共享数据。如果你创建一个类对象，实现Runnable接口，然后多个Thread对象使用同样的Runnable对象，全部的线程都共享同样的属性。这意味着，如果你在一个线程里改变一个属性，全部的线程都会受到这个改变的影响。<br>有时，你希望程序里的各个线程的属性不会被共享。 Java 并发 API提供了一个很清楚的机制叫本地线程变量即ThreadLocal。<br>模拟ThreadLocal类实现：线程范围内的共享变量，每个线程只能访问他自己的，不能访问别的线程。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190430104311538.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>二、对ThreadLocal的理解</strong></p>
+<blockquote>
+<p>ThreadLocal，很多地方叫做线程本地变量，也有些地方叫做本地线程变量，其实意思差不多。<br>ThreadLocal和本地线程没有半毛钱关系，更不是一个特殊的Thread，它只是一个线程的局部变量(其实就是一个Map用于存储每一个线程的变量副本，Map中元素的Key为线程对象，而Value对应线程的变量副本),ThreadLocal会为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。<br>对于多线程资源共享的问题，同步机制(Synchronized)采用了“以时间换空间”的方式，而ThreadLocal采用了“以空间换时间”的方式。前者仅提供一份变量，让不同的线程排队访问，而后者为每一个线程都提供了一份变量，因此可以同时访问而互不影响。<br>官方对ThreadLocal的描述：</p>
+<p> 1、每个线程都有自己的局部变量<br>每个线程都有一个独立于其他线程的上下文来保存这个变量，一个线程的本地变量对其他线程是不可见的（有前提，后面解释） 2、独立于变量的初始化副本<br>ThreadLocal可以给一个初始值，而每个线程都会获得这个初始化值的一个副本，这样才能保证不同的线程都有一份拷贝。<br>3、状态与某一个线程相关联  ThreadLocal<br>不是用于解决共享变量的问题的，不是为了协调线程同步而存在，而是为了方便每个线程处理自己的状态而引入的一个机制，理解这点对正确使用ThreadLocal至关重要。<br>通过ThreadLocal存取的数据，总是与当前线程相关，也就是说，JVM<br>为每个运行的线程，绑定了私有的本地实例存取空间，从而为多线程环境常出现的并发访问问题提供了一种隔离机制。 我们还是先来看一个例子：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class ConnectionManager &#123;</span><br><span class="line">   </span><br><span class="line">        private static Connection connect &#x3D; null;</span><br><span class="line"></span><br><span class="line">        public static Connection openConnection() &#123;</span><br><span class="line">            if(connect &#x3D;&#x3D; null)&#123;</span><br><span class="line">                connect &#x3D; DriverManager.getConnection();</span><br><span class="line">            &#125;</span><br><span class="line">            return connect;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public static void closeConnection() &#123;</span><br><span class="line">            if(connect!&#x3D;null)</span><br><span class="line">                connect.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> 　　假设有这样一个数据库链接管理类，这段代码在单线程中使用是没有任何问题的，但是如果在多线程中使用呢？很显然，在多线程中使用会存在线程安全问题：第一，这里面的2个方法都没有进行同步，很可能在openConnection方法中会多次创建connect；第二，由于connect是共享变量，那么必然在调用connect的地方需要使用到同步来保障线程安全，因为很可能一个线程在使用connect进行数据库操作，而另外一个线程调用closeConnection关闭链接。</p>
+<p>　　所以出于线程安全的考虑，必须将这段代码的两个方法进行同步处理，并且在调用connect的地方需要进行同步处理。</p>
+<p>　　这样将会大大影响程序执行效率，因为一个线程在使用connect进行数据库操作的时候，其他线程只有等待。</p>
+<p>　　那么大家来仔细分析一下这个问题，这地方到底需不需要将connect变量进行共享？事实上，是不需要的。假如每个线程中都有一个connect变量，各个线程之间对connect变量的访问实际上是没有依赖关系的，即一个线程不需要关心其他线程是否对这个connect进行了修改的。</p>
+<p>　　到这里，可能会有朋友想到，既然不需要在线程之间共享这个变量，可以直接这样处理，在每个需要使用数据库连接的方法中具体使用时才创建数据库链接，然后在方法调用完毕再释放这个连接。比如下面这样：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class ConnectionManager &#123;</span><br><span class="line">         </span><br><span class="line">        private  Connection connect &#x3D; null;</span><br><span class="line">         </span><br><span class="line">        public Connection openConnection() &#123;</span><br><span class="line">            if(connect &#x3D;&#x3D; null)&#123;</span><br><span class="line">                connect &#x3D; DriverManager.getConnection();</span><br><span class="line">            &#125;</span><br><span class="line">            return connect;</span><br><span class="line">        &#125;</span><br><span class="line">         </span><br><span class="line">        public void closeConnection() &#123;</span><br><span class="line">            if(connect!&#x3D;null)</span><br><span class="line">                connect.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">    class Dao&#123;</span><br><span class="line">        public void insert() &#123;</span><br><span class="line">            ConnectionManager connectionManager &#x3D; new ConnectionManager();</span><br><span class="line">            Connection connection &#x3D; connectionManager.openConnection();</span><br><span class="line">             </span><br><span class="line">            &#x2F;&#x2F;使用connection进行操作</span><br><span class="line">             </span><br><span class="line">            connectionManager.closeConnection();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>　　这样处理确实也没有任何问题，由于每次都是在方法内部创建的连接，那么线程之间自然不存在线程安全问题。但是这样会有一个致命的影响：导致服务器压力非常大，并且严重影响程序执行性能。由于在方法中需要频繁地开启和关闭数据库连接，这样不尽严重影响程序执行效率，还可能导致服务器压力巨大。</p>
+<p>　　那么这种情况下使用ThreadLocal是再适合不过的了，因为ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响，这样一来就不存在线程安全问题，也不会严重影响程序执行性能。</p>
+<p>　　但是要注意，虽然ThreadLocal能够解决上面说的问题，但是由于在每个线程中都创建了副本，所以要考虑它对资源的消耗，比如内存的占用会比不使用ThreadLocal要大。</p>
+</blockquote>
+<p><strong>三、深入解析ThreadLocal类</strong></p>
+<blockquote>
+<p>在上面谈到了对ThreadLocal的一些理解，那我们下面来看一下具体ThreadLocal是如何实现的。<br>先了解一下ThreadLocal类提供的几个方法：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123; &#125;</span><br><span class="line">public void set(T value) &#123; &#125;</span><br><span class="line">public void remove() &#123; &#125;</span><br><span class="line">protected T initialValue() &#123; &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>get()方法是用来获取ThreadLocal在当前线程中保存的变量副本； set()用来设置当前线程中变量的副本；<br>remove()用来移除当前线程中变量的副本；<br>initialValue()是一个protected方法，一般是用来在使用时进行重写的，它是一个延迟加载方法；</p>
+<p>ThreadLocal是如何为每个线程创建变量的副本的：<br>1、在每个线程Thread内部有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，这个threadLocals就是用来存储实际的变量副本的，Key为当前ThreadLocal变量，value为变量副本（即T类型的变量）。<br>2、初始时，在Thread里面，threadLocals为空，当通过ThreadLocal变量调用get()方法或者set()方法，就会对Thread类中的threadLocals进行初始化，并且以当前ThreadLocal变量为键值，以ThreadLocal要保存的副本变量为value，存到threadLocals。<br>3、在当前线程里面，如果要使用副本变量，就可以通过get方法在threadLocals里面查找。<br>下面通过一个例子来证明通过ThreadLocal能达到在每个线程中创建变量副本的效果：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line">        ThreadLocal&lt;Long&gt; longLocal &#x3D; new ThreadLocal&lt;Long&gt;();</span><br><span class="line">        ThreadLocal&lt;String&gt; stringLocal &#x3D; new ThreadLocal&lt;String&gt;();</span><br><span class="line">    	public void set() &#123;</span><br><span class="line">            longLocal.set(Thread.currentThread().getId());</span><br><span class="line">            stringLocal.set(Thread.currentThread().getName());</span><br><span class="line">        &#125;</span><br><span class="line">        public long getLong() &#123;</span><br><span class="line">            return longLocal.get();</span><br><span class="line">        &#125;</span><br><span class="line">        public String getString() &#123;</span><br><span class="line">            return stringLocal.get();</span><br><span class="line">        &#125;</span><br><span class="line">        public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">            final Test test &#x3D; new Test();</span><br><span class="line">            test.set();</span><br><span class="line">            System.out.println(test.getLong());</span><br><span class="line">            System.out.println(test.getString());</span><br><span class="line">            Thread thread1 &#x3D; new Thread()&#123;</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    test.set();</span><br><span class="line">                    System.out.println(test.getLong());</span><br><span class="line">                    System.out.println(test.getString());</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;;</span><br><span class="line">            thread1.start();</span><br><span class="line">            thread1.join();</span><br><span class="line">            System.out.println(test.getLong());</span><br><span class="line">            System.out.println(test.getString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p> 　　</p>
+<blockquote>
+<p>这段代码的输出结果为：</p>
+</blockquote>
+<p>　　<img src="https://img-blog.csdnimg.cn/20190430105117932.jpg" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>从这段代码的输出结果可以看出，在main线程中和thread1线程中，longLocal保存的副本值和stringLocal保存的副本值都不一样。最后一次在main线程再次打印副本值是为了证明在main线程中和thread1线程中的副本值确实是不同的。</p>
+<p>总结一下：</p>
+<p>　　1）实际的通过ThreadLocal创建的副本是存储在每个线程自己的threadLocals中的；</p>
+<p>　　2）为何threadLocals的类型ThreadLocalMap的键值为ThreadLocal对象，因为每个线程中可有多个threadLocal变量，就像上面代码中的longLocal和stringLocal；</p>
+</blockquote>
+<p><strong>四.ThreadLocal的应用场景</strong></p>
+<blockquote>
+<p>   最常见的ThreadLocal使用场景为：用来解决数据库连接、Session管理，多线程单例模式访问；</p>
+<p>订单处理包含一系列操作：减少库存量、增加一条流水台账、修改总账，这几个操作要在同一个事务中完成，通常也即同一个线程中进行处理，如果累加公司应收款的操作失败了，则应该把前面的操作回滚，否则，提交所有操作，这要求这些操作使用相同的数据库连接对象，而这些操作的代码分别位于不同的模块类中。<br>银行转账包含一系列操作：<br>把转出帐户的余额减少，把转入帐户的余额增加，这两个操作要在同一个事务中完成，它们必须使用相同的数据库连接对象，转入和转出操作的代码分别是两个不同的帐户对象的方法。</p>
+<p>   我们先看一个简单的例子：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadLocalTest &#123;</span><br><span class="line">    </span><br><span class="line">      &#x2F;&#x2F;创建一个Integer型的线程本地变量</span><br><span class="line">        public static final ThreadLocal&lt;Integer&gt; local &#x3D; new ThreadLocal&lt;Integer&gt;() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            protected Integer initialValue() &#123;</span><br><span class="line">                return 0;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">            Thread[] threads &#x3D; new Thread[5];</span><br><span class="line">            for (int j &#x3D; 0; j &lt; 5; j++) &#123;       </span><br><span class="line">               threads[j] &#x3D; new Thread(new Runnable() &#123;</span><br><span class="line">                    @Override</span><br><span class="line">                    public void run() &#123;</span><br><span class="line">                        &#x2F;&#x2F;获取当前线程的本地变量，然后累加5次</span><br><span class="line">                        int num &#x3D; local.get();</span><br><span class="line">                        for (int i &#x3D; 0; i &lt; 5; i++) &#123;</span><br><span class="line">                            num++;</span><br><span class="line">                        &#125;</span><br><span class="line">                        &#x2F;&#x2F;重新设置累加后的本地变量</span><br><span class="line">                        local.set(num);</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + &quot; : &quot;+ local.get());</span><br><span class="line">     		    &#125;</span><br><span class="line">                &#125;, &quot;Thread-&quot; + j);</span><br><span class="line">            &#125;</span><br><span class="line">     		for (Thread thread : threads) &#123;</span><br><span class="line">                thread.start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行后结果：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread-0 : 5</span><br><span class="line">Thread-4 : 5</span><br><span class="line">Thread-2 : 5</span><br><span class="line">Thread-1 : 5</span><br><span class="line">Thread-3 : 5</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我们看到，每个线程累加后的结果都是5，各个线程处理自己的本地变量值，线程之间互不影响。</p>
+<p>如：数据库连接：</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190430105210757.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>Session连接：</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20190430105233990.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>五、ThreadLocal使用的一般步骤</strong></p>
+<blockquote>
+<p>1、在多线程的类（如ThreadDemo类）中，创建一个ThreadLocal对象threadXxx，用来保存线程间需要隔离处理的对象xxx。<br>2、在ThreadDemo类中，创建一个获取要隔离访问的数据的方法getXxx()，在方法中判断，若ThreadLocal对象为null时候，应该new()一个隔离访问类型的对象，并强制转换为要应用的类型。<br>3、在ThreadDemo类的run()方法中，通过getXxx()方法获取要操作的数据，这样可以保证每个线程对应一个数据对象，在任何时刻都操作的是这个对象。<br>相关链接请参考：<a target="_blank" rel="noopener" href="http://my.oschina.net/xianggao/blog/392440?fromerr=nKHw4fBT">http://my.oschina.net/xianggao/blog/392440?fromerr=nKHw4fBT</a></p>
+</blockquote>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/30/%E8%AF%A6%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%9C%AC%E5%9C%B0%E5%8F%98%E9%87%8FThreadLocal/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/ThreadLocal/"><i class="fa fa-tags"></i>ThreadLocal</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/30/%E6%B5%85%E6%9E%90Java%E5%90%84%E7%A7%8D%E5%8F%98%E9%87%8F%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/30/springMVC%E4%B8%80%E4%B8%AAController%E5%A4%84%E7%90%86%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E8%AF%B7%E6%B1%82%E7%9A%84%E5%B9%B6%E5%8F%91%E9%97%AE%E9%A2%98/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>

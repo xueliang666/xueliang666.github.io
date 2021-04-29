@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Zhang xueliang" />
+  
+  
+  <title>静态方法与单例模式的区别以及为什么要用单例模式而不是静态方法 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="静态方法,单例模式," />
+  
+
+  
+  <meta name="description" content="我们在编程中最常用的模式就是单例模式了，然而单例模式都用在什么场合？为什么不用静态方法而要用单例模式呢？要搞清这些问题，需要从静态方法和非静态方法的区别和联系说起。">
+
+  
+
+  
+
+  
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  
+
+  
+
+  
+
+  <script>
+  // theme-ad's config script
+  // it can be used in every script
+  
+  window.AD_CONFIG = {
+    leancloud: {"appid":"Hyq9wkH495DgNHWhDQCOfQSp-gzGzoHsz","appkey":"WaR7nrzhliHj9aVwdQzkdlGd","comment":false,"count":false},
+    welcome: {"enable":false,"interval":30},
+    start_time: "2018-02-10",
+    passwords: ["efe07af7441da2b69c4a41e42e73be4db47f66010a56900788a458354a7373ec", ],
+    is_post: true,
+    lock: false,
+    author: "Zhang xueliang",
+    share: {"twitter":true,"facebook":true,"weibo":true,"qq":true,"wechat":true},
+    mathjax: true,
+    page_type: "",
+    root: "/"
+  };
+</script>
+
+  
+<script src="/vendor/sha256.min.js"></script>
+<script src="/js/auth.js"></script>
+<script src="/js/index.js"></script>
+<script src="/vendor/qrcode.min.js"></script>
+
+
+  
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/images/touch-icon.png">
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+  
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/styles/components/highlight/highlight.css">
+
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+  <body>
+    <header class="site-header">
+  <div class="site-header-brand">
+    
+      <span class="site-header-brand-title">
+        <a href="/">学亮编程手记</a>
+      </span>
+    
+    
+      <span class="site-header-brand-motto"> | 殚精竭虑，不如须臾之所学也！</span>
+    
+  </div>
+  <div class="site-header-right">
+    <nav class="site-header-navigation">
+      
+        <a href="/" target="_self">首页</a>
+      
+        <a href="/archives/" target="_self">归档</a>
+      
+        <a href="/tags/" target="_self">标签</a>
+      
+        <a href="/categories/" target="_self">分类</a>
+      
+        <a href="/friends/" target="_self">友链</a>
+      
+        <a href="/about/" target="_self">关于</a>
+      
+    </nav>
+    <div class="site-header-btn">
+      
+        <a href="https://github.com/a772304419/" target="_blank" id="site-github">
+          <i class="fa fa-github-alt"></i>
+        </a>
+      
+      <a href="javascript:void(0);" id="site-search">
+        <i class="fa fa-search"></i>
+      </a>
+      <a href="javascript:void(0);" id="site-nav-btn">
+        <i class="fa fa-ellipsis-v"></i>
+      </a>
+    </div>
+  </div>
+</header>
+<nav class="table-content" id="site-nav">
+  <div class="table-content-title">
+    <span>导航</span>
+  </div>
+  <div class="table-content-main">
+    <ol class="toc">
+      
+        <li class="toc-item">
+          <a href="/" target="_self">
+            首页
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/archives/" target="_self">
+            归档
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/tags/" target="_self">
+            标签
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/categories/" target="_self">
+            分类
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/friends/" target="_self">
+            友链
+          </a>
+        </li>
+      
+        <li class="toc-item">
+          <a href="/about/" target="_self">
+            关于
+          </a>
+        </li>
+      
+    </ol>
+  </div>
+</nav>
+<div id="site-process"></div>
+    <main>
+      
+  <div class="passage">
+  <div class="passage-meta">
+    <span>
+      <i class="fa fa-calendar"></i>2019-04-30
+    </span>
+    
+    
+      <span>
+        | <i class="fa fa-unlock-alt"></i>UNLOCK
+      </span>
+    
+  </div>
+  <h1 class="passage-title">
+    静态方法与单例模式的区别以及为什么要用单例模式而不是静态方法
+  </h1>
+  
+  <article class="passage-article">
+    <p><strong>一、静态方法常驻内存，非静态方法只有使用的时候才分配内存？</strong></p>
+<blockquote>
+<p>一般都认为是这样，并且怕静态方法占用过多内存而建议使用非静态方法，其实这个理解是错误的。</p>
+<p>为什么会这样，先从内存分配开始说起：</p>
+<p>托管堆的定义：对于32位的应用程序来说，应用程序完成进程初始化后，CLR将在进程的可用地址空间分配一块保留的地址空间，它是进程（每个进程可使用4GB）中可用地址空间上的一块内存区域，但并不对应任何物理内存，这块地址空间即是托管堆。</p>
+<p>托管堆有分为多个区域，其中最重要的是垃圾回收堆（GC Heap）和加载堆（Loader Heap），GC<br>Heap用于存储对象实例，受GC管理；Loader Heap又分为High-Frequency Heap、Low-Frequency<br>Heap和Stub Heap，不同的堆上又存储不同的信息。Loader<br>Heap最重要的信息就是元数据相关的信息，也就是Type对象，每个Type在Loader Heap上体现为一个Method<br>Table（方法表），而Method Table中则记录了存储的元数据信息，例如基类型、静态字段、实现的接口、所有的方法等等。Loader<br>Heap不受GC控制，其生命周期为从创建到AppDomain卸载。（摘自《你必须知道的.Net》）</p>
+<p>由此我们就明白了，静态方法和非静态方法，在内存里其实都放在Method Table里了，在一个类第一次被加载的时候，它会在Loader<br>Heap里把静态方法，非静态方法都写入Method Table中，而且Loader<br>Heap不受GC控制，所以一旦加载，GC就不会回收，直到AppDomain卸载</p>
+<p>由此我们也明白了，静态方法和非静态方法，他们都是在第一次加载后就常驻内存，所以方法本身在内存里，没有什么区别，所以也就不存在”静态方法常驻内存，非静态方法只有使用的时候才分配内存“这个结论了。</p>
+</blockquote>
+<p><strong>二、静态方法和非静态方法的区别？</strong></p>
+<blockquote>
+<p>在内存中的区别是，非静态方法在创建实例对象时，因为属性的值对于每个对象都各不相同，因此在new一个实例时，会把这个实例属性在GC<br>Heap里拷贝一份，同时这个new出来的对象放在堆栈上，堆栈指针指向了刚才拷贝的那一份实例的内存地址上。而静态方法则不需要，因为静态方法里面的静态字段，就是保存在Method<br>Table里了，只有一份。</p>
+<p>因此静态方法和非静态方法，在调用速度上，静态方法速度一定会快点，因为非静态方法需要实例化，分配内存，但静态方法不用，但是这种速度上差异可以忽略不计。</p>
+</blockquote>
+<p><strong>三、为什么要有非静态方法？</strong></p>
+<blockquote>
+<p>早期的结构化编程，几乎所有的方法都是“静态方法”，引入实例化方法概念是面向对象概念出现以后的事情了，区分静态方法和实例化方法不能单单从性能上去理解，创建c++,java,c#这样面向对象语言的大师引入实例化方法一定不是要解决什么性能、内存的问题，而是为了让开发更加模式化、面向对象化。这样说的话，静态方法和实例化方式的区分是为了解决模式的问题。</p>
+<p>接下来继续思考，如果我们全部用静态方法，不用非静态方法，不是一样能实现功能吗？是的，没错，但是你的代码是基于对象，而不是面向对象的，因为面向对象的继承和多态，都是非静态方法。</p>
+<p>第二个原因是为什么不建议都用静态方法，我们如果多线程的情况下，如果静态方法使用了一个静态字段，这个静态字段可以会被多个线程修改，因此说如果在静态方法里使用了静态变量，这就会有线程安全问题，当然了，就算不是多线程，因为静态字段只有一份，同样会有被其他地方修改的问题。</p>
+</blockquote>
+<p><strong>从这三点我们得出的结论如下：</strong></p>
+<p><strong>一、 什么时候用静态方法，什么时候使用非静态方法？</strong></p>
+<blockquote>
+<p>既然静态方法和实例化方式的区分是为了解决模式的问题，如果我们考虑不需要继承和多态的时候，就可以使用静态方法，但就算不考虑继承和多态，就一概使用静态方法也不是好的编程思想。</p>
+<p>从另一个角度考虑，如果一个方法和他所在类的实例对象无关，那么它就应该是静态的，否则就应该是非静态。因此像工具类，一般都是静态的。</p>
+</blockquote>
+<p><strong>二、 为什么使用单例模式而不用静态方法？</strong></p>
+<p> <em>从面相对象的角度讲：</em></p>
+<blockquote>
+<p>虽然都能实现目的，但是他们一个是基于对象，一个是面向对象的，就像我们不面相对象也能解决问题一样，面相对象的代码提供一个更好的编程思想。</p>
+<p>如果一个方法和他所在类的实例对象无关，那么它就应该是静态的，反之他就应该是非静态的。如果我们确实应该使用非静态的方法，但是在创建类时又确实只需要维护一份实例时，就需要用单例模式了。</p>
+<p>比如说我们在系统运行时候，就需要加载一些配置和属性，这些配置和属性是一定存在了，又是公共的，同时需要在整个生命周期中都存在，所以只需要一份就行，这个时候如果需要我再需要的时候new一个，再给他分配值，显然是浪费内存并且再赋值没什么意义，所以这个时候我们就需要单例模式或静态方法去维持一份且仅这一份拷贝，但此时这些配置和属性又是通过面向对象的编码方式得到的，我们就应该使用单例模式，或者不是面向对象的，但他本身的属性应该是面对对象的，我们使用静态方法虽然能同样解决问题，但是最好的解决方案也应该是使用单例模式。</p>
+</blockquote>
+<p><em>从功能上讲：</em></p>
+<blockquote>
+<p>单例模式可以控制单例数量；可以进行有意义的派生；对实例的创建有更自由的控制;</p>
+</blockquote>
+<p><strong>三、其他：</strong></p>
+<p><em>数据库连接能不能做SingleTon？</em></p>
+<blockquote>
+<p>如果是简单地把一个connection对象封存在单例对象中，这样是错误的，因此连接池里有多个链接可以用，如果使用SingleTon，那在WEB访问时，就只能用一个数据库链接，那不是死的很惨？</p>
+<p>但是链接池可以使用单例模式，初始化的时候创建譬如100个connection对象，然后再需要的时候提供一个，用过之后返回到pool中，我们用单例模式，是保证连接池有且只有一个。</p>
+<p>再举个例子，比如DAL层写好一个调用数据库表的类，在BLL层应用此类时，如果每次都new创建的话需要频繁的创建和回收，而DAL层这个类里又没有和对象相关的值变量，所以不需要每次都new一个，这时候就可以用单例模式来创建这个DAL实例。</p>
+</blockquote>
+  </article>
+  <aside class="table-content" id="site-toc">
+  <div class="table-content-title">
+    <i class="fa fa-arrow-right fa-lg" id="site-toc-hide-btn"></i>
+    <span>目录</span>
+  </div>
+  <div class="table-content-main">
+    
+  </div>
+</aside>
+  
+    <aside class="passage-copyright">
+      <div>本文作者: 张学亮</div>
+      
+        <div>
+          原文链接: 
+          <a href="" target="_blank">http://xueliang666.github.com/2019/04/30/%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%E4%B8%8E%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E8%80%8C%E4%B8%8D%E6%98%AF%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/</a>
+        </div>
+      
+      <div>
+        版权声明: 本博客所有文章除特别声明外, 均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议. 转载请注明出处!
+      </div>
+    </aside>
+  
+  
+    <div class="passage-tags">
+     
+      <a href="/tags/%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/"><i class="fa fa-tags"></i>静态方法</a>
+     
+      <a href="/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"><i class="fa fa-tags"></i>单例模式</a>
+    
+    </div>
+  
+</div>
+
+    </main>
+    
+    <div class="site-footer-wrapper">
+  <footer class="site-footer">
+    
+    <div class="site-footer-info">
+      <i class="fa fa-clock-o"></i> 本站已稳定运行<span id="site-time"></span>
+    </div>
+    
+    
+    <div class="site-footer-info">
+      <i class="fa fa-copyright"></i> 
+      2021 <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">学亮编程手记</a>.
+      Created by <a href="https://zhangxueliang.blog.csdn.net/" target="_blank">张学亮</a>.
+      All rights reserved.
+    </div>
+  </footer>
+</div>
+    <div id="site-layer" style="display:none;">
+  <div class="site-layer-content">
+    <div class="site-layer-header">
+      <span class="site-layer-header-title" id="site-layer-title"></span>
+      <i class="fa fa-close" id="site-layer-close"></i>
+    </div>
+    <div class="site-layer-body" id="site-layer-container">
+      <div class="site-layer-input" id="site-layer-search" style="display: none;">
+        <div class="site-layer-input-choose">
+          <a href="javascript:void(0);" title="Change Search Engine">Google</a>
+        </div>
+        <input type="text">
+        <i class="fa fa-search"></i>
+      </div>
+      
+        <div class="site-layer-reward" id="site-layer-reward" style="display: none;">
+          
+            <div>
+              <img src="/images/wechat.png" alt="WeChat">
+              
+                <p>WeChat</p>
+              
+            </div>
+          
+            <div>
+              <img src="/images/alipay.png" alt="AliPay">
+              
+                <p>AliPay</p>
+              
+            </div>
+          
+        </div>
+      
+      <div id="site-layer-welcome" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+    
+
+<div class="bottom-bar">
+  <div class="bottom-bar-left">
+    <a href="/2019/04/30/Java%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F/" data-enable="true">
+      <i class="fa fa-arrow-left"></i>
+    </a>
+    <a href="/2019/04/30/%E6%B5%85%E6%9E%90Java%E5%90%84%E7%A7%8D%E5%8F%98%E9%87%8F%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98/" data-enable="true">
+      <i class="fa fa-arrow-right"></i>
+    </a>
+  </div>
+  <div class="bottom-bar-right">
+    <a href="javascript:void(0);" data-enable="true" id="site-toc-show-btn">
+      <i class="fa fa-bars"></i>
+    </a>
+    
+    <a href="javascript:void(0);" id="site-toggle-share-btn">
+      <i class="fa fa-share-alt"></i>
+    </a>
+    
+      <a href="javascript:void(0);" id="site-reward">
+        <i class="fa fa-thumbs-up"></i>
+      </a>
+    
+    <a href="javascript:void(0);" id="back-top-btn">
+      <i class="fa fa-chevron-up"></i>
+    </a>
+  </div>
+</div>
+    <div id="share-btn">
+  
+    <a id="share-btn-twitter" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+  
+  
+    <a id="share-btn-facebook" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-facebook"></i>
+    </a>
+  
+  
+    <a id="share-btn-weibo" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-weibo"></i>
+    </a>
+  
+  
+    <a id="share-btn-qq" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-qq"></i>
+    </a>
+  
+  
+    <a id="share-btn-wechat" href="javascript:void(0);" target="_blank">
+      <i class="fa fa-wechat"></i>
+    </a>
+  
+</div>
+    
+
+
+
+
+
+    
+  </body>
+</html>
