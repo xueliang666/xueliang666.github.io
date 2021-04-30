@@ -6,20 +6,38 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>Nodejs核心模块http使用入门实例 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+  <title>jvm的发展历程 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="接下来，我们要干一件使用 Node 很有成就感的一件事儿你可以使用 Node 非常轻松的构建一个 Web 服务器在 Node 中专门提供了一个核心模块：httphttp 这个模块的职责就是帮你创建编写服务器的">
+  <meta name="description" content="Sun Classic VM  如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。今天的jvm经过优化，执行效率已经不亚于C和C++了。两者结合是主流的方式，吸收二者的优点。   Exact VM Hotspot VM  BEA公司的JRockit IBM公司的J9 在IBM自己的产品上运行稳定，win上的表现不尽如人意。   KVM和CDC&#x2F;CLDC Hotspot Azul">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nodejs核心模块http使用入门实例">
-<meta property="og:url" content="http://xueliang666.github.com/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/index.html">
+<meta property="og:title" content="jvm的发展历程">
+<meta property="og:url" content="http://xueliang666.github.com/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/index.html">
 <meta property="og:site_name" content="学亮编程手记-学贵有恒，一曝十寒乃大忌！">
-<meta property="og:description" content="接下来，我们要干一件使用 Node 很有成就感的一件事儿你可以使用 Node 非常轻松的构建一个 Web 服务器在 Node 中专门提供了一个核心模块：httphttp 这个模块的职责就是帮你创建编写服务器的">
+<meta property="og:description" content="Sun Classic VM  如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。今天的jvm经过优化，执行效率已经不亚于C和C++了。两者结合是主流的方式，吸收二者的优点。   Exact VM Hotspot VM  BEA公司的JRockit IBM公司的J9 在IBM自己的产品上运行稳定，win上的表现不尽如人意。   KVM和CDC&#x2F;CLDC Hotspot Azul">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-04-30T15:05:40.000Z">
-<meta property="article:modified_time" content="2019-05-02T13:17:26.000Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211927301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909212350330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909212214468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092237379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092324530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092734885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092942868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091309314150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100423537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100454978.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100702563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091310102463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2021-04-30T09:09:22.000Z">
+<meta property="article:modified_time" content="2021-04-30T09:17:51.697Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="article:tag" content="java jvm">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记-学贵有恒，一曝十寒乃大忌！" type="application/atom+xml">
   
@@ -155,35 +173,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Nodejs核心模块http使用入门实例" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-jvm的发展历程" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Nodejs核心模块http使用入门实例
+      jvm的发展历程
     </h1>
   
 
         
-        <a href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2019-04-30T15:05:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-30</time>
+        <a href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2021-04-30T09:09:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-30</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>接下来，我们要干一件使用 Node 很有成就感的一件事儿<br>你可以使用 Node 非常轻松的构建一个 Web 服务器<br>在 Node 中专门提供了一个核心模块：http<br>http 这个模块的职责就是帮你创建编写服务器的</p>
-</blockquote>
-<span id="more"></span>
-
+        <h1 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <blockquote>
-<p>新建一个js文件，代码如下：</p>
+<p>如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。<br>今天的jvm经过优化，执行效率已经不亚于C和C++了。<br>两者结合是主流的方式，吸收二者的优点。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 1. 加载 http 核心模块</span><br><span class="line">var http &#x3D; require(&#39;http&#39;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 2. 使用 http.createServer() 方法创建一个 Web 服务器</span><br><span class="line">&#x2F;&#x2F;    返回一个 Server 实例</span><br><span class="line">var server &#x3D; http.createServer()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 3. 服务器要干嘛？</span><br><span class="line">&#x2F;&#x2F;    提供服务：对 数据的服务</span><br><span class="line">&#x2F;&#x2F;    发请求</span><br><span class="line">&#x2F;&#x2F;    接收请求</span><br><span class="line">&#x2F;&#x2F;    处理请求</span><br><span class="line">&#x2F;&#x2F;    给个反馈（发送响应）</span><br><span class="line">&#x2F;&#x2F;    注册 request 请求事件</span><br><span class="line">&#x2F;&#x2F;    当客户端请求过来，就会自动触发服务器的 request 请求事件，然后执行第二个参数：回调处理函数</span><br><span class="line">server.on(&#39;request&#39;, function () &#123;</span><br><span class="line">  console.log(&#39;收到客户端的请求了&#39;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 4. 绑定端口号，启动服务器</span><br><span class="line">server.listen(3000, function () &#123;</span><br><span class="line">  console.log(&#39;服务器启动成功了，可以通过 http:&#x2F;&#x2F;127.0.0.1:3000&#x2F; 来进行访问&#39;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h1 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909211927301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Hotspot-VM"><a href="#Hotspot-VM" class="headerlink" title="Hotspot VM"></a>Hotspot VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909212350330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200909212214468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="BEA公司的JRockit"><a href="#BEA公司的JRockit" class="headerlink" title="BEA公司的JRockit"></a>BEA公司的JRockit</h1><p><img src="https://img-blog.csdnimg.cn/20200913092237379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="IBM公司的J9"><a href="#IBM公司的J9" class="headerlink" title="IBM公司的J9"></a>IBM公司的J9</h1><blockquote>
+<p>在IBM自己的产品上运行稳定，win上的表现不尽如人意。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200913092324530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="KVM和CDC-CLDC-Hotspot"><a href="#KVM和CDC-CLDC-Hotspot" class="headerlink" title="KVM和CDC/CLDC Hotspot"></a>KVM和CDC/CLDC Hotspot</h1><p><img src="https://img-blog.csdnimg.cn/20200913092734885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h1><p><img src="https://img-blog.csdnimg.cn/20200913092942868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091309314150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Apache-Harmony"><a href="#Apache-Harmony" class="headerlink" title="Apache Harmony"></a>Apache Harmony</h1><p><img src="https://img-blog.csdnimg.cn/20200913100423537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Microsoft-JVM"><a href="#Microsoft-JVM" class="headerlink" title="Microsoft JVM"></a>Microsoft JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913100454978.png#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="TaobaoJVM"><a href="#TaobaoJVM" class="headerlink" title="TaobaoJVM"></a>TaobaoJVM</h1><ul>
+<li>缺点：严重依赖Intel的CPU</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200913100702563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310102463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="其他JVM"><a href="#其他JVM" class="headerlink" title="其他JVM"></a>其他JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Graal-VM"><a href="#Graal-VM" class="headerlink" title="Graal VM"></a>Graal VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+
       
 
       
@@ -212,6 +247,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">java jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -225,18 +271,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/01/Nodejs%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Nodejs中的模块系统
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/30/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Java多线程安全问题解决的两种方式代码案例</div>
+    <a href="/2021/04/29/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -499,6 +536,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">java jvm</a>
               </li>
             
             <div class="clearfix"></div>

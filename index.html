@@ -155,6 +155,158 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jvm的发展历程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/">jvm的发展历程</a>
+    </h1>
+  
+
+        
+        <a href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2021-04-30T09:09:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。<br>今天的jvm经过优化，执行效率已经不亚于C和C++了。<br>两者结合是主流的方式，吸收二者的优点。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+</blockquote>
+<h1 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909211927301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Hotspot-VM"><a href="#Hotspot-VM" class="headerlink" title="Hotspot VM"></a>Hotspot VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909212350330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200909212214468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="BEA公司的JRockit"><a href="#BEA公司的JRockit" class="headerlink" title="BEA公司的JRockit"></a>BEA公司的JRockit</h1><p><img src="https://img-blog.csdnimg.cn/20200913092237379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="IBM公司的J9"><a href="#IBM公司的J9" class="headerlink" title="IBM公司的J9"></a>IBM公司的J9</h1><blockquote>
+<p>在IBM自己的产品上运行稳定，win上的表现不尽如人意。</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200913092324530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="KVM和CDC-CLDC-Hotspot"><a href="#KVM和CDC-CLDC-Hotspot" class="headerlink" title="KVM和CDC/CLDC Hotspot"></a>KVM和CDC/CLDC Hotspot</h1><p><img src="https://img-blog.csdnimg.cn/20200913092734885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h1><p><img src="https://img-blog.csdnimg.cn/20200913092942868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091309314150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Apache-Harmony"><a href="#Apache-Harmony" class="headerlink" title="Apache Harmony"></a>Apache Harmony</h1><p><img src="https://img-blog.csdnimg.cn/20200913100423537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Microsoft-JVM"><a href="#Microsoft-JVM" class="headerlink" title="Microsoft JVM"></a>Microsoft JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913100454978.png#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="TaobaoJVM"><a href="#TaobaoJVM" class="headerlink" title="TaobaoJVM"></a>TaobaoJVM</h1><ul>
+<li>缺点：严重依赖Intel的CPU</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20200913100702563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310102463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="其他JVM"><a href="#其他JVM" class="headerlink" title="其他JVM"></a>其他JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Graal-VM"><a href="#Graal-VM" class="headerlink" title="Graal VM"></a>Graal VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">java jvm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Nodejs核心模块http使用入门实例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>title: Nodejs核心模块http使用入门实例<br>author: 学亮<br>date: 2019-04-30 23:05:40</p>
+<p>tags:</p>
+<blockquote>
+<p>接下来，我们要干一件使用 Node 很有成就感的一件事儿<br>你可以使用 Node 非常轻松的构建一个 Web 服务器<br>在 Node 中专门提供了一个核心模块：http<br>http 这个模块的职责就是帮你创建编写服务器的</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/2021/04/29/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/29/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-test-my-site" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -656,73 +808,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/05/01/Nodejs%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Nodejs核心模块http使用入门实例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/">Nodejs核心模块http使用入门实例</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2019-04-30T15:05:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>接下来，我们要干一件使用 Node 很有成就感的一件事儿<br>你可以使用 Node 非常轻松的构建一个 Web 服务器<br>在 Node 中专门提供了一个核心模块：http<br>http 这个模块的职责就是帮你创建编写服务器的</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/">展开全文 >></a>
         </p>
       
 
@@ -1632,92 +1717,6 @@
 
 
   
-    <article id="post-Collections工具类常用API" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/Collections%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API/">Collections工具类常用API</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/29/Collections%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API/" class="archive-article-date">
-  	<time datetime="2019-04-29T09:22:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Collection和Collections有什么区别？</p>
-</blockquote>
-<ul>
-<li><pre><code>    Collection是集合体系的最顶层，包含了集合体系的共性
-</code></pre>
-</li>
-<li><pre><code>    Collections是一个工具类，方法都是用于操作Collection
-</code></pre>
-</li>
-</ul>
-        
-          <a class="article-more-a" href="/2019/04/29/Collections%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Collections</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/29/Collections%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1952,6 +1951,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">单例模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">java jvm</a>
               </li>
             
             <div class="clearfix"></div>
