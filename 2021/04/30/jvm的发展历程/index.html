@@ -6,14 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>jvm的发展历程 | 学亮编程手记-学贵有恒，一曝十寒乃大忌！</title>
+  <title>jvm的发展历程 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Sun Classic VM  如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。今天的jvm经过优化，执行效率已经不亚于C和C++了。两者结合是主流的方式，吸收二者的优点。   Exact VM Hotspot VM  BEA公司的JRockit IBM公司的J9 在IBM自己的产品上运行稳定，win上的表现不尽如人意。   KVM和CDC&#x2F;CLDC Hotspot Azul">
+  <meta name="description" content="jvm的发展历程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="jvm的发展历程">
 <meta property="og:url" content="http://xueliang666.github.com/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/index.html">
-<meta property="og:site_name" content="学亮编程手记-学贵有恒，一曝十寒乃大忌！">
-<meta property="og:description" content="Sun Classic VM  如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。今天的jvm经过优化，执行效率已经不亚于C和C++了。两者结合是主流的方式，吸收二者的优点。   Exact VM Hotspot VM  BEA公司的JRockit IBM公司的J9 在IBM自己的产品上运行稳定，win上的表现不尽如人意。   KVM和CDC&#x2F;CLDC Hotspot Azul">
+<meta property="og:site_name" content="学亮编程手记">
+<meta property="og:description" content="jvm的发展历程">
 <meta property="og:locale">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
@@ -33,13 +33,14 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-04-30T09:09:22.000Z">
-<meta property="article:modified_time" content="2021-04-30T09:17:51.697Z">
+<meta property="article:modified_time" content="2021-04-30T12:04:13.243Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="java jvm">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="jvm">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
   
-    <link rel="alternative" href="/atom.xml" title="学亮编程手记-学贵有恒，一曝十寒乃大忌！" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -69,16 +70,20 @@
 			<img src="https://img-blog.csdnimg.cn/2021043016564828.png" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/"></a></h1>
+		  <h1 class="header-author"><a href="/">学亮编程手记</a></h1>
 		</hgroup>
 		
 
 		<nav class="header-menu">
 			<ul>
 			
-				<li><a href="/">主页</a></li>
+				<li><a href="/">博学</a></li>
 	        
-				<li><a href="/tags/java%E5%9F%BA%E7%A1%80/">学亮</a></li>
+				<li><a href="/">明思</a></li>
+	        
+				<li><a href="/">善辩</a></li>
+	        
+				<li><a href="/">笃行</a></li>
 	        
 			</ul>
 		</nav>
@@ -86,10 +91,6 @@
     		
     			
     			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
-    			
-            
-    			
-    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
     			
             
     			
@@ -107,6 +108,30 @@
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
 					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+					<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
+		        
+					<a class="weixin" target="_blank" href="#" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="jianshu" target="_blank" href="#" title="jianshu"><i class="icon-jianshu"></i></a>
+		        
+					<a class="douban" target="_blank" href="#" title="douban"><i class="icon-douban"></i></a>
+		        
+					<a class="segmentfault" target="_blank" href="#" title="segmentfault"><i class="icon-segmentfault"></i></a>
+		        
+					<a class="bilibili" target="_blank" href="#" title="bilibili"><i class="icon-bilibili"></i></a>
+		        
+					<a class="acfun" target="_blank" href="#" title="acfun"><i class="icon-acfun"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:772304419@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="facebook" target="_blank" href="#" title="facebook"><i class="icon-facebook"></i></a>
+		        
+					<a class="google" target="_blank" href="#" title="google"><i class="icon-google"></i></a>
+		        
+					<a class="twitter" target="_blank" href="#" title="twitter"><i class="icon-twitter"></i></a>
+		        
+					<a class="linkedin" target="_blank" href="#" title="linkedin"><i class="icon-linkedin"></i></a>
 		        
 			</div>
 		</nav>
@@ -127,10 +152,14 @@
 				<img src="https://img-blog.csdnimg.cn/2021043016564828.png" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author"></h1>
+			  <h1 class="header-author js-header-author">学亮编程手记</h1>
 			</hgroup>
 			
 			
+			
+				
+			
+				
 			
 				
 			
@@ -149,16 +178,44 @@
 			        
 						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
+						<a class="qq" target="_blank" href="#" title="qq"><i class="icon-qq"></i></a>
+			        
+						<a class="weixin" target="_blank" href="#" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="jianshu" target="_blank" href="#" title="jianshu"><i class="icon-jianshu"></i></a>
+			        
+						<a class="douban" target="_blank" href="#" title="douban"><i class="icon-douban"></i></a>
+			        
+						<a class="segmentfault" target="_blank" href="#" title="segmentfault"><i class="icon-segmentfault"></i></a>
+			        
+						<a class="bilibili" target="_blank" href="#" title="bilibili"><i class="icon-bilibili"></i></a>
+			        
+						<a class="acfun" target="_blank" href="#" title="acfun"><i class="icon-acfun"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:772304419@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="facebook" target="_blank" href="#" title="facebook"><i class="icon-facebook"></i></a>
+			        
+						<a class="google" target="_blank" href="#" title="google"><i class="icon-google"></i></a>
+			        
+						<a class="twitter" target="_blank" href="#" title="twitter"><i class="icon-twitter"></i></a>
+			        
+						<a class="linkedin" target="_blank" href="#" title="linkedin"><i class="icon-linkedin"></i></a>
+			        
 				</div>
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 25%"><a href="/">博学</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/java%E5%9F%BA%E7%A1%80/">学亮</a></li>
+					<li style="width: 25%"><a href="/">明思</a></li>
+		        
+					<li style="width: 25%"><a href="/">善辩</a></li>
+		        
+					<li style="width: 25%"><a href="/">笃行</a></li>
 		        
 				</ul>
 			</nav>
@@ -193,7 +250,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+        <blockquote>
+<p>jvm的发展历程</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <blockquote>
 <p>如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。<br>今天的jvm经过优化，执行效率已经不亚于C和C++了。<br>两者结合是主流的方式，吸收二者的优点。</p>
 <p><img src="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
@@ -222,27 +284,6 @@
       
 
       
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
     </div>
     <div class="article-info article-info-index">
       
@@ -252,7 +293,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">java jvm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
         		</li>
       		
 		</ul>
@@ -272,8 +317,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2021/04/29/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+    <a href="/2019/05/02/Nodejs-Express%E6%A1%86%E6%9E%B6%E5%85%A5%E9%97%A8Helloworld%E7%A4%BA%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nodejs--Express框架入门Helloworld示例</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -292,6 +337,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sun-Classic-VM"><span class="toc-number">1.</span> <span class="toc-text">Sun Classic VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exact-VM"><span class="toc-number">2.</span> <span class="toc-text">Exact VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hotspot-VM"><span class="toc-number">3.</span> <span class="toc-text">Hotspot VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BEA%E5%85%AC%E5%8F%B8%E7%9A%84JRockit"><span class="toc-number">4.</span> <span class="toc-text">BEA公司的JRockit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IBM%E5%85%AC%E5%8F%B8%E7%9A%84J9"><span class="toc-number">5.</span> <span class="toc-text">IBM公司的J9</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#KVM%E5%92%8CCDC-CLDC-Hotspot"><span class="toc-number">6.</span> <span class="toc-text">KVM和CDC&#x2F;CLDC Hotspot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Azul-VM"><span class="toc-number">7.</span> <span class="toc-text">Azul VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Liquid-VM"><span class="toc-number">8.</span> <span class="toc-text">Liquid VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache-Harmony"><span class="toc-number">9.</span> <span class="toc-text">Apache Harmony</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Microsoft-JVM"><span class="toc-number">10.</span> <span class="toc-text">Microsoft JVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TaobaoJVM"><span class="toc-number">11.</span> <span class="toc-text">TaobaoJVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dalvik-VM"><span class="toc-number">12.</span> <span class="toc-text">Dalvik VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96JVM"><span class="toc-number">13.</span> <span class="toc-text">其他JVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Graal-VM"><span class="toc-number">14.</span> <span class="toc-text">Graal VM</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
@@ -333,7 +391,7 @@
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
-		open_in_new: false,
+		open_in_new: true,
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
@@ -360,25 +418,17 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
       
       
     
-      
-      
-      
-    
     
 
     <ul style="width: 70%">
     
     
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
       
         
       
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
-      
-        
-      
-      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
       
         
     </ul>
@@ -539,7 +589,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">java jvm</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">jvm</a>
               </li>
             
             <div class="clearfix"></div>
@@ -586,43 +640,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
 
     
-    	<section class="tools-section tools-section-friends" q-show="friends">
-  		
-        <ul class="search-ul">
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
-            </li>
-          
-            <li class="search-li">
-              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
-            </li>
-          
-        </ul>
-  		
-    	</section>
-    
 
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">学亮编程手记&lt;br&gt;&lt;br&gt;CSDN博客Java领域优质创作者&lt;br&gt;网易云课堂签约讲师</div>
   	  	
     	</section>
     
