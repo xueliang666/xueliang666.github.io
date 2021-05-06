@@ -6,21 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>GeoMesa Spark空间Join和聚合 | 学亮编程手记</title>
+  <title>使用Geomesa-spark处理管线数据 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="GeoNames是一个地理信息数据库，包括一千万的地理名称和超过九百万的特征。针对纽约出租车的数据信息，假设有如下问题：出租车上下客是否集中在某些兴趣点附近？为了找到答案，需要把GeoNames数据和NYCTaxi数据结合，在结果上做聚合统计。需要Join在彼此可容许的距离之内的点，以下将其称为D-within Join。">
+  <meta name="description" content="（一）需求描述数据ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线） 需求 根据管线的地理空间位置信息，分析管线之间的安全距离。  根据管线的埋深，分析管线垂直方向的安全距离。   （二）主">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GeoMesa Spark空间Join和聚合">
-<meta property="og:url" content="http://xueliang666.github.com/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/index.html">
+<meta property="og:title" content="使用Geomesa-spark处理管线数据">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="GeoNames是一个地理信息数据库，包括一千万的地理名称和超过九百万的特征。针对纽约出租车的数据信息，假设有如下问题：出租车上下客是否集中在某些兴趣点附近？为了找到答案，需要把GeoNames数据和NYCTaxi数据结合，在结果上做聚合统计。需要Join在彼此可容许的距离之内的点，以下将其称为D-within Join。">
+<meta property="og:description" content="（一）需求描述数据ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线） 需求 根据管线的地理空间位置信息，分析管线之间的安全距离。  根据管线的埋深，分析管线垂直方向的安全距离。   （二）主">
 <meta property="og:locale">
-<meta property="article:published_time" content="2021-05-06T05:38:08.000Z">
-<meta property="article:modified_time" content="2021-05-06T05:39:42.535Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142430537.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142438190.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142337163.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506141721343.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142751525.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142814525.png">
+<meta property="article:published_time" content="2021-05-06T05:48:24.000Z">
+<meta property="article:modified_time" content="2021-05-06T06:28:27.794Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="GeoMesa">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142430537.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -164,44 +171,77 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-GeoMesa-Spark空间Join和聚合" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-使用Geomesa-spark处理管线数据" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      GeoMesa Spark空间Join和聚合
+      使用Geomesa-spark处理管线数据
     </h1>
   
 
         
-        <a href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:38:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
+        <a href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
+  	<time datetime="2021-05-06T05:48:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>GeoNames是一个地理信息数据库，包括一千万的地理名称和超过九百万的特征。针对纽约出租车的数据信息，假设有如下问题：出租车上下客是否集中在某些兴趣点附近？为了找到答案，需要把GeoNames数据和NYCTaxi数据结合，在结果上做聚合统计。需要Join在彼此可容许的距离之内的点，以下将其称为D-within Join。</p>
-<span id="more"></span>
+        <span id="more"></span>
 
-<h1 id="（一）开发任务"><a href="#（一）开发任务" class="headerlink" title="（一）开发任务"></a>（一）开发任务</h1><ul>
-<li><p>使用GeoMesa Spark</p>
+<h1 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h1><h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li><p>根据管线的地理空间位置信息，分析管线之间的安全距离。</p>
 </li>
-<li><p>通过地理空间的UDF创造和使用DF。</p>
-</li>
-<li><p>根据<strong>阈值距离</strong>计算汇总统计数据。</p>
-</li>
-<li><p>创造一个新的简单特征类型来表示聚合。</p>
-</li>
-<li><p>将<strong>结果写入data store</strong>。</p>
+<li><p>根据管线的埋深，分析管线垂直方向的安全距离。</p>
 </li>
 </ul>
-<h1 id="（二）需求背景"><a href="#（二）需求背景" class="headerlink" title="（二）需求背景"></a>（二）需求背景</h1><p>GeoNames是一个地理信息数据库，包括一千万的地理名称和超过九百万的特征。针对纽约出租车的数据信息，假设有如下问题：出租车上下客是否集中在某些兴趣点附近？为了找到答案，需要把GeoNames数据和NYCTaxi数据结合，在结果上做聚合统计。需要Join在彼此可容许的距离之内的点，以下将其称为D-within Join。</p>
-<h1 id="（三）代码分析"><a href="#（三）代码分析" class="headerlink" title="（三）代码分析"></a>（三）代码分析</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">$ bin/spark-shell --jars geomesa-accumulo-spark-runtime_2<span class="number">.11</span><span class="number">-2.0</span><span class="number">.0</span>.jar</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.<span class="type">SparkSession</span></span><br><span class="line"><span class="keyword">import</span> org.locationtech.geomesa.spark.<span class="type">GeoMesaSparkKryoRegistrator</span></span><br><span class="line"><span class="keyword">import</span> org.locationtech.geomesa.spark.jts._</span><br><span class="line"><span class="comment">//序列化并注册UDT/UDF，config选项也可以在conf/spark-defaults.conf中设置。</span></span><br><span class="line"><span class="keyword">val</span> spark: <span class="type">SparkSession</span> = <span class="type">SparkSession</span>.builder()</span><br><span class="line">    .appName(<span class="string">&quot;testSpark&quot;</span>)</span><br><span class="line">    .config(<span class="string">&quot;spark.serializer&quot;</span>, <span class="string">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span>)</span><br><span class="line">    .config(<span class="string">&quot;spark.kryo.registrator&quot;</span>, classOf[<span class="type">GeoMesaSparkKryoRegistrator</span>].getName)</span><br><span class="line">    .master(<span class="string">&quot;local[*]&quot;</span>)</span><br><span class="line">    .getOrCreate()</span><br><span class="line">.withJTS</span><br><span class="line"><span class="comment">//连接到data store（本例中是Accumulo），之后将数据从store加载到DF</span></span><br><span class="line"><span class="keyword">val</span> taxiParams = <span class="type">Map</span>(</span><br><span class="line">  <span class="string">&quot;accumulo.instance.id&quot;</span> -&gt; <span class="string">&quot;instance&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.zookeepers&quot;</span>  -&gt; <span class="string">&quot;zoo1:2181,zoo2:2181,zoo3:2181&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.user&quot;</span>        -&gt; <span class="string">&quot;user&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.password&quot;</span>    -&gt; <span class="string">&quot;password&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.catalog&quot;</span>     -&gt; <span class="string">&quot;nyctaxi&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> geonamesParams = <span class="type">Map</span>(</span><br><span class="line">  <span class="string">&quot;accumulo.instance.id&quot;</span> -&gt; <span class="string">&quot;instance&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.zookeepers&quot;</span>  -&gt; <span class="string">&quot;zoo1:2181,zoo2:2181,zoo3:2181&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.user&quot;</span>        -&gt; <span class="string">&quot;user&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.password&quot;</span>    -&gt; <span class="string">&quot;password&quot;</span>,</span><br><span class="line">  <span class="string">&quot;accumulo.catalog&quot;</span>     -&gt; <span class="string">&quot;geonames&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> taxiDF = spark.read.format(<span class="string">&quot;geomesa&quot;</span>)</span><br><span class="line">  .options(taxiParams)</span><br><span class="line">  .option(<span class="string">&quot;geomesa.feature&quot;</span>, <span class="string">&quot;nyctaxi-single&quot;</span>)</span><br><span class="line">  .load()</span><br><span class="line"><span class="keyword">val</span> geonamesDF = spark.read.format(<span class="string">&quot;geomesa&quot;</span>)</span><br><span class="line">  .options(geonamesParams)</span><br><span class="line">  .option(<span class="string">&quot;geomesa.feature&quot;</span>, <span class="string">&quot;geonames&quot;</span>)</span><br><span class="line">  .load()</span><br><span class="line"><span class="keyword">import</span> spark.implicits._</span><br><span class="line"><span class="keyword">import</span> org.apache.spark.sql.functions._</span><br><span class="line"><span class="keyword">val</span> geonamesNY = geonamesDF.where($<span class="string">&quot;admin1Code&quot;</span> === lit(<span class="string">&quot;NY&quot;</span>))</span><br><span class="line"><span class="comment">// D-within Join st_bufferPoint输入点和距离（米），输出一个以该点为圆心以该距离为半径的圆。</span></span><br><span class="line"><span class="keyword">val</span> joinedDF = geonamesNY</span><br><span class="line">  .select(st_bufferPoint($<span class="string">&quot;geom&quot;</span>, lit(<span class="number">50</span>)).as(<span class="string">&quot;buffer&quot;</span>), $<span class="string">&quot;name&quot;</span>, $<span class="string">&quot;geonameId&quot;</span>)</span><br><span class="line">  .join(taxiDF, st_contains($<span class="string">&quot;buffer&quot;</span>, $<span class="string">&quot;pickup_point&quot;</span>))</span><br><span class="line"><span class="comment">//到此已经得到了纽约的景点位置以及该点的上车信息。下面分组聚合，按景点分组，并对去重后的</span></span><br><span class="line"><span class="comment">//上车数量计数。结果可以基于上车密度生成热图。</span></span><br><span class="line"><span class="keyword">val</span> aggregateDF = joinedDF.groupBy($<span class="string">&quot;geonameId&quot;</span>)</span><br><span class="line">  .agg(first(<span class="string">&quot;name&quot;</span>).as(<span class="string">&quot;name&quot;</span>),</span><br><span class="line">       countDistinct($<span class="string">&quot;trip_id&quot;</span>)).as(<span class="string">s&quot;numPickups&quot;</span>),</span><br><span class="line">       first(<span class="string">&quot;buffer&quot;</span>).as(<span class="string">&quot;buffer&quot;</span>))</span><br><span class="line"><span class="comment">//持久化存储，写入data store。先创建一个SimpleFeatureType。</span></span><br><span class="line"><span class="keyword">import</span> org.locationtech.geomesa.utils.geotools.<span class="type">SchemaBuilder</span></span><br><span class="line"><span class="keyword">val</span> aggregateSft = <span class="type">SchemaBuilder</span>.builder()</span><br><span class="line">    .addString(<span class="string">&quot;name&quot;</span>)</span><br><span class="line">    .addInt(<span class="string">&quot;numPickups&quot;</span>)</span><br><span class="line">    .addPolygon(<span class="string">&quot;buffer&quot;</span>)</span><br><span class="line">.build(<span class="string">&quot;aggregate&quot;</span>)</span><br><span class="line"><span class="comment">//创建data store的schema</span></span><br><span class="line"><span class="keyword">import</span> org.geotools.data.<span class="type">DataStoreFinder</span></span><br><span class="line"><span class="type">DataStoreFinder</span>.getDataStore(taxiParams).createSchema(aggregateSft)</span><br><span class="line">aggregateDF.write.format(<span class="string">&quot;geomesa&quot;</span>).options(taxiParams)</span><br><span class="line">.option(<span class="string">&quot;geomesa.feature&quot;</span>, <span class="string">&quot;aggregate&quot;</span>).save()</span><br><span class="line"><span class="comment">//可视化（略）</span></span><br></pre></td></tr></table></figure>
+<h1 id="（二）主要开发环境与工具"><a href="#（二）主要开发环境与工具" class="headerlink" title="（二）主要开发环境与工具"></a>（二）主要开发环境与工具</h1><ul>
+<li><p>JDK1.8</p>
+</li>
+<li><p>Apache Maven 3.5.2或以上版本</p>
+</li>
+<li><p>Kudu集群</p>
+</li>
+<li><p>GeoServer 2.12.0</p>
+</li>
+<li><p>GeoTools Java API</p>
+</li>
+<li><p>Geomesa2.2.0源码包中的geomesa-kudu模块、geomesa-spark-core模块、geomesa-spark-sql模块、geomesa-spark-jts模块</p>
+</li>
+</ul>
+<h1 id="（三）开发步骤"><a href="#（三）开发步骤" class="headerlink" title="（三）开发步骤"></a>（三）开发步骤</h1><p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142430537.png" alt="image-20210506142430537"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142438190.png" alt="image-20210506142438190"></p>
+<h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>ETL提供的数据存储在PostgreSQL，需要将数据从PostgreSQL转移到Kudu中存储。先将PostgreSQL中km_npl表格数据导出为CSV文件。</p>
+<h2 id="存储数据"><a href="#存储数据" class="headerlink" title="存储数据"></a>存储数据</h2><p>读取CSV文件。</p>
+<p>设置Kudu表格的schema，定义simpleFeatureType。km_npl表中geom字段为Geometry类型，具体为十六进制字符串，即WKB（well-known binary）。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.opengis.feature.simple.<span class="type">SimpleFeature</span>;</span><br><span class="line"><span class="keyword">import</span> org.opengis.feature.simple.<span class="type">SimpleFeatureType</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">StringBuilder</span> attributes = <span class="keyword">new</span> <span class="type">StringBuilder</span>();</span><br><span class="line">attributes.append(<span class="string">&quot;*geom:Geometry:srid=4326&quot;</span>);</span><br><span class="line"><span class="type">SimpleFeatureType</span> sft = </span><br><span class="line"><span class="type">SimpleFeatureTypes</span>.createType(getTypeName(), attributes.toString());</span><br><span class="line">sft.getUserData().put(<span class="string">&quot;geomesa.mixed.geometries&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br></pre></td></tr></table></figure>
 
+<p>将WKB传入Geometry对象再进行存储，否则存储失败，表中数据为空。</p>
+<p>WKB原数据示例：</p>
+<p>0102000020E61000000200000014BF22F2EFA959400ED2E9FF300A39406349C36DF0A95940310B5DA8040A3940</p>
+<p>放入Geometry对象后的存储内容示例：</p>
+<p>LINESTRING (102.654372 24.95892, 102.65433 24.958804)</p>
+<p>具体代码如下：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.vividsolutions.jts.geom.<span class="type">Geometry</span>;</span><br><span class="line"><span class="keyword">import</span> com.vividsolutions.jts.io.<span class="type">WKBReader</span>;</span><br><span class="line"><span class="keyword">import</span> org.geotools.feature.simple.<span class="type">SimpleFeatureBuilder</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">SimpleFeatureBuilder</span> builder = <span class="keyword">new</span> <span class="type">SimpleFeatureBuilder</span>(getSimpleFeatureType());</span><br><span class="line">byte[] byteArr = <span class="keyword">new</span> <span class="type">WKBReader</span>().hexToBytes(record.get(<span class="number">46</span>));</span><br><span class="line"><span class="type">Geometry</span> geometry = <span class="keyword">new</span> <span class="type">WKBReader</span>().read(byteArr);</span><br><span class="line">builder.set(<span class="string">&quot;geom&quot;</span>,geometry);</span><br></pre></td></tr></table></figure>
+
+<h2 id="GeoServer可视化与查询"><a href="#GeoServer可视化与查询" class="headerlink" title="GeoServer可视化与查询"></a>GeoServer可视化与查询</h2><p>在GeoServer数据存储（data store）中选择矢量数据源Kudu(Geomesa)，发布图层并预览。</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142337163.png" alt="image-20210506142337163"></p>
+<h2 id="使用SparkSQL-st函数分析Kudu管线数据"><a href="#使用SparkSQL-st函数分析Kudu管线数据" class="headerlink" title="使用SparkSQL st函数分析Kudu管线数据"></a>使用SparkSQL st函数分析Kudu管线数据</h2><p>读取kudu中存储的管线数据（表格：etl_km_npl），选用st函数分析geom字段，计算管线距离。（需要计算两两之间的管线距离，此处直接展示了笛卡尔积的表格数据，存在数据量多大时的内存加载问题）</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dsParams = <span class="type">Map</span>(</span><br><span class="line">      <span class="string">&quot;kudu.master&quot;</span> -&gt; <span class="string">&quot;host:port&quot;</span>,</span><br><span class="line">      <span class="string">&quot;kudu.catalog&quot;</span> -&gt; <span class="string">&quot;tbl&quot;</span>)     <span class="comment">//kudu table Name</span></span><br><span class="line"><span class="comment">// 创建SparkSession</span></span><br><span class="line"><span class="keyword">val</span> sparkSession = <span class="type">SparkSession</span>.builder()</span><br><span class="line">      .appName(<span class="string">&quot;etl_km_npl&quot;</span>)</span><br><span class="line">      .config(<span class="string">&quot;spark.sql.crossJoin.enabled&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .master(<span class="string">&quot;local[*]&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"><span class="comment">// 使用 &quot;geomesa&quot; 格式创建DF</span></span><br><span class="line"><span class="keyword">val</span> dataFrame = sparkSession.read</span><br><span class="line">      .format(<span class="string">&quot;geomesa&quot;</span>)</span><br><span class="line">      .options(dsParams)</span><br><span class="line">      .option(<span class="string">&quot;geomesa.feature&quot;</span>, <span class="string">&quot;tbl&quot;</span>)   <span class="comment">//simple feature type Name</span></span><br><span class="line">      .load()</span><br><span class="line">    dataFrame.createOrReplaceTempView(<span class="string">&quot;km&quot;</span>)</span><br><span class="line">    dataFrame.show(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 查询</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* st_distance(Geometry a, Geometry b)   2D笛卡尔距离</span></span><br><span class="line"><span class="comment">* st_distanceSphere(Geometry a, Geometry b)  假设球形地球，近似两个经度/纬度几何之间的最小距离。 * st_distanceSpheroid(Geometry a, Geometry b)  假设WGS84球体，返回两个经度/纬度几何之间的最小距离。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="keyword">val</span> sqlQuery = <span class="string">&quot;select k1.gid as gid1,k2.gid as gid2, st_distance (k1.geom,k2.geom) as distance &quot;</span> +<span class="string">&quot;from km k1,km k2 &quot;</span></span><br><span class="line"> <span class="keyword">val</span> resultDataFrame = sparkSession.sql(sqlQuery)</span><br></pre></td></tr></table></figure>
+
+<p>部分计算结果如下：</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506141721343.png" alt="image-20210506141721343"></p>
+<h2 id="附：遇到的报错及处理"><a href="#附：遇到的报错及处理" class="headerlink" title="附：遇到的报错及处理"></a>附：遇到的报错及处理</h2><h2 id="GeoServer发布图层"><a href="#GeoServer发布图层" class="headerlink" title="GeoServer发布图层"></a>GeoServer发布图层</h2><p>在GeoServer中新建数据存储（data store）并选择发布图层layer后报错如下：</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142751525.png" alt="image-20210506142751525"></p>
+<p>【解决】报错原因应该是版本冲突。原本的GeoServer版本是2.14.1，换成2.12.0的版本重新安装就没有报错了。</p>
+<h2 id="WKB-解析错误"><a href="#WKB-解析错误" class="headerlink" title="WKB 解析错误"></a>WKB 解析错误</h2><p>管线数据中有Geometry类型的字段，存储形式为十六进制字符串（例如：0102000020E61000000200000014BF22F2EFA959400ED2E9FF300A39406349C36DF0A95940310B5DA8040A3940），使用字符串的getBytes( )方法，会报如下错误：</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142814525.png" alt="image-20210506142814525"></p>
+<p>【解决】解析方式不对。Geometry十六进制字符串，即WKB（well-known binary），需要使用new WKBReader().hexToBytes(“hexString”)，先将十六进制转为字节数组。</p>
 
       
 
@@ -238,18 +278,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          使用Geomesa-spark处理管线数据
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">GeoMesa Spark广播和聚合</div>
+    <a href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GeoMesa Spark空间Join和聚合</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -276,7 +307,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%BC%80%E5%8F%91%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.</span> <span class="toc-text">（一）开发任务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">（二）需求背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">（三）代码分析</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E9%9C%80%E6%B1%82%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">（一）需求描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.</span> <span class="toc-text">数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">需求</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%BA%8C%EF%BC%89%E4%B8%BB%E8%A6%81%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%B7%A5%E5%85%B7"><span class="toc-number">2.</span> <span class="toc-text">（二）主要开发环境与工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%EF%BC%88%E4%B8%89%EF%BC%89%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.</span> <span class="toc-text">（三）开发步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE"><span class="toc-number">3.1.</span> <span class="toc-text">准备数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E6%95%B0%E6%8D%AE"><span class="toc-number">3.2.</span> <span class="toc-text">存储数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GeoServer%E5%8F%AF%E8%A7%86%E5%8C%96%E4%B8%8E%E6%9F%A5%E8%AF%A2"><span class="toc-number">3.3.</span> <span class="toc-text">GeoServer可视化与查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8SparkSQL-st%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90Kudu%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE"><span class="toc-number">3.4.</span> <span class="toc-text">使用SparkSQL st函数分析Kudu管线数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%84%EF%BC%9A%E9%81%87%E5%88%B0%E7%9A%84%E6%8A%A5%E9%94%99%E5%8F%8A%E5%A4%84%E7%90%86"><span class="toc-number">3.5.</span> <span class="toc-text">附：遇到的报错及处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GeoServer%E5%8F%91%E5%B8%83%E5%9B%BE%E5%B1%82"><span class="toc-number">3.6.</span> <span class="toc-text">GeoServer发布图层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WKB-%E8%A7%A3%E6%9E%90%E9%94%99%E8%AF%AF"><span class="toc-number">3.7.</span> <span class="toc-text">WKB 解析错误</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
