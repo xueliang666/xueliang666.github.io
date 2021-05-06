@@ -163,6 +163,68 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java方法案例-比较两个值是否相等" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/Java%E6%96%B9%E6%B3%95%E6%A1%88%E4%BE%8B-%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E5%80%BC%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89/">Java方法案例--比较两个值是否相等</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/Java%E6%96%B9%E6%B3%95%E6%A1%88%E4%BE%8B-%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E5%80%BC%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:19:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangxueliang.demo;</span><br><span class="line"></span><br><span class="line">import java.util.Scanner;</span><br><span class="line"></span><br><span class="line">@SuppressWarnings(&quot;all&quot;)</span><br><span class="line">public class MethodTest &#123;</span><br><span class="line">	&#x2F;&#x2F;比较两个数是否相等</span><br><span class="line">	public static boolean compare(int a,int b)&#123;</span><br><span class="line">		if(a&#x3D;&#x3D;b)&#123;</span><br><span class="line">			return true;</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;创建对象</span><br><span class="line">		Scanner sc &#x3D; new Scanner(System.in);</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;接收数据</span><br><span class="line">		System.out.println(&quot;请输入第一个数据:&quot;);</span><br><span class="line">		int a &#x3D; sc.nextInt();</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;请输入第二个数据:&quot;);</span><br><span class="line">		int b &#x3D; sc.nextInt();</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;调用方法</span><br><span class="line">		boolean flag &#x3D; compare(a,b);</span><br><span class="line">		System.out.println(&quot;flag:&quot;+flag);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/Java%E6%96%B9%E6%B3%95%E6%A1%88%E4%BE%8B-%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E5%80%BC%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java方法案例-比较三个数中的最大值" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1786,76 +1848,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 
   
-    <article id="post-Hexo搭建个人博客常用命令" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Hexo搭建个人博客常用命令</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="archive-article-date">
-  	<time datetime="2019-04-28T06:53:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>快速上手篇所以一切都配置好之后（按照个性化配置好你的_config.yml文件），你发布一篇博客到网上只需要三步：</p>
-<p>第一步：创建博文在你的博客主目录下通过git bash键入 hexo new 博客标题<br>第二步：按照hexo的渲染方式将你的博文渲染成静态文件继上一步之后， hexo g（完整命令是hexo generate，即生成文件的意思）</p>
-<p>第三步：按照_config.yml里配置的发布方式，将public里的静态文件上传至你的线上代码仓库（Github或Coding）hexo<br>d（完整命令是hexo deploy，即发布的意思）仅此而已，这时打开浏览器，输入符合你pages的域名，看看自己的博客是不是显现出来了。</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -2107,6 +2102,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GeoSpark</a>
               </li>
             
             <div class="clearfix"></div>

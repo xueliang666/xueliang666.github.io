@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>Tag: hashmap | 学亮编程手记</title>
+  <title>带你入门GeoSpark系列之一【环境篇】 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
-<meta property="og:type" content="website">
-<meta property="og:title" content="学亮编程手记">
-<meta property="og:url" content="http://xueliang666.github.com/tags/hashmap/index.html">
+  <meta name="description" content="GeoSpark是基于Spark之上的分布式群集计算系统。GeoSpark扩展了Spark Core和SparkSQL并提出了空间弹性分布式数据集（Spatial Resilient Distributed Datasets (SRDDs)）同时提供了可视化组件。简而言之就是可以利用它在Spark上做空间运算。能够基于经纬度等信息创建点（Point）线(LineString）面(Polygon)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带你入门GeoSpark系列之一【环境篇】">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="og:description" content="GeoSpark是基于Spark之上的分布式群集计算系统。GeoSpark扩展了Spark Core和SparkSQL并提出了空间弹性分布式数据集（Spatial Resilient Distributed Datasets (SRDDs)）同时提供了可视化组件。简而言之就是可以利用它在Spark上做空间运算。能够基于经纬度等信息创建点（Point）线(LineString）面(Polygon)。">
 <meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200211130040704.png">
+<meta property="article:published_time" content="2021-05-06T08:53:01.000Z">
+<meta property="article:modified_time" content="2021-05-06T08:57:40.379Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="article:tag" content="GeoSpark">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200211130040704.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -161,60 +165,126 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-带你入门GeoSpark系列之一【环境篇】" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/28/HashMap%E9%9B%86%E5%90%88%E7%B2%BE%E8%AE%B2/" class="archive-article-date">
-  	<time datetime="2019-04-28T08:24:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/28/HashMap%E9%9B%86%E5%90%88%E7%B2%BE%E8%AE%B2/">HashMap集合精讲</a>
+    <h1 class="article-title" itemprop="name">
+      带你入门GeoSpark系列之一【环境篇】
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/" class="archive-article-date">
+  	<time datetime="2021-05-06T08:53:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>GeoSpark</code>是基于Spark之上的分布式群集计算系统。GeoSpark扩展了Spark Core和SparkSQL并提出了空间弹性分布式数据集（Spatial Resilient Distributed Datasets (SRDDs)）同时提供了可视化组件。简而言之就是可以利用它在Spark上做空间运算。能够基于经纬度等信息创建点（Point）线(LineString）面(Polygon)。并提供了几种空间查询:空间临近查询(Spatial KNN Query)、空间范围查询( Spatial Range Query)、空间连接查询(Spatial Join Query)和距离连接查询(Distance Join Query)。</p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于项目需要处理一些地理空间数据，而原生Spark不能满足，这几天捣鼓GeoSpark有一些收获，开个坑总结一下。</p>
+<h1 id="GeoSpark介绍"><a href="#GeoSpark介绍" class="headerlink" title="GeoSpark介绍"></a>GeoSpark介绍</h1><p>GeoSpark是基于Spark之上的分布式群集计算系统。GeoSpark扩展了Spark Core和SparkSQL并提出了空间弹性分布式数据集（Spatial Resilient Distributed Datasets (SRDDs)）同时提供了可视化组件。简而言之就是可以利用它在Spark上做空间运算。能够基于经纬度等信息创建点（Point）线(LineString）面(Polygon)。并提供了几种空间查询:空间临近查询(Spatial KNN Query)、空间范围查询( Spatial Range Query)、空间连接查询(Spatial Join Query)和距离连接查询(Distance Join Query)。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><p>JDK 1.8<br>Scala 2.11.x</p>
+<h1 id="Pom依赖"><a href="#Pom依赖" class="headerlink" title="Pom依赖"></a>Pom依赖</h1><p>Idea创建简单的scala maven项目即可，然后配置Pom依赖<br>注意，GeoSpark的版本一定要和相应的Spark版本对应，怎么对应呢？<br>官方给出了一份说明:<br><a target="_blank" rel="noopener" href="https://datasystemslab.github.io/GeoSpark/download/GeoSpark-All-Modules-Maven-Central-Coordinates/">https://datasystemslab.github.io/GeoSpark/download/GeoSpark-All-Modules-Maven-Central-Coordinates/</a></p>
+<p>可以看到不同的spark对应的geospark-sql的artifactId后缀版本不一样!<br>同时我们也可以看出官方对spark的支持最新是到spark 2.3，所以避免踩坑笔者用了这个版本，其他版本未测试。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scala.version</span>&gt;</span>2.11.8<span class="tag">&lt;/<span class="name">scala.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">spark.version</span>&gt;</span>2.3.4<span class="tag">&lt;/<span class="name">spark.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scala.binary.version</span>&gt;</span>2.11<span class="tag">&lt;/<span class="name">scala.binary.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">geospark.version</span>&gt;</span>1.3.0<span class="tag">&lt;/<span class="name">geospark.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.scala-lang<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>scala-library<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;scala.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-core_$&#123;scala.binary.version&#125;<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-sql_$&#123;scala.binary.version&#125;<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;spark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.datasyslab<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>geospark<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;geospark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.datasyslab<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>geospark-sql_2.3<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;geospark.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="尝鲜"><a href="#尝鲜" class="headerlink" title="尝鲜"></a>尝鲜</h1><p>新建一个CSV文件checkin.csv：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-88.175933,32.360763,gas</span><br><span class="line">-88.388954,32.357073,bar</span><br><span class="line">-88.221102,32.35078,restaurant</span><br></pre></td></tr></table></figure>
+
+
+<p>Code:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev.bigdata.core</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.serializer.<span class="type">KryoSerializer</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"><span class="keyword">import</span> org.datasyslab.geospark.enums.<span class="type">FileDataSplitter</span></span><br><span class="line"><span class="keyword">import</span> org.datasyslab.geospark.serde.<span class="type">GeoSparkKryoRegistrator</span></span><br><span class="line"><span class="keyword">import</span> org.datasyslab.geospark.spatialRDD.<span class="type">PointRDD</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">DemoApp</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">// 创建SparkConf</span></span><br><span class="line">    <span class="keyword">val</span> conf = <span class="keyword">new</span> <span class="type">SparkConf</span>().</span><br><span class="line">      setAppName(<span class="string">&quot;GeoSparkDemo1&quot;</span>).</span><br><span class="line">      setMaster(<span class="string">&quot;local[*]&quot;</span>).</span><br><span class="line">      set(<span class="string">&quot;spark.serializer&quot;</span>, classOf[<span class="type">KryoSerializer</span>].getName).</span><br><span class="line">      set(<span class="string">&quot;spark.kryo.registrator&quot;</span>, classOf[<span class="type">GeoSparkKryoRegistrator</span>].getName)</span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(conf)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">val</span> pointRDDInputLocation = <span class="string">&quot;data/checkin.csv&quot;</span></span><br><span class="line">    <span class="comment">// 这个变量控制我们的地理经度和纬度在数据的哪两列，我们这里是第0,1列，Offset就设置为0</span></span><br><span class="line">    <span class="keyword">val</span> pointRDDOffset = <span class="number">0</span></span><br><span class="line">    <span class="keyword">val</span> pointRDDSplitter = <span class="type">FileDataSplitter</span>.<span class="type">CSV</span></span><br><span class="line">    <span class="comment">// 这个参数允许我们除了经纬度外还可以携带其他自定义数据</span></span><br><span class="line">    <span class="keyword">val</span> carryOtherAttributes = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">val</span> objectRDD = <span class="keyword">new</span> <span class="type">PointRDD</span>(sc, pointRDDInputLocation,pointRDDOffset, pointRDDSplitter, carryOtherAttributes)</span><br><span class="line">    <span class="comment">// 获取rawRDD进行遍历输出</span></span><br><span class="line">    objectRDD.rawSpatialRDD.rdd.collect().foreach(println)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Output:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200211130040704.png" alt="out"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">hashmap</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GeoMesa-HBase部署实践</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GeoSpark%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.</span> <span class="toc-text">GeoSpark介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pom%E4%BE%9D%E8%B5%96"><span class="toc-number">4.</span> <span class="toc-text">Pom依赖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%9D%E9%B2%9C"><span class="toc-number">5.</span> <span class="toc-text">尝鲜</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -237,9 +307,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
