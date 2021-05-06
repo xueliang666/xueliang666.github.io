@@ -163,6 +163,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-GeoMesa-Spark广播和聚合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/">GeoMesa Spark广播和聚合</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
+  	<time datetime="2021-05-06T05:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>GDELT提供了一个全面的时间和位置索引存档，包括1979年至今全球广播，印刷和网络新闻媒体报道的事件。假设一个国家的GDELT事件越多，政治相关性就越大。由于GDELT是几何点的数据集，不能直接知道它属于哪个国家，因此我们需要第二个数据集，即FIPS Codes（联邦信息处理标准出版物代码）的shapefile，可以表示一个国家的边界，两个数据集之间可以JION。（本例进行的前提是两个数据集已经存储好了）</p>
+<p>本例中国家只有3000条记录，我们可以广播（Spark Broadcast）这些国家让查询更有效率。</p>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-GeoMesa-Spark基础分析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -183,7 +262,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GeoMesa为在GeoMesa数据之上执行Spark任务提供了支持，可以使用标准CQL查询来初始化RDD，通过使用CQL函数来转换数据。</span><br></pre></td></tr></table></figure>
+        <p>GeoMesa为在GeoMesa数据之上执行Spark任务提供了支持，可以使用标准CQL查询来初始化RDD，通过使用CQL函数来转换数据。</p>
         
       
 
@@ -1609,82 +1688,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/29/Java%E7%88%AC%E8%99%AB%E5%BC%80%E5%8F%91%E6%A1%88%E4%BE%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Mybatis-DAO开发-Mapper动态代理开发方式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/Mybatis-DAO%E5%BC%80%E5%8F%91-Mapper%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F/">Mybatis DAO开发--Mapper动态代理开发方式</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/29/Mybatis-DAO%E5%BC%80%E5%8F%91-Mapper%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2019-04-29T11:50:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Mybatis DAO开发–Mapper动态代理开发方式</p>
-</blockquote>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">mybatis</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/29/Mybatis-DAO%E5%BC%80%E5%8F%91-Mapper%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F/">展开全文 >></a>
         </p>
       
 

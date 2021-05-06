@@ -163,6 +163,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-redis使用示例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/redis%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/">redis使用示例</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/redis%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:12:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>代码使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private RedisTemplate&lt;String, String&gt; redisTemplate;</span><br><span class="line">......</span><br><span class="line">&#x2F;&#x2F; 发送一封激活邮件</span><br><span class="line">&#x2F;&#x2F; 生成激活码</span><br><span class="line">String activecode &#x3D; RandomStringUtils.randomNumeric(32);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 将激活码保存到redis，设置24小时失效</span><br><span class="line">redisTemplate.opsForValue().set(model.getTelephone(), activecode, 24,</span><br><span class="line">		TimeUnit.HOURS);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>配置文件：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 引入redis配置 --&gt;</span><br><span class="line">&lt;import resource&#x3D;&quot;applicationContext-cache.xml&quot;&#x2F;&gt;</span><br><span class="line">......</span><br><span class="line">&lt;!-- jedis 连接池配置 --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;poolConfig&quot; class&#x3D;&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;  </span><br><span class="line">      &lt;property name&#x3D;&quot;maxIdle&quot; value&#x3D;&quot;300&quot; &#x2F;&gt;        </span><br><span class="line">      &lt;property name&#x3D;&quot;maxWaitMillis&quot; value&#x3D;&quot;3000&quot; &#x2F;&gt;  </span><br><span class="line">      &lt;property name&#x3D;&quot;testOnBorrow&quot; value&#x3D;&quot;true&quot; &#x2F;&gt;  </span><br><span class="line">  &lt;&#x2F;bean&gt;  </span><br><span class="line"></span><br><span class="line">&lt;!-- jedis 连接工厂 --&gt;</span><br><span class="line">&lt;bean id&#x3D;&quot;redisConnectionFactory&quot;  </span><br><span class="line">      class&#x3D;&quot;org.springframework.data.redis.connection.jedis.JedisConnectionFactory&quot;  </span><br><span class="line">      p:host-name&#x3D;&quot;localhost&quot; p:port&#x3D;&quot;6379&quot; p:pool-config-ref&#x3D;&quot;poolConfig&quot;  </span><br><span class="line">      p:database&#x3D;&quot;0&quot; &#x2F;&gt;  </span><br><span class="line">      </span><br><span class="line"> &lt;!-- spring data 提供 redis模板  --&gt;</span><br><span class="line"> &lt;bean id&#x3D;&quot;redisTemplate&quot; class&#x3D;&quot;org.springframework.data.redis.core.RedisTemplate&quot;&gt;  </span><br><span class="line">     &lt;property name&#x3D;&quot;connectionFactory&quot; ref&#x3D;&quot;redisConnectionFactory&quot; &#x2F;&gt; </span><br><span class="line">     &lt;!-- 如果不指定 Serializer   --&gt;</span><br><span class="line">     &lt;property name&#x3D;&quot;keySerializer&quot;&gt;</span><br><span class="line">         &lt;bean class&#x3D;&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot; &#x2F;&gt;</span><br><span class="line">     &lt;&#x2F;property&gt;</span><br><span class="line">     &lt;property name&#x3D;&quot;valueSerializer&quot;&gt;</span><br><span class="line">     	&lt;bean class&#x3D;&quot;org.springframework.data.redis.serializer.StringRedisSerializer&quot;&gt; </span><br><span class="line">     	&lt;&#x2F;bean&gt;</span><br><span class="line">     &lt;&#x2F;property&gt; </span><br><span class="line"> &lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/redis%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-【解决POST提交乱码】增强request-getParameter-方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
