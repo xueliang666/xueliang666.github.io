@@ -163,6 +163,91 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-HashMap集合精讲" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/HashMap%E9%9B%86%E5%90%88%E7%B2%BE%E8%AE%B2/">HashMap集合精讲</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/HashMap%E9%9B%86%E5%90%88%E7%B2%BE%E8%AE%B2/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:24:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Map接口概述</strong></p>
+<blockquote>
+<p>Map接口和Collection接口下的集合，存储数据的形式是不同的。<br><strong>A:Collection中的集合</strong>，元素是孤立存在的，理解为单身。向集合中存储元素采用一个个元素的方式存储。<br><strong>B:Map中的集合</strong>，元素是成对存在的，理解为夫妻。每个元素由键与值两部分组成的，通过键可以找到值。</p>
+<p>size()–集合中元素的个数。</p>
+<p>put(key,value)–存值。</p>
+<p>get(key)–通过key来获取value.<br>containsKey(key)–判断Map集合中是否包含键为key的键值对。<br>containsValue(value)–判断Map集合中是否包含值为value的键值对。<br>isEmpty()–判断Map集合中是否没有任何键值对。<br>clear()–清空Map集合中所有的键值对。<br>remove(key)–根据key的值来删除Map中的键值对。</p>
+</blockquote>
+<p><strong>案例代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangxueliang.demo;</span><br><span class="line"></span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class MapDemo01 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Map&lt;String,String&gt; map &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">        System.out.println(map.put(&quot;beida001&quot;,&quot;张三&quot;));</span><br><span class="line">        System.out.println(map.put(&quot;beida002&quot;,&quot;李四&quot;));</span><br><span class="line">        System.out.println(map.put(&quot;beida001&quot;,&quot;王五&quot;));</span><br><span class="line">        System.out.println(map.put(&quot;beida002&quot;,&quot;赵六&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;        map.clear();</span><br><span class="line">&#x2F;&#x2F;        System.out.println(&quot;map的元素个数为：&quot;+map.size());</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;        System.out.println(map.remove(&quot;beida002&quot;));</span><br><span class="line">        System.out.println(&quot;map的元素个数为：&quot;+map.size());</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;        System.out.println(map.containsKey(&quot;beida003&quot;));</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;        System.out.println(map.containsValue(&quot;王五&quot;));</span><br><span class="line">&#x2F;&#x2F;        map.remove(&quot;beida001&quot;);</span><br><span class="line">&#x2F;&#x2F;        System.out.println(map.isEmpty());</span><br><span class="line"></span><br><span class="line">        System.out.println(map.get(&quot;beida001&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>案例代码–获取Map中的key和value</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class MapDemo01 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Map&lt;String,String&gt; map &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">        map.put(&quot;beida001&quot;,&quot;张三&quot;);</span><br><span class="line">        map.put(&quot;beida002&quot;,&quot;李四&quot;);</span><br><span class="line">        map.put(&quot;beida003&quot;,&quot;王五&quot;);</span><br><span class="line"></span><br><span class="line">        Set&lt;String&gt; keys &#x3D; map.keySet();</span><br><span class="line">        for (String key:keys) &#123;</span><br><span class="line">            System.out.println(key);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Collection&lt;String&gt; values &#x3D; map.values();</span><br><span class="line">        for(String value:values)&#123;</span><br><span class="line">            System.out.println(&quot;**********&quot;+value+&quot;**********&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>案例代码–Map集合的两种遍历方式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class MapDemo01 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Map&lt;String,String&gt; map &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">        map.put(&quot;beida001&quot;,&quot;张三&quot;);</span><br><span class="line">        map.put(&quot;beida002&quot;,&quot;李四&quot;);</span><br><span class="line">        map.put(&quot;beida003&quot;,&quot;王五&quot;);</span><br><span class="line">        </span><br><span class="line">        &#x2F;&#x2F;Map集合的第一种遍历方式</span><br><span class="line">        Set&lt;String&gt; keys &#x3D; map.keySet();</span><br><span class="line">        for (String key:keys)&#123;</span><br><span class="line">            String value &#x3D; map.get(key);</span><br><span class="line">            System.out.println(&quot;键：&quot;+key+&quot;----&quot;+&quot;值：&quot;+value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;Map集合的第二种遍历方式</span><br><span class="line">        Set&lt;Map.Entry&lt;String, String&gt;&gt; entrys &#x3D; map.entrySet();</span><br><span class="line">        for (Map.Entry&lt;String, String&gt; entry:entrys)&#123;</span><br><span class="line">            String key &#x3D; entry.getKey();</span><br><span class="line">            String value &#x3D; entry.getValue();</span><br><span class="line">            System.out.println(&quot;键：&quot;+key+&quot;----&quot;+&quot;值：&quot;+value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">hashmap</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/HashMap%E9%9B%86%E5%90%88%E7%B2%BE%E8%AE%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-ECMAScript的数据类型及类型转换" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1895,92 +1980,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/28/spring-mvc%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SpringBoot配置在应用启动后立即执行某些方法代码案例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/SpringBoot%E9%85%8D%E7%BD%AE%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E6%9F%90%E4%BA%9B%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/">SpringBoot配置在应用启动后立即执行某些方法代码案例</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/SpringBoot%E9%85%8D%E7%BD%AE%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E6%9F%90%E4%BA%9B%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2019-04-28T08:13:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>springboot给我们提供了两种“开机启动”方式：ApplicationRunner和CommandLineRunner。</p>
-</blockquote>
-<blockquote>
-<p>这两种方法提供的目的是为了满足，在项目启动的时候立刻执行某些方法。我们可以通过实现ApplicationRunner和CommandLineRunner，来实现，他们都是在SpringApplication 执行之后开始执行的。</p>
-</blockquote>
-<blockquote>
-<p>CommandLineRunner接口可以用来接收字符串数组的命令行参数，ApplicationRunner 是使用ApplicationArguments 用来接收参数的。</p>
-</blockquote>
-<p><strong>CommandLineRunner ：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class MyCommandLineRunner implements CommandLineRunner&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(String... var1) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;This will be execute when the project was started!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>ApplicationRunner ：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class MyApplicationRunner implements ApplicationRunner &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments var1) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;MyApplicationRunner class will be execute when the project was started!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>这两种方式的实现都很简单，直接实现了相应的接口就可以了。</p>
-<p>记得在类上加@Component注解。</p>
-<p>如果想要指定启动方法执行的顺序，可以通过实现org.springframework.core.Ordered接口或者使用org.springframework.core.annotation.Order注解来实现。</p>
-<p>以ApplicationRunner 为例来分别实现。</p>
-</blockquote>
-<p><strong>Ordered接口：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class MyApplicationRunner implements ApplicationRunner,Ordered&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getOrder()&#123;</span><br><span class="line">        return 1;&#x2F;&#x2F;通过设置这里的数字来知道指定顺序</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments var1) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;MyApplicationRunner1!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>Order注解实现方式：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@Order(value &#x3D; 1)</span><br><span class="line">public class MyApplicationRunner implements ApplicationRunner&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments var1) throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;MyApplicationRunner1!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/SpringBoot%E9%85%8D%E7%BD%AE%E5%9C%A8%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E5%90%8E%E7%AB%8B%E5%8D%B3%E6%89%A7%E8%A1%8C%E6%9F%90%E4%BA%9B%E6%96%B9%E6%B3%95%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/">展开全文 >></a>
         </p>
       
 
