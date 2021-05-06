@@ -183,58 +183,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <span id="more"></span>
-
-<h1 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h1><h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
-<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
-<li><p>根据管线的地理空间位置信息，分析管线之间的安全距离。</p>
-</li>
-<li><p>根据管线的埋深，分析管线垂直方向的安全距离。</p>
-</li>
-</ul>
-<h1 id="（二）主要开发环境与工具"><a href="#（二）主要开发环境与工具" class="headerlink" title="（二）主要开发环境与工具"></a>（二）主要开发环境与工具</h1><ul>
-<li><p>JDK1.8</p>
-</li>
-<li><p>Apache Maven 3.5.2或以上版本</p>
-</li>
-<li><p>Kudu集群</p>
-</li>
-<li><p>GeoServer 2.12.0</p>
-</li>
-<li><p>GeoTools Java API</p>
-</li>
-<li><p>Geomesa2.2.0源码包中的geomesa-kudu模块、geomesa-spark-core模块、geomesa-spark-sql模块、geomesa-spark-jts模块</p>
-</li>
-</ul>
-<h1 id="（三）开发步骤"><a href="#（三）开发步骤" class="headerlink" title="（三）开发步骤"></a>（三）开发步骤</h1><p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142430537.png" alt="image-20210506142430537"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142438190.png" alt="image-20210506142438190"></p>
-<h2 id="准备数据"><a href="#准备数据" class="headerlink" title="准备数据"></a>准备数据</h2><p>ETL提供的数据存储在PostgreSQL，需要将数据从PostgreSQL转移到Kudu中存储。先将PostgreSQL中km_npl表格数据导出为CSV文件。</p>
-<h2 id="存储数据"><a href="#存储数据" class="headerlink" title="存储数据"></a>存储数据</h2><p>读取CSV文件。</p>
-<p>设置Kudu表格的schema，定义simpleFeatureType。km_npl表中geom字段为Geometry类型，具体为十六进制字符串，即WKB（well-known binary）。</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.opengis.feature.simple.<span class="type">SimpleFeature</span>;</span><br><span class="line"><span class="keyword">import</span> org.opengis.feature.simple.<span class="type">SimpleFeatureType</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">StringBuilder</span> attributes = <span class="keyword">new</span> <span class="type">StringBuilder</span>();</span><br><span class="line">attributes.append(<span class="string">&quot;*geom:Geometry:srid=4326&quot;</span>);</span><br><span class="line"><span class="type">SimpleFeatureType</span> sft = </span><br><span class="line"><span class="type">SimpleFeatureTypes</span>.createType(getTypeName(), attributes.toString());</span><br><span class="line">sft.getUserData().put(<span class="string">&quot;geomesa.mixed.geometries&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>将WKB传入Geometry对象再进行存储，否则存储失败，表中数据为空。</p>
-<p>WKB原数据示例：</p>
-<p>0102000020E61000000200000014BF22F2EFA959400ED2E9FF300A39406349C36DF0A95940310B5DA8040A3940</p>
-<p>放入Geometry对象后的存储内容示例：</p>
-<p>LINESTRING (102.654372 24.95892, 102.65433 24.958804)</p>
-<p>具体代码如下：</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.vividsolutions.jts.geom.<span class="type">Geometry</span>;</span><br><span class="line"><span class="keyword">import</span> com.vividsolutions.jts.io.<span class="type">WKBReader</span>;</span><br><span class="line"><span class="keyword">import</span> org.geotools.feature.simple.<span class="type">SimpleFeatureBuilder</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">SimpleFeatureBuilder</span> builder = <span class="keyword">new</span> <span class="type">SimpleFeatureBuilder</span>(getSimpleFeatureType());</span><br><span class="line">byte[] byteArr = <span class="keyword">new</span> <span class="type">WKBReader</span>().hexToBytes(record.get(<span class="number">46</span>));</span><br><span class="line"><span class="type">Geometry</span> geometry = <span class="keyword">new</span> <span class="type">WKBReader</span>().read(byteArr);</span><br><span class="line">builder.set(<span class="string">&quot;geom&quot;</span>,geometry);</span><br></pre></td></tr></table></figure>
-
-<h2 id="GeoServer可视化与查询"><a href="#GeoServer可视化与查询" class="headerlink" title="GeoServer可视化与查询"></a>GeoServer可视化与查询</h2><p>在GeoServer数据存储（data store）中选择矢量数据源Kudu(Geomesa)，发布图层并预览。</p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142337163.png" alt="image-20210506142337163"></p>
-<h2 id="使用SparkSQL-st函数分析Kudu管线数据"><a href="#使用SparkSQL-st函数分析Kudu管线数据" class="headerlink" title="使用SparkSQL st函数分析Kudu管线数据"></a>使用SparkSQL st函数分析Kudu管线数据</h2><p>读取kudu中存储的管线数据（表格：etl_km_npl），选用st函数分析geom字段，计算管线距离。（需要计算两两之间的管线距离，此处直接展示了笛卡尔积的表格数据，存在数据量多大时的内存加载问题）</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> dsParams = <span class="type">Map</span>(</span><br><span class="line">      <span class="string">&quot;kudu.master&quot;</span> -&gt; <span class="string">&quot;host:port&quot;</span>,</span><br><span class="line">      <span class="string">&quot;kudu.catalog&quot;</span> -&gt; <span class="string">&quot;tbl&quot;</span>)     <span class="comment">//kudu table Name</span></span><br><span class="line"><span class="comment">// 创建SparkSession</span></span><br><span class="line"><span class="keyword">val</span> sparkSession = <span class="type">SparkSession</span>.builder()</span><br><span class="line">      .appName(<span class="string">&quot;etl_km_npl&quot;</span>)</span><br><span class="line">      .config(<span class="string">&quot;spark.sql.crossJoin.enabled&quot;</span>, <span class="string">&quot;true&quot;</span>)</span><br><span class="line">      .master(<span class="string">&quot;local[*]&quot;</span>)</span><br><span class="line">      .getOrCreate()</span><br><span class="line"><span class="comment">// 使用 &quot;geomesa&quot; 格式创建DF</span></span><br><span class="line"><span class="keyword">val</span> dataFrame = sparkSession.read</span><br><span class="line">      .format(<span class="string">&quot;geomesa&quot;</span>)</span><br><span class="line">      .options(dsParams)</span><br><span class="line">      .option(<span class="string">&quot;geomesa.feature&quot;</span>, <span class="string">&quot;tbl&quot;</span>)   <span class="comment">//simple feature type Name</span></span><br><span class="line">      .load()</span><br><span class="line">    dataFrame.createOrReplaceTempView(<span class="string">&quot;km&quot;</span>)</span><br><span class="line">    dataFrame.show(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 查询</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* st_distance(Geometry a, Geometry b)   2D笛卡尔距离</span></span><br><span class="line"><span class="comment">* st_distanceSphere(Geometry a, Geometry b)  假设球形地球，近似两个经度/纬度几何之间的最小距离。 * st_distanceSpheroid(Geometry a, Geometry b)  假设WGS84球体，返回两个经度/纬度几何之间的最小距离。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="keyword">val</span> sqlQuery = <span class="string">&quot;select k1.gid as gid1,k2.gid as gid2, st_distance (k1.geom,k2.geom) as distance &quot;</span> +<span class="string">&quot;from km k1,km k2 &quot;</span></span><br><span class="line"> <span class="keyword">val</span> resultDataFrame = sparkSession.sql(sqlQuery)</span><br></pre></td></tr></table></figure>
-
-<p>部分计算结果如下：</p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506141721343.png" alt="image-20210506141721343"></p>
-<h2 id="附：遇到的报错及处理"><a href="#附：遇到的报错及处理" class="headerlink" title="附：遇到的报错及处理"></a>附：遇到的报错及处理</h2><h2 id="GeoServer发布图层"><a href="#GeoServer发布图层" class="headerlink" title="GeoServer发布图层"></a>GeoServer发布图层</h2><p>在GeoServer中新建数据存储（data store）并选择发布图层layer后报错如下：</p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142751525.png" alt="image-20210506142751525"></p>
-<p>【解决】报错原因应该是版本冲突。原本的GeoServer版本是2.14.1，换成2.12.0的版本重新安装就没有报错了。</p>
-<h2 id="WKB-解析错误"><a href="#WKB-解析错误" class="headerlink" title="WKB 解析错误"></a>WKB 解析错误</h2><p>管线数据中有Geometry类型的字段，存储形式为十六进制字符串（例如：0102000020E61000000200000014BF22F2EFA959400ED2E9FF300A39406349C36DF0A95940310B5DA8040A3940），使用字符串的getBytes( )方法，会报如下错误：</p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142814525.png" alt="image-20210506142814525"></p>
-<p>【解决】解析方式不对。Geometry十六进制字符串，即WKB（well-known binary），需要使用new WKBReader().hexToBytes(“hexString”)，先将十六进制转为字节数组。</p>
-
+        <p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
+        
       
 
       

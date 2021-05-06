@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
   <title>使用Geomesa-spark处理管线数据 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="（一）需求描述数据ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线） 需求 根据管线的地理空间位置信息，分析管线之间的安全距离。  根据管线的埋深，分析管线垂直方向的安全距离。   （二）主">
+  <meta name="description" content="ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Geomesa-spark处理管线数据">
 <meta property="og:url" content="http://xueliang666.github.com/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="（一）需求描述数据ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线） 需求 根据管线的地理空间位置信息，分析管线之间的安全距离。  根据管线的埋深，分析管线垂直方向的安全距离。   （二）主">
+<meta property="og:description" content="ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）">
 <meta property="og:locale">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142430537.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142438190.png">
@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142751525.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210506142814525.png">
 <meta property="article:published_time" content="2021-05-06T05:48:24.000Z">
-<meta property="article:modified_time" content="2021-05-06T06:56:56.681Z">
+<meta property="article:modified_time" content="2021-05-06T07:02:24.806Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="GeoMesa">
 <meta property="article:tag" content="Spark">
@@ -191,7 +191,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <span id="more"></span>
+        <p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
+<span id="more"></span>
 
 <h1 id="（一）需求描述"><a href="#（一）需求描述" class="headerlink" title="（一）需求描述"></a>（一）需求描述</h1><h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
 <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
