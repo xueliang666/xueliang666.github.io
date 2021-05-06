@@ -163,6 +163,79 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-jQuery-DOM删除操作-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/jQuery-DOM%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C-1/">jQuery DOM删除操作</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/jQuery-DOM%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C-1/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:25:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">&lt;title&gt;dom插入--jquery&lt;&#x2F;title&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;js&#x2F;jquery-1.8.3.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">	$(function()&#123;</span><br><span class="line">		&#x2F;&#x2F;内部插入</span><br><span class="line">		&#x2F;&#x2F;$(&quot;#edu&quot;).prepend($(&quot;&lt;option value&#x3D;&#39;学前班&#39;&gt;学前班&lt;&#x2F;option&gt;&quot;));</span><br><span class="line">		&#x2F;&#x2F;$(&quot;&lt;option value&#x3D;&#39;学前班&#39;&gt;学前班&lt;&#x2F;option&gt;&quot;).prependTo($(&quot;#edu&quot;)); </span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;在学术硕士后面增加一项&quot;研究生&quot;</span><br><span class="line">		&#x2F;&#x2F;$(&quot;#edu&quot;).append($(&quot;&lt;option value&#x3D;&#39;研究生&#39;&gt;研究生&lt;&#x2F;option&gt;&quot;));</span><br><span class="line">		&#x2F;&#x2F;$(&quot;&lt;option value&#x3D;&#39;研究生&#39;&gt;研究生&lt;&#x2F;option&gt;&quot;).appendTo($(&quot;#edu&quot;));</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;外部插入</span><br><span class="line">		&#x2F;&#x2F;$(&quot;#edu option:first&quot;).before($(&quot;&lt;option value&#x3D;&#39;学前班&#39;&gt;学前班&lt;&#x2F;option&gt;&quot;));</span><br><span class="line">		&#x2F;&#x2F;$(&quot;#edu option:last&quot;).after($(&quot;&lt;option value&#x3D;&#39;研究生&#39;&gt;研究生&lt;&#x2F;option&gt;&quot;));</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;给p注册事件</span><br><span class="line">		$(&quot;#d1 p&quot;).click(function()&#123;</span><br><span class="line">			&#x2F;&#x2F;var p &#x3D; $(&quot;#d1 p&quot;).remove();</span><br><span class="line">			&#x2F;&#x2F;var p &#x3D;$(&quot;#d1 p&quot;).detach();</span><br><span class="line">			$(&quot;#d1&quot;).empty();</span><br><span class="line">		&#125;)</span><br><span class="line">		&#x2F;&#x2F;$(&quot;#d2&quot;).append(p);</span><br><span class="line">		</span><br><span class="line">	&#125;)</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;select id&#x3D;&quot;edu&quot;&gt;</span><br><span class="line">		&lt;option value&#x3D;&quot;小学&quot;&gt;小学&lt;&#x2F;option&gt;</span><br><span class="line">		&lt;option value&#x3D;&quot;中学&quot;&gt;中学&lt;&#x2F;option&gt;</span><br><span class="line">		&lt;option value&#x3D;&quot;本科&quot;&gt;本科&lt;&#x2F;option&gt;</span><br><span class="line">		&lt;option value&#x3D;&quot;大专&quot;&gt;大专&lt;&#x2F;option&gt;</span><br><span class="line">		&lt;option value&#x3D;&quot;学术硕士&quot;&gt;学术硕士&lt;&#x2F;option&gt;</span><br><span class="line">	&lt;&#x2F;select&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;div id&#x3D;&quot;d1&quot;&gt;</span><br><span class="line">		&lt;p&gt;aaaaaaaaa&lt;&#x2F;p&gt;</span><br><span class="line">		&lt;span&gt;sssssssss&lt;&#x2F;span&gt;</span><br><span class="line">	&lt;&#x2F;div&gt;</span><br><span class="line">	&lt;div id&#x3D;&quot;d2&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">jquery</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/jQuery-DOM%E5%88%A0%E9%99%A4%E6%93%8D%E4%BD%9C-1/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-jQuery-DOM插入操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1609,148 +1682,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/28/Vue%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B%EF%BC%9Anode%E5%AE%89%E8%A3%85vue%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E5%8F%8A%E5%90%AF%E5%8A%A8%E9%A1%B9%E7%9B%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spring中使用Dubbo框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/">Spring中使用Dubbo框架</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/" class="archive-article-date">
-  	<time datetime="2019-04-28T08:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Dubbo框架</strong></p>
-<p><em>什么是dubbo</em></p>
-<blockquote>
-<p>随着互联网的发展，网站应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。</p>
-</blockquote>
-<p><img src="https://i.imgur.com/RhVWWNP.jpg"></p>
-<blockquote>
-<p><img src="https://i.imgur.com/5XUjg8u.jpg"></p>
-</blockquote>
-<p><em>Dubbo架构</em></p>
-<p><img src="https://i.imgur.com/qrkO7ir.jpg"></p>
-<p><img src="https://i.imgur.com/GFzqmtA.jpg"></p>
-<p><em>使用方法</em></p>
-<p><em>Spring配置</em></p>
-<blockquote>
-<p>Dubbo采用全Spring配置方式，透明化接入应用，对应用没有任何API侵入，只需用Spring加载Dubbo的配置即可，Dubbo基于Spring的Schema扩展进行加载。</p>
-</blockquote>
-<p><strong>单一工程中spring的配置</strong></p>
-<pre><code>&lt;bean id=&quot;xxxService&quot; class=&quot;com.xxx.XxxServiceImpl&quot; /&gt;
-&lt;bean id=&quot;xxxAction&quot; class=&quot;com.xxx.XxxAction&quot;&gt;
-    &lt;property name=&quot;xxxService&quot; ref=&quot;xxxService&quot; /&gt;
-&lt;/bean&gt;
-</code></pre>
-<p><strong>远程服务：</strong></p>
-<blockquote>
-<p>在本地服务的基础上，只需做简单配置，即可完成远程化：</p>
-</blockquote>
-<blockquote>
-<p>将上面的local.xml配置拆分成两份，将服务定义部分放在服务提供方remote-provider.xml，将服务引用部分放在服务消费方remote-consumer.xml。</p>
-<p>并在提供方增加暴露服务配置<a href="dubbo:service">dubbo:service</a>，在消费方增加引用服务配置<a href="dubbo:reference">dubbo:reference</a>。</p>
-</blockquote>
-<p><strong>发布服务：</strong></p>
-<pre><code>&lt;!-- 和本地服务一样实现远程服务 --&gt;
-&lt;bean id=&quot;xxxService&quot; class=&quot;com.xxx.XxxServiceImpl&quot; /&gt;
-&lt;!-- 增加暴露远程服务配置 --&gt;
-&lt;dubbo:service interface=&quot;com.xxx.XxxService&quot; ref=&quot;xxxService&quot; /&gt;
-</code></pre>
-<p><strong>调用服务：</strong></p>
-<pre><code>&lt;!-- 增加引用远程服务配置 --&gt;
-&lt;dubbo:reference id=&quot;xxxService&quot; interface=&quot;com.xxx.XxxService&quot; /&gt;
-&lt;!-- 和本地服务一样使用远程服务 --&gt;
-&lt;bean id=&quot;xxxAction&quot; class=&quot;com.xxx.XxxAction&quot;&gt;
-    &lt;property name=&quot;xxxService&quot; ref=&quot;xxxService&quot; /&gt;
-&lt;/bean&gt;
-</code></pre>
-<p><em>注册中心</em></p>
-<blockquote>
-<p>注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。使用dubbo-2.3.3以上版本，建议使用zookeeper注册中心。<br>Zookeeper是Apacahe Hadoop的子项目，是一个树型的目录服务，支持变更推送，适合作为Dubbo服务的注册中心，工业强度较高，可用于生产环境，并推荐使用。</p>
-</blockquote>
-<p><img src="https://i.imgur.com/IAApCJ5.jpg"></p>
-<p><em>框架整合</em></p>
-<p><strong>添加dubbo的依赖</strong></p>
-<blockquote>
-<p>加入dubbo相关的jar包。服务层、表现层都添加。</p>
-</blockquote>
-<pre><code>&lt;!-- dubbo相关 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo&lt;/artifactId&gt;
-    &lt;!-- 排除依赖 --&gt;
-    &lt;exclusions&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-            &lt;artifactId&gt;spring&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-        &lt;exclusion&gt;
-            &lt;groupId&gt;org.jboss.netty&lt;/groupId&gt;
-            &lt;artifactId&gt;netty&lt;/artifactId&gt;
-        &lt;/exclusion&gt;
-    &lt;/exclusions&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.zookeeper&lt;/groupId&gt;
-    &lt;artifactId&gt;zookeeper&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.github.sgroschupf&lt;/groupId&gt;
-    &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/">展开全文 >></a>
         </p>
       
 
