@@ -6,39 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>jvm的发展历程 | 学亮编程手记</title>
+  <title>（二）Geospark从Shapefile中加载RDD | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="jvm的发展历程">
+  <meta name="description" content="从Shapefile中加载RDD 我们从Shapefile中创建一个Spark的RDD,本次要导入的Shapefile是广州全市的公交站点.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jvm的发展历程">
-<meta property="og:url" content="http://xueliang666.github.com/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/index.html">
+<meta property="og:title" content="（二）Geospark从Shapefile中加载RDD">
+<meta property="og:url" content="http://xueliang666.github.com/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="jvm的发展历程">
+<meta property="og:description" content="从Shapefile中加载RDD 我们从Shapefile中创建一个Spark的RDD,本次要导入的Shapefile是广州全市的公交站点.">
 <meta property="og:locale">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909211927301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909212350330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200909212214468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092237379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092324530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092734885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913092942868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091309314150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100423537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100454978.png#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913100702563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091310102463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="article:published_time" content="2021-04-30T09:09:22.000Z">
-<meta property="article:modified_time" content="2021-04-30T12:04:13.243Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/780aca1619b25c930ad042b63ac7889f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/90252a5138eaa727645a8b8567d1c4b7.png">
+<meta property="article:published_time" content="2021-04-29T07:50:57.000Z">
+<meta property="article:modified_time" content="2021-05-06T07:47:16.680Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="jvm">
+<meta property="article:tag" content="GeoMesa">
+<meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/780aca1619b25c930ad042b63ac7889f.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -182,56 +167,58 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-jvm的发展历程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-（二）Geospark从Shapefile中加载RDD" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      jvm的发展历程
+      （二）Geospark从Shapefile中加载RDD
     </h1>
   
 
         
-        <a href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2021-04-30T09:09:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-30</time>
+        <a href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/" class="archive-article-date">
+  	<time datetime="2021-04-29T07:50:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>jvm的发展历程</p>
-</blockquote>
+        <p><code>从Shapefile中加载RDD</code></p>
+<p>我们从Shapefile中创建一个Spark的RDD,本次要导入的Shapefile是广州全市的公交站点.</p>
 <span id="more"></span>
 
-<h1 id="Sun-Classic-VM"><a href="#Sun-Classic-VM" class="headerlink" title="Sun Classic VM"></a>Sun Classic VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909210919801.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909211114960.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<blockquote>
-<p>如果只使用JIT编译器，启动时会耗时过长，因为有翻译成机器指令的过程。<br>今天的jvm经过优化，执行效率已经不亚于C和C++了。<br>两者结合是主流的方式，吸收二者的优点。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200909211156271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-</blockquote>
-<h1 id="Exact-VM"><a href="#Exact-VM" class="headerlink" title="Exact VM"></a>Exact VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909211927301.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Hotspot-VM"><a href="#Hotspot-VM" class="headerlink" title="Hotspot VM"></a>Hotspot VM</h1><p><img src="https://img-blog.csdnimg.cn/20200909212350330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200909212214468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="BEA公司的JRockit"><a href="#BEA公司的JRockit" class="headerlink" title="BEA公司的JRockit"></a>BEA公司的JRockit</h1><p><img src="https://img-blog.csdnimg.cn/20200913092237379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="IBM公司的J9"><a href="#IBM公司的J9" class="headerlink" title="IBM公司的J9"></a>IBM公司的J9</h1><blockquote>
-<p>在IBM自己的产品上运行稳定，win上的表现不尽如人意。</p>
-</blockquote>
-<p><img src="https://img-blog.csdnimg.cn/20200913092324530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="KVM和CDC-CLDC-Hotspot"><a href="#KVM和CDC-CLDC-Hotspot" class="headerlink" title="KVM和CDC/CLDC Hotspot"></a>KVM和CDC/CLDC Hotspot</h1><p><img src="https://img-blog.csdnimg.cn/20200913092734885.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Azul-VM"><a href="#Azul-VM" class="headerlink" title="Azul VM"></a>Azul VM</h1><p><img src="https://img-blog.csdnimg.cn/20200913092942868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Liquid-VM"><a href="#Liquid-VM" class="headerlink" title="Liquid VM"></a>Liquid VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091309314150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Apache-Harmony"><a href="#Apache-Harmony" class="headerlink" title="Apache Harmony"></a>Apache Harmony</h1><p><img src="https://img-blog.csdnimg.cn/20200913100423537.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Microsoft-JVM"><a href="#Microsoft-JVM" class="headerlink" title="Microsoft JVM"></a>Microsoft JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913100454978.png#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="TaobaoJVM"><a href="#TaobaoJVM" class="headerlink" title="TaobaoJVM"></a>TaobaoJVM</h1><ul>
-<li>缺点：严重依赖Intel的CPU</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20200913100702563.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Dalvik-VM"><a href="#Dalvik-VM" class="headerlink" title="Dalvik VM"></a>Dalvik VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310102463.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="其他JVM"><a href="#其他JVM" class="headerlink" title="其他JVM"></a>其他JVM</h1><p><img src="https://img-blog.csdnimg.cn/20200913101256387.png#pic_center" alt="在这里插入图片描述"></p>
-<h1 id="Graal-VM"><a href="#Graal-VM" class="headerlink" title="Graal VM"></a>Graal VM</h1><p><img src="https://img-blog.csdnimg.cn/2020091310282295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E3NzIzMDQ0MTk=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h1 id="Geospark从Shapefile中加载RDD"><a href="#Geospark从Shapefile中加载RDD" class="headerlink" title="Geospark从Shapefile中加载RDD"></a>Geospark从Shapefile中加载RDD</h1><h3 id="从Shapefile中加载RDD"><a href="#从Shapefile中加载RDD" class="headerlink" title="从Shapefile中加载RDD"></a>从Shapefile中加载RDD</h3><ol>
+<li>我们从Shapefile中创建一个Spark的RDD,本次要导入的Shapefile是广州全市的公交站点.</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/780aca1619b25c930ad042b63ac7889f.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/90252a5138eaa727645a8b8567d1c4b7.png" alt="img"></p>
+<ol>
+<li>然后我们初始化一个SparkContext，并调用GeoSpark的ShapefileReader，将我们的Shape文件导入。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SparkConf conf = <span class="keyword">new</span> SparkConf();</span><br><span class="line">conf.setAppName(<span class="string">&quot;GeoSpark02&quot;</span>);</span><br><span class="line">conf.setMaster(<span class="string">&quot;local[*]&quot;</span>);</span><br><span class="line">conf.set(<span class="string">&quot;spark.serializer&quot;</span>, <span class="string">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span>);</span><br><span class="line">conf.set(<span class="string">&quot;spark.kryo.registrator&quot;</span>, <span class="string">&quot;org.datasyslab.geospark.serde.GeoSparkKryoRegistrator&quot;</span>);</span><br><span class="line">JavaSparkContext sc = <span class="keyword">new</span> JavaSparkContext(conf);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get SpatialRDD</span></span><br><span class="line">String shapeInputLocation = Learn02.class.getResource(<span class="string">&quot;/parks&quot;</span>).toString();</span><br><span class="line">SpatialRDD rdd = ShapefileReader.readToGeometryRDD(sc, shapeInputLocation);</span><br></pre></td></tr></table></figure>
+
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><h4 id="1-使用Envelop查询"><a href="#1-使用Envelop查询" class="headerlink" title="1. 使用Envelop查询"></a>1. 使用Envelop查询</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Envelop</span></span><br><span class="line">Envelope rangeQueryWindow = <span class="keyword">new</span> Envelope(-<span class="number">123.1</span>, -<span class="number">123.2</span>, <span class="number">49.2</span>, <span class="number">49.3</span>);</span><br><span class="line"><span class="keyword">boolean</span> considerBoundaryIntersection = <span class="keyword">false</span>;<span class="comment">// Only return gemeotries fully covered by the window</span></span><br><span class="line"><span class="keyword">boolean</span> usingIndex = <span class="keyword">false</span>;</span><br><span class="line">JavaRDD&lt;Geometry&gt; queryResult = RangeQuery.SpatialRangeQuery(rdd, rangeQueryWindow, considerBoundaryIntersection, usingIndex);</span><br><span class="line">System.out.println(String.format(<span class="string">&quot;查询结果总数为: %d&quot;</span>,queryResult.count()));</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查询结果总数为: 62</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-使用Geomtery查询"><a href="#2-使用Geomtery查询" class="headerlink" title="2. 使用Geomtery查询"></a>2. 使用Geomtery查询</h4><p>GeoSpark提供了GeomtryFactory来构造Polygon、Line、Point等Geometry。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Geometry</span></span><br><span class="line">GeometryFactory geometryFactory = <span class="keyword">new</span> GeometryFactory();</span><br><span class="line">Coordinate[] coordinates = <span class="keyword">new</span> Coordinate[<span class="number">5</span>];</span><br><span class="line">coordinates[<span class="number">0</span>] = <span class="keyword">new</span> Coordinate(-<span class="number">123.1</span>,<span class="number">49.2</span>);</span><br><span class="line">coordinates[<span class="number">1</span>] = <span class="keyword">new</span> Coordinate(-<span class="number">123.1</span>,<span class="number">49.3</span>);</span><br><span class="line">coordinates[<span class="number">2</span>] = <span class="keyword">new</span> Coordinate(-<span class="number">123.2</span>,<span class="number">49.3</span>);</span><br><span class="line">coordinates[<span class="number">3</span>] = <span class="keyword">new</span> Coordinate(-<span class="number">123.2</span>,<span class="number">29.2</span>);</span><br><span class="line">coordinates[<span class="number">4</span>] = coordinates[<span class="number">0</span>]; <span class="comment">// The last coordinate is the same as the first coordinate in order to compose a closed ring</span></span><br><span class="line">Polygon polygonObject = geometryFactory.createPolygon(coordinates);</span><br><span class="line">queryResult = RangeQuery.SpatialRangeQuery(rdd, polygonObject, considerBoundaryIntersection, usingIndex);</span><br><span class="line">System.out.println(String.format(<span class="string">&quot;查询结果总数为: %d&quot;</span>,queryResult.count()));</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查询结果总数为: 62</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-输出查询结果"><a href="#3-输出查询结果" class="headerlink" title="3. 输出查询结果"></a>3. 输出查询结果</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 遍历查询结果</span></span><br><span class="line">queryResult.foreach(<span class="keyword">new</span> VoidFunction&lt;Geometry&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Geometry geometry)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(geometry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POLYGON ((-123.15566057081632 49.26206733490204, -123.15564728017853 49.26241791476514, -123.15548939905344 49.262415429329856, -123.15550257747702 49.26206484963618, -123.15566057081632 49.26206733490204))  1   -9999       Kitsilano           N       </span><br><span class="line">POLYGON ((-123.15760176703519 49.261936547646954, -123.15718706338478 49.2619299178749, -123.15719832396375 49.26162160945501, -123.15761313807661 49.26162814910161, -123.15760218456263 49.26192530535148, -123.15760176703519 49.261936547646954))   2   208 Rosemary Brown Park Kitsilano   W 11th Avenue   Vine Street N   N   N</span><br><span class="line">.................................</span><br><span class="line">POLYGON ((-123.12325003271694 49.290529597005786, -123.12325184999034 </span><br><span class="line">POLYGON ((-123.11921795166444 49.288179012132034, -123.11889234917355 49.28806261407178, -123.11905901714364 49.28781953241384, -123.11954592548769 49.28796238352621, -123.11921795166444 49.288179012132034)) 80  27  Portal Park Downtown    W Hastings Street   Thurlow Street  N   N   N</span><br></pre></td></tr></table></figure>
 
       
 
@@ -245,11 +232,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jvm</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -268,18 +255,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/04/30/%E5%86%8D%E8%A7%81-Jenkins%EF%BC%81%E5%87%A0%E8%A1%8C%E8%84%9A%E6%9C%AC%E6%90%9E%E5%AE%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%8C%E8%BF%99%E6%AC%BE%E7%A5%9E%E5%99%A8%E6%9C%89%E7%82%B9%E5%8E%89%E5%AE%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/04/30/jvm%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          再见 Jenkins！几行脚本搞定自动化部署，这款神器有点厉害
+          jvm的发展历程
         
       </div>
     </a>
   
   
-    <a href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">（二）Geospark从Shapefile中加载RDD</div>
+    <a href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">（一）Geospark入门</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -306,7 +293,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Sun-Classic-VM"><span class="toc-number">1.</span> <span class="toc-text">Sun Classic VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Exact-VM"><span class="toc-number">2.</span> <span class="toc-text">Exact VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hotspot-VM"><span class="toc-number">3.</span> <span class="toc-text">Hotspot VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BEA%E5%85%AC%E5%8F%B8%E7%9A%84JRockit"><span class="toc-number">4.</span> <span class="toc-text">BEA公司的JRockit</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IBM%E5%85%AC%E5%8F%B8%E7%9A%84J9"><span class="toc-number">5.</span> <span class="toc-text">IBM公司的J9</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#KVM%E5%92%8CCDC-CLDC-Hotspot"><span class="toc-number">6.</span> <span class="toc-text">KVM和CDC&#x2F;CLDC Hotspot</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Azul-VM"><span class="toc-number">7.</span> <span class="toc-text">Azul VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Liquid-VM"><span class="toc-number">8.</span> <span class="toc-text">Liquid VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Apache-Harmony"><span class="toc-number">9.</span> <span class="toc-text">Apache Harmony</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Microsoft-JVM"><span class="toc-number">10.</span> <span class="toc-text">Microsoft JVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TaobaoJVM"><span class="toc-number">11.</span> <span class="toc-text">TaobaoJVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Dalvik-VM"><span class="toc-number">12.</span> <span class="toc-text">Dalvik VM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96JVM"><span class="toc-number">13.</span> <span class="toc-text">其他JVM</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Graal-VM"><span class="toc-number">14.</span> <span class="toc-text">Graal VM</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD"><span class="toc-number">1.</span> <span class="toc-text">Geospark从Shapefile中加载RDD</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD"><span class="toc-number">1.0.1.</span> <span class="toc-text">从Shapefile中加载RDD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.0.2.</span> <span class="toc-text">查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BD%BF%E7%94%A8Envelop%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">1. 使用Envelop查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8Geomtery%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">2. 使用Geomtery查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">3. 输出查询结果</span></a></li></ol></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>

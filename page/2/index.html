@@ -163,6 +163,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-详解线程本地变量ThreadLocal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/30/%E8%AF%A6%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%9C%AC%E5%9C%B0%E5%8F%98%E9%87%8FThreadLocal/">详解线程本地变量ThreadLocal</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/30/%E8%AF%A6%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%9C%AC%E5%9C%B0%E5%8F%98%E9%87%8FThreadLocal/" class="archive-article-date">
+  	<time datetime="2019-04-30T02:54:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-30</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>并发应用的一个关键地方就是共享数据。如果你创建一个类对象，实现Runnable接口，然后多个Thread对象使用同样的Runnable对象，全部的线程都共享同样的属性。这意味着，如果你在一个线程里改变一个属性，全部的线程都会受到这个改变的影响。<br>有时，你希望程序里的各个线程的属性不会被共享。 Java 并发 API提供了一个很清楚的机制叫本地线程变量即ThreadLocal。<br>模拟ThreadLocal类实现：线程范围内的共享变量，每个线程只能访问他自己的，不能访问别的线程。</p>
+</blockquote>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ThreadLocal</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/30/%E8%AF%A6%E8%A7%A3%E7%BA%BF%E7%A8%8B%E6%9C%AC%E5%9C%B0%E5%8F%98%E9%87%8FThreadLocal/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-springMVC一个Controller处理所有用户请求的并发问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1569,102 +1645,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/29/Math%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%B8%B8%E7%94%A8API%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-oracle集合运算" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/oracle%E9%9B%86%E5%90%88%E8%BF%90%E7%AE%97/">oracle集合运算</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/oracle%E9%9B%86%E5%90%88%E8%BF%90%E7%AE%97/" class="archive-article-date">
-  	<time datetime="2019-04-28T08:26:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>union做并集运算：</p>
-<p>①union集合运算的结果不包括去掉重复记录。</p>
-</blockquote>
-<blockquote>
-<p>②union all集合运算的结果包括重复记录。</p>
-</blockquote>
-<p><img src="https://i.imgur.com/dDkWMB2.png"></p>
-<blockquote>
-<p>intersect进行交集运算</p>
-</blockquote>
-<p><img src="https://i.imgur.com/H4NTe7w.png"></p>
-<blockquote>
-<p>minus进行差集运算</p>
-</blockquote>
-<blockquote>
-<p>在A中去掉B中出现的重复记录后的差集</p>
-</blockquote>
-<p><img src="https://i.imgur.com/ZFbrcp3.png"></p>
-<blockquote>
-<p>使用差集进行分页查询</p>
-</blockquote>
-<p><img src="https://i.imgur.com/9fhO8hr.png"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">oracle</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/oracle%E9%9B%86%E5%90%88%E8%BF%90%E7%AE%97/">展开全文 >></a>
         </p>
       
 
