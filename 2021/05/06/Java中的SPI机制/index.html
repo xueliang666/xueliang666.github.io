@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>Nodejs中的模块系统 | 学亮编程手记</title>
+  <title>Java中的SPI机制 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Nodejs中的模块系统。">
+  <meta name="description" content="SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nodejs中的模块系统">
-<meta property="og:url" content="http://xueliang666.github.com/2019/05/01/Nodejs%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:title" content="Java中的SPI机制">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="Nodejs中的模块系统。">
+<meta property="og:description" content="SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-05-01T14:57:56.000Z">
-<meta property="article:modified_time" content="2019-05-02T13:17:26.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/20171115220836856">
+<meta property="article:published_time" content="2021-05-06T13:46:38.000Z">
+<meta property="article:modified_time" content="2021-05-06T13:51:26.948Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/20171115220836856">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -163,40 +165,55 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Nodejs中的模块系统" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Java中的SPI机制" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Nodejs中的模块系统
+      Java中的SPI机制
     </h1>
   
 
         
-        <a href="/2019/05/01/Nodejs%E4%B8%AD%E7%9A%84%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F/" class="archive-article-date">
-  	<time datetime="2019-05-01T14:57:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+        <a href="/2021/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2021-05-06T13:46:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>Nodejs中的模块系统。</p>
-</blockquote>
+        <p>SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程，模块之间不对实现类进行硬编码。一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。为了实现在模块装配的时候能不在程序里动态指明，这就需要一种服务发现机制。 java spi就是提供这样的一个机制：为某个接口寻找服务实现的机制。有点类似IOC的思想，就是将装配的控制权移到程序之外，在模块化设计中这个机制尤其重要。</p>
 <span id="more"></span>
 
-<blockquote>
-<p>foo.js</p>
+<h1 id="SPI机制简介"><a href="#SPI机制简介" class="headerlink" title="SPI机制简介"></a>SPI机制简介</h1><blockquote>
+<p>SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程，模块之间不对实现类进行硬编码。一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。为了实现在模块装配的时候能不在程序里动态指明，这就需要一种服务发现机制。 java spi就是提供这样的一个机制：为某个接口寻找服务实现的机制。有点类似IOC的思想，就是将装配的控制权移到程序之外，在模块化设计中这个机制尤其重要。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">var foo &#x3D; &#39;bar&#39;</span><br><span class="line"></span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">  return x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这种方式不行。</span><br><span class="line">&#x2F;&#x2F; exports &#x3D; add</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果一个模块需要直接导出某个成员，而非挂载的方式</span><br><span class="line">&#x2F;&#x2F; 那这个时候必须使用下面这种方式</span><br><span class="line">module.exports &#x3D; &#39;hello&#39;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function (x, y) &#123;</span><br><span class="line">  return x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  add: function () &#123;</span><br><span class="line">    return x + y</span><br><span class="line">  &#125;,</span><br><span class="line">  str: &#39;hello&#39;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 你可以认为在每个模块的最后 return 了这个 exports</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 只能得到我想要给你的成员</span><br><span class="line">&#x2F;&#x2F; 这样做的目的是为了解决变量命名冲突的问题</span><br><span class="line">&#x2F;&#x2F; exports.add &#x3D; add</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; exports 是一个对象</span><br><span class="line">&#x2F;&#x2F; 我们可以通过多次为这个对象添加成员实现对外导出多个内部成员</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; exports.str &#x3D; &#39;hello&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 现在我有一个需求：</span><br><span class="line">&#x2F;&#x2F; 我希望加载得到直接就是一个：</span><br><span class="line">&#x2F;&#x2F;  方法</span><br><span class="line">&#x2F;&#x2F;  字符串</span><br><span class="line">&#x2F;&#x2F;  数字</span><br><span class="line">&#x2F;&#x2F;  数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/20171115220836856" alt="è¿éåå¾çæè¿°"></p>
+<h1 id="SPI具体约定"><a href="#SPI具体约定" class="headerlink" title="SPI具体约定"></a>SPI具体约定</h1><blockquote>
+<p>java spi的具体约定为:当服务的提供者，提供了服务接口的一种实现之后，在jar包的META-INF/services/目录里同时创建一个以服务接口命名的文件。该文件里就是实现该服务接口的具体实现类。而当外部程序装配这个模块的时候，就能通过该jar包META-INF/services/里的配置文件找到具体的实现类名，并装载实例化，完成模块的注入。 基于这样一个约定就能很好的找到服务接口的实现类，而不需要再代码里制定。jdk提供服务实现查找的一个工具类：java.util.ServiceLoader</p>
+</blockquote>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="1-common-logging"><a href="#1-common-logging" class="headerlink" title="1.common-logging"></a>1.common-logging</h2><p>apache最早提供的日志的门面接口。只有接口，没有实现。具体方案由各提供商实现， 发现日志提供商是通过扫描 META-INF/services/org.apache.commons.logging.LogFactory配置文件，通过读取该文件的内容找到日志提工商实现类。只要我们的日志实现里包含了这个文件，并在文件里制定 LogFactory工厂接口的实现类即可。</p>
+<h2 id="2-jdbc"><a href="#2-jdbc" class="headerlink" title="2.jdbc"></a>2.jdbc</h2><p>jdbc4.0以前， 开发人员还需要基于Class.forName(“xxx”)的方式来装载驱动，jdbc4也基于spi的机制来发现驱动提供商了，可以通过META-INF/services/java.sql.Driver文件里指定实现类的方式来暴露驱动提供者.</p>
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><p>首先定义一个接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev.interfaces;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloWorkInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>在bar.js中引入</p>
+<p>然后再写一个A厂的实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev.provider;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.suddev.interfaces.HelloWorkInterface;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldCNImpl</span> <span class="keyword">implements</span> <span class="title">HelloWorkInterface</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;你好!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再写一个B厂的实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev.provider2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.suddev.interfaces.HelloWorkInterface;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldENImpl</span> <span class="keyword">implements</span> <span class="title">HelloWorkInterface</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="写个测试类"><a href="#写个测试类" class="headerlink" title="写个测试类"></a>写个测试类</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.suddev.interfaces.HelloWorkInterface;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ServiceLoader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ServiceLoader&lt;HelloWorkInterface&gt;</span><br><span class="line">                serviceLoader = ServiceLoader.load(HelloWorkInterface.class);</span><br><span class="line">        serviceLoader.forEach(HelloWorkInterface::sayHello);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;C:\Program Files\Java\jdk1.8.0_101\bin\java&quot; ...</span><br><span class="line">你好!</span><br><span class="line">Process finished with exit code 0</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><blockquote>
+<p>可见我们在测试类中并没有写出接口具体对应的实现，但是他自己找到了对应的实现。使用SPI规范后，接口的具体实现由厂商去实现就行了，不用写在代码里面，这样做的好处是解藕，使得项目更具有灵活性</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">var foo &#x3D; &#39;bar&#39;</span><br><span class="line"></span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">  return x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这种方式不行。</span><br><span class="line">&#x2F;&#x2F; exports &#x3D; add</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果一个模块需要直接导出某个成员，而非挂载的方式</span><br><span class="line">&#x2F;&#x2F; 那这个时候必须使用下面这种方式</span><br><span class="line">module.exports &#x3D; &#39;hello&#39;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; function (x, y) &#123;</span><br><span class="line">  return x + y</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports &#x3D; &#123;</span><br><span class="line">  add: function () &#123;</span><br><span class="line">    return x + y</span><br><span class="line">  &#125;,</span><br><span class="line">  str: &#39;hello&#39;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 你可以认为在每个模块的最后 return 了这个 exports</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 只能得到我想要给你的成员</span><br><span class="line">&#x2F;&#x2F; 这样做的目的是为了解决变量命名冲突的问题</span><br><span class="line">&#x2F;&#x2F; exports.add &#x3D; add</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; exports 是一个对象</span><br><span class="line">&#x2F;&#x2F; 我们可以通过多次为这个对象添加成员实现对外导出多个内部成员</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; exports.str &#x3D; &#39;hello&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 现在我有一个需求：</span><br><span class="line">&#x2F;&#x2F; 我希望加载得到直接就是一个：</span><br><span class="line">&#x2F;&#x2F;  方法</span><br><span class="line">&#x2F;&#x2F;  字符串</span><br><span class="line">&#x2F;&#x2F;  数字</span><br><span class="line">&#x2F;&#x2F;  数组</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -204,6 +221,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -217,18 +245,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/01/Nodejs%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Nodejs模块原理
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/30/Nodejs%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97http%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8%E5%AE%9E%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Nodejs核心模块http使用入门实例</div>
+    <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">带你入门GeoSpark系列之三【空间查询篇】</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -255,7 +274,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SPI%E6%9C%BA%E5%88%B6%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">SPI机制简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SPI%E5%85%B7%E4%BD%93%E7%BA%A6%E5%AE%9A"><span class="toc-number">2.</span> <span class="toc-text">SPI具体约定</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">3.</span> <span class="toc-text">应用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-common-logging"><span class="toc-number">3.1.</span> <span class="toc-text">1.common-logging</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-jdbc"><span class="toc-number">3.2.</span> <span class="toc-text">2.jdbc</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-number">4.</span> <span class="toc-text">Demo</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%99%E4%B8%AA%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-number">5.</span> <span class="toc-text">写个测试类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BE%93%E5%87%BA"><span class="toc-number">5.1.</span> <span class="toc-text">输出</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol>
                     </div>
                 </span>
             </div>
