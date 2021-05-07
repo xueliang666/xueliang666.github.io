@@ -11,13 +11,13 @@
   <meta name="description" content="SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中的SPI机制">
-<meta property="og:url" content="http://xueliang666.github.com/2021/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:url" content="http://xueliang666.github.com/2020/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/index.html">
 <meta property="og:site_name" content="学亮编程手记">
 <meta property="og:description" content="SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程">
 <meta property="og:locale">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/20171115220836856">
-<meta property="article:published_time" content="2021-05-06T13:46:38.000Z">
-<meta property="article:modified_time" content="2021-05-06T13:51:26.948Z">
+<meta property="article:published_time" content="2020-05-06T13:46:38.000Z">
+<meta property="article:modified_time" content="2021-05-07T01:23:12.346Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -177,8 +177,8 @@
   
 
         
-        <a href="/2021/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-  	<time datetime="2021-05-06T13:46:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
+        <a href="/2020/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/" class="archive-article-date">
+  	<time datetime="2020-05-06T13:46:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
 </a>
         
       </header>
@@ -195,8 +195,12 @@
 <h1 id="SPI具体约定"><a href="#SPI具体约定" class="headerlink" title="SPI具体约定"></a>SPI具体约定</h1><blockquote>
 <p>java spi的具体约定为:当服务的提供者，提供了服务接口的一种实现之后，在jar包的META-INF/services/目录里同时创建一个以服务接口命名的文件。该文件里就是实现该服务接口的具体实现类。而当外部程序装配这个模块的时候，就能通过该jar包META-INF/services/里的配置文件找到具体的实现类名，并装载实例化，完成模块的注入。 基于这样一个约定就能很好的找到服务接口的实现类，而不需要再代码里制定。jdk提供服务实现查找的一个工具类：java.util.ServiceLoader</p>
 </blockquote>
-<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="1-common-logging"><a href="#1-common-logging" class="headerlink" title="1.common-logging"></a>1.common-logging</h2><p>apache最早提供的日志的门面接口。只有接口，没有实现。具体方案由各提供商实现， 发现日志提供商是通过扫描 META-INF/services/org.apache.commons.logging.LogFactory配置文件，通过读取该文件的内容找到日志提工商实现类。只要我们的日志实现里包含了这个文件，并在文件里制定 LogFactory工厂接口的实现类即可。</p>
-<h2 id="2-jdbc"><a href="#2-jdbc" class="headerlink" title="2.jdbc"></a>2.jdbc</h2><p>jdbc4.0以前， 开发人员还需要基于Class.forName(“xxx”)的方式来装载驱动，jdbc4也基于spi的机制来发现驱动提供商了，可以通过META-INF/services/java.sql.Driver文件里指定实现类的方式来暴露驱动提供者.</p>
+<h1 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h1><h2 id="1-common-logging"><a href="#1-common-logging" class="headerlink" title="1.common-logging"></a>1.common-logging</h2><blockquote>
+<p>apache最早提供的日志的门面接口。只有接口，没有实现。具体方案由各提供商实现， 发现日志提供商是通过扫描 META-INF/services/org.apache.commons.logging.LogFactory配置文件，通过读取该文件的内容找到日志提工商实现类。只要我们的日志实现里包含了这个文件，并在文件里制定 LogFactory工厂接口的实现类即可。</p>
+</blockquote>
+<h2 id="2-jdbc"><a href="#2-jdbc" class="headerlink" title="2.jdbc"></a>2.jdbc</h2><blockquote>
+<p>jdbc4.0以前， 开发人员还需要基于Class.forName(“xxx”)的方式来装载驱动，jdbc4也基于spi的机制来发现驱动提供商了，可以通过META-INF/services/java.sql.Driver文件里指定实现类的方式来暴露驱动提供者.</p>
+</blockquote>
 <h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><p>首先定义一个接口</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.suddev.interfaces;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloWorkInterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -245,9 +249,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          GeoMesa空间数据存储引擎入门学习手册
+        
+      </div>
+    </a>
   
-    <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">带你入门GeoSpark系列之三【空间查询篇】</div>
+  
+    <a href="/2020/05/06/idea%E6%95%99%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">idea实用技巧</div>
       <i class="icon-circle-right"></i>
     </a>
   
