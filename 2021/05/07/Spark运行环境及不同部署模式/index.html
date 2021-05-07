@@ -6,18 +6,39 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>学亮编程手记</title>
+  <title>Spark运行环境及不同部署模式:Local模式和Standalone模式 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
-<meta property="og:type" content="website">
-<meta property="og:title" content="学亮编程手记">
-<meta property="og:url" content="http://xueliang666.github.com/index.html">
+  <meta name="description" content="Spark 作为一个数据处理框架和计算引擎，被设计在所有常见的集群环境中运行, 在国内工作中主流的环境为 Yarn，不过逐渐容器式环境也慢慢流行起来。接下来，我们就分别看看不同环境下 Spark 的运行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark运行环境及不同部署模式:Local模式和Standalone模式">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/07/Spark%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%B8%8D%E5%90%8C%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="og:description" content="Spark 作为一个数据处理框架和计算引擎，被设计在所有常见的集群环境中运行, 在国内工作中主流的环境为 Yarn，不过逐渐容器式环境也慢慢流行起来。接下来，我们就分别看看不同环境下 Spark 的运行。">
 <meta property="og:locale">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164009750.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164200888.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164344293.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164729366.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164859073.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165636994.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165830360.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165920415.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165942443.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507170007155.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171723554.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171937774.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172122556.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172306974.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172327584.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172351209.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172413137.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172432559.png">
+<meta property="article:published_time" content="2021-05-07T08:16:02.000Z">
+<meta property="article:modified_time" content="2021-05-07T09:25:23.013Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164009750.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -161,16 +182,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-Spark运行环境及不同部署模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-Spark运行环境及不同部署模式" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/07/Spark%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%B8%8D%E5%90%8C%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F/">Spark运行环境及不同部署模式:Local模式和Standalone模式</a>
+    <h1 class="article-title" itemprop="name">
+      Spark运行环境及不同部署模式:Local模式和Standalone模式
     </h1>
   
 
@@ -184,1461 +203,157 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Spark 作为一个数据处理框架和计算引擎，被设计在所有常见的集群环境中运行, 在国内工作中主流的环境为 Yarn，不过逐渐容器式环境也慢慢流行起来。接下来，我们就分别看看不同环境下 Spark 的运行。</p>
-        
-      
+<span id="more"></span>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/07/Spark%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83%E5%8F%8A%E4%B8%8D%E5%90%8C%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Spark广播变量实现原理及代码示例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/07/Spark%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/">Spark广播变量实现原理及代码示例</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/07/Spark%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2021-05-07T07:59:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>广播变量用来高效分发较大的对象。向所有工作节点发送一个较大的只读值，以供一个或多个 Spark 操作使用。比如，如果你的应用需要向所有节点发送一个较大的只读查询表，广播变量用起来都很顺手。在多个并行操作中使用同一个变量，但是 Spark 会为每个任务分别发送。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/07/Spark%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-带你入门GeoSpark系列之三【空间查询篇】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之三【空间查询篇】</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T09:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>空间范围查询，顾名思义我们可以给定一个范围（query window），然后查询出包含在当前范围内的地理对象。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-带你入门GeoSpark系列之二【Spatial-RDD篇】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E3%80%90Spatial-RDD%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之二【Spatial RDD篇】</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E3%80%90Spatial-RDD%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T09:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoSpark本质还是对地理要素进行操作，所以它支持了常用的一些地学几何图形。<br>几何图形中主要有三个要素：点，线，面。<br>横纵坐标构成点，多个点构成线，环线构成面，点线面混合构成几何集合。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E3%80%90Spatial-RDD%E7%AF%87%E3%80%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-带你入门GeoSpark系列之一【环境篇】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之一【环境篇】</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T08:53:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>GeoSpark</code>是基于Spark之上的分布式群集计算系统。GeoSpark扩展了Spark Core和SparkSQL并提出了空间弹性分布式数据集（Spatial Resilient Distributed Datasets (SRDDs)）同时提供了可视化组件。简而言之就是可以利用它在Spark上做空间运算。能够基于经纬度等信息创建点（Point）线(LineString）面(Polygon)。并提供了几种空间查询:空间临近查询(Spatial KNN Query)、空间范围查询( Spatial Range Query)、空间连接查询(Spatial Join Query)和距离连接查询(Distance Join Query)。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-HBase部署实践" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/">GeoMesa-HBase部署实践</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/" class="archive-article-date">
-  	<time datetime="2021-05-06T07:19:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>由于考虑到日后需要基于GeoMesa进行二次开发，所以本文采用的是编译GeoMesa源代码的方式，如果读者仅仅为了学习应用GeoMesa进行空间数据管理，可以直接从官方下载已经编译好的GeoMesa HBase工具包，最新版本为2.0： GitHub</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用Geomesa-spark处理管线数据" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/">使用Geomesa-spark处理管线数据</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:48:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ETL部分提供了城市（例如昆明、苏州）的管线数据，管线有不同类型（电力、热水、给水、中水、雨水、交通信号、通信等），某个具体类型的管线数据，也有不同类型（点Point、线Line）。本案例选用昆明市的电力线表，即km_npl。（np代表“电力”，l代表线）</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-Spark空间Join和聚合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/">GeoMesa Spark空间Join和聚合</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:38:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoNames是一个地理信息数据库，包括一千万的地理名称和超过九百万的特征。针对纽约出租车的数据信息，假设有如下问题：出租车上下客是否集中在某些兴趣点附近？为了找到答案，需要把GeoNames数据和NYCTaxi数据结合，在结果上做聚合统计。需要Join在彼此可容许的距离之内的点，以下将其称为D-within Join。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-Spark广播和聚合" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/">GeoMesa Spark广播和聚合</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GDELT提供了一个全面的时间和位置索引存档，包括1979年至今全球广播，印刷和网络新闻媒体报道的事件。假设一个国家的GDELT事件越多，政治相关性就越大。由于GDELT是几何点的数据集，不能直接知道它属于哪个国家，因此我们需要第二个数据集，即FIPS Codes（联邦信息处理标准出版物代码）的shapefile，可以表示一个国家的边界，两个数据集之间可以JION。（本例进行的前提是两个数据集已经存储好了）</p>
-<p>本例中国家只有3000条记录，我们可以广播（Spark Broadcast）这些国家让查询更有效率。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-Spark基础分析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/GeoMesa-Spark%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/">GeoMesa Spark基础分析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/GeoMesa-Spark%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:24:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoMesa为在GeoMesa数据之上执行Spark任务提供了支持，可以使用标准CQL查询来初始化RDD，通过使用CQL函数来转换数据。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/GeoMesa-Spark%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-FileSystem快速上手" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/06/GeoMesa-FileSystem%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">GeoMesa FileSystem快速上手</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/06/GeoMesa-FileSystem%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:15:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>FSDS（FileSystem data store）可以让用户在没有数据库实例的情况下使用flat files存储和查询数据，这些<strong>flat files存储在HDFS,AWS或者本地磁盘</strong>。了解本章内容是基础，有助于掌握Geomesa的其他使用案例。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/06/GeoMesa-FileSystem%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-（五）GeosparkViz 可视化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/">（五）GeosparkViz 可视化</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2021-04-29T08:11:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一节我们使用GeoSpark SQL简单进行了空间的一些操作，本节我们继续利用GeoSpark SQL以及GeoSparkViz将我们的结果进行渲染展示。下面是我们今天要用到的新的6个SQL函数</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-（四）Geospark SQL简介" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/">（四）Geospark SQL简介</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/" class="archive-article-date">
-  	<time datetime="2021-04-29T08:03:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spark提供DataFrame数据集，并且可以通过SQL语句来操作。GeoSpark在这个基础上实现了一些空间上的函数，可以用于SQL语句中，以下是本节要用到的5个，其余的函数参考<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://datasystemslab.github.io/GeoSpark/api/sql/GeoSparkSQL-Function/">GeoSpark SQL</a></p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-（三）Geospark空间查询" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E4%B8%89%EF%BC%89Geospark%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2/">（三）Geospark空间查询</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E4%B8%89%EF%BC%89Geospark%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:57:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Geospark空间查询java代码示例。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%B8%89%EF%BC%89Geospark%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-（二）Geospark从Shapefile中加载RDD" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/">（二）Geospark从Shapefile中加载RDD</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:50:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>从Shapefile中加载RDD</code></p>
-<p>我们从Shapefile中创建一个Spark的RDD,本次要导入的Shapefile是广州全市的公交站点.</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-（一）Geospark入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/">（一）Geospark入门</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:20:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoSpark是基于Spark分布式的地理信息计算引擎，相比于传统的ArcGIS，GeoSpark可以提供更好性能的空间分析、查询服务。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-空间数据存储引擎" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">GeoMesa空间数据存储引擎入门学习手册</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="archive-article-date">
-  	<time datetime="2021-04-24T11:09:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoMesa-空间数据存储引擎架构介绍及常见操作代码示例。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java中的SPI机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/">Java中的SPI机制</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/" class="archive-article-date">
-  	<time datetime="2020-05-06T13:46:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SPI的全名为Service Provider Interface.大多数开发人员可能不熟悉，因为这个是针对厂商或者插件的。在java.util.ServiceLoader的文档里有比较详细的介绍。简单的总结下java spi机制的思想。我们系统里抽象的各个模块，往往有很多不同的实现方案，比如日志模块的方案，xml解析模块、jdbc模块的方案等。面向的对象的设计里，我们一般推荐模块之间基于接口编程，模块之间不对实现类进行硬编码。一旦代码里涉及具体的实现类，就违反了可拔插的原则，如果需要替换一种实现，就需要修改代码。为了实现在模块装配的时候能不在程序里动态指明，这就需要一种服务发现机制。 java spi就是提供这样的一个机制：为某个接口寻找服务实现的机制。有点类似IOC的思想，就是将装配的控制权移到程序之外，在模块化设计中这个机制尤其重要。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/06/Java%E4%B8%AD%E7%9A%84SPI%E6%9C%BA%E5%88%B6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-idea教程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/06/idea%E6%95%99%E7%A8%8B/">idea实用技巧</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/06/idea%E6%95%99%E7%A8%8B/" class="archive-article-date">
-  	<time datetime="2020-05-06T08:14:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>idea实用技巧分享。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/06/idea%E6%95%99%E7%A8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-再见-Jenkins！几行脚本搞定自动化部署，这款神器有点厉害" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/30/%E5%86%8D%E8%A7%81-Jenkins%EF%BC%81%E5%87%A0%E8%A1%8C%E8%84%9A%E6%9C%AC%E6%90%9E%E5%AE%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%8C%E8%BF%99%E6%AC%BE%E7%A5%9E%E5%99%A8%E6%9C%89%E7%82%B9%E5%8E%89%E5%AE%B3/">再见 Jenkins！几行脚本搞定自动化部署，这款神器有点厉害</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/30/%E5%86%8D%E8%A7%81-Jenkins%EF%BC%81%E5%87%A0%E8%A1%8C%E8%84%9A%E6%9C%AC%E6%90%9E%E5%AE%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%8C%E8%BF%99%E6%AC%BE%E7%A5%9E%E5%99%A8%E6%9C%89%E7%82%B9%E5%8E%89%E5%AE%B3/" class="archive-article-date">
-  	<time datetime="2020-04-30T12:42:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在开发或生产环境中，我们经常会搞一套自动化部署方案（俗称一键部署）。比较流行的一种就是Gitlab+Jenkins实现方案，不过这种方案占用内存比较大，没有个8G内存，很难流畅运行，而且部署起来也不快。最近发现一款神器Drone，轻量级CI/DI工具，结合Gogs使用内存占用不到1G，几行脚本就能实现自动化部署，推荐给大家！</p>
+<h1 id="Local模式"><a href="#Local模式" class="headerlink" title="Local模式"></a>Local模式</h1><blockquote>
+<p>想啥呢，你之前一直在使用的模式可不是 Local 模式哟。所谓的 Local 模式，就是不需要其他任何节点资源就可以在本地执行 Spark 代码的环境，一般用于教学，调试，演示等，之前在 IDEA 中运行代码的环境我们称之为开发环境，不太一样。</p>
 </blockquote>
-        
+<h2 id="解压缩文件"><a href="#解压缩文件" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><blockquote>
+<p>将 spark-3.0.0-bin-hadoop3.2.tgz 文件上传到 Linux 并解压缩，放置在指定位置，路径中不要包含中文或空格，课件后续如果涉及到解压缩操作，不再强调。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.0.0-bin-hadoop3.2.tgz -C /opt/module</span><br><span class="line"><span class="built_in">cd</span> /opt/module</span><br><span class="line">mv spark-3.0.0-bin-hadoop3.2 spark-local</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动-Local-环境"><a href="#启动-Local-环境" class="headerlink" title="启动 Local  环境"></a>启动 Local  环境</h2><ol>
+<li> 进入解压缩后的路径，执行如下指令</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;spark-shell</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164009750.png" alt="image-20210507164009750"></p>
+<ol start="2">
+<li> 启动成功后，可以输入网址进行 Web UI 监控页面访问</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;虚拟机地址:4040</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164200888.png" alt="image-20210507164200888"></p>
+<h2 id="命令行工具"><a href="#命令行工具" class="headerlink" title="命令行工具"></a>命令行工具</h2><p>在解压缩文件夹下的 data 目录中，添加 word.txt 文件。在命令行工具中执行如下代码指令（和 IDEA 中代码简化版一致）</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sc.textFile(<span class="string">&quot;data/word.txt&quot;</span>).flatMap(_.split(<span class="string">&quot; &quot;</span>)).map((_,<span class="number">1</span>)).reduceByKey(_+_).collect</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164344293.png" alt="image-20210507164344293"></p>
+<h2 id="退出本地模式"><a href="#退出本地模式" class="headerlink" title="退出本地模式"></a>退出本地模式</h2><p>按键 Ctrl+C 或输入 Scala 指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:quit</span><br></pre></td></tr></table></figure>
+
+<h2 id="提交应用"><a href="#提交应用" class="headerlink" title="提交应用"></a>提交应用</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-submit \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master <span class="built_in">local</span>[2] \</span><br><span class="line">./examples/jars/spark-examples_2.12-3.0.0.jar \</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li> –class 表示要执行程序的主类，此处可以更换为咱们自己写的应用程序</li>
+<li> –master local[2] 部署模式，默认为本地模式，数字表示分配的虚拟 CPU 核数量</li>
+<li> spark-examples_2.12-3.0.0.jar 运行的应用类所在的 jar 包，实际使用时，可以设定为咱们自己打的 jar 包</li>
+<li> 数字 10 表示程序的入口参数，用于设定当前应用的任务数量</li>
+</ol>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164729366.png" alt="image-20210507164729366"></p>
+<h1 id="Standalone模式"><a href="#Standalone模式" class="headerlink" title="Standalone模式"></a>Standalone模式</h1><p>local 本地模式毕竟只是用来进行练习演示的，真实工作中还是要将应用提交到对应的集群中去执行，这里我们来看看只使用 Spark 自身节点运行的集群模式，也就是我们所谓的独立部署（Standalone）模式。Spark 的 Standalone 模式体现了经典的 master-slave 模式。<br>集群规划:</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507164859073.png" alt="image-20210507164859073"></p>
+<h2 id="解压缩文件-1"><a href="#解压缩文件-1" class="headerlink" title="解压缩文件"></a>解压缩文件</h2><p>将 spark-3.0.0-bin-hadoop3.2.tgz 文件上传到 Linux 并解压缩在指定位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf spark-3.0.0-bin-hadoop3.2.tgz -C /opt/module</span><br><span class="line"><span class="built_in">cd</span> /opt/module</span><br><span class="line">mv spark-3.0.0-bin-hadoop3.2 spark-standalone</span><br></pre></td></tr></table></figure>
+
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><ol>
+<li><p> 进入解压缩后路径的 conf 目录，修改 slaves.template 文件名为 <code>slaves</code></p>
+</li>
+<li><p> 修改 slaves 文件，添加 work 节点<br><code>linux1 linux2 linux3</code></p>
+</li>
+<li><p> 修改 spark-env.sh.template 文件名为 spark-env.sh<br><code>mv spark-env.sh.template spark-env.sh</code></p>
+</li>
+<li><p> 修改 spark-env.sh 文件，添加 JAVA_HOME 环境变量和集群对应的 master 节点<br><code>export JAVA_HOME=/opt/module/jdk1.8.0_144 SPARK_MASTER_HOST=linux1 SPARK_MASTER_PORT=7077</code><br>注意：7077 端口，相当于 hadoop3 内部通信的 8020 端口，此处的端口需要确认自己的 Hadoop配置</p>
+</li>
+<li><p> 分发 spark-standalone 目录</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xsync spark-standalone</span><br><span class="line">mv slaves.template slaves</span><br></pre></td></tr></table></figure>
+
+<h2 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h2><ol>
+<li> 执行脚本命令：<br><code>sbin/start-all.sh</code></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165636994.png" alt="image-20210507165636994"></p>
+<ol start="2">
+<li> 查看三台服务器运行进程<br><code>================linux1================ 3330 Jps 3238 Worker 3163 Master ================linux2================ 2966 Jps 2908 Worker ================linux3================ 2978 Worker 3036 Jps</code></li>
+<li> 查看 Master 资源监控 Web UI 界面: <a target="_blank" rel="noopener" href="http://linux1:8080/">http://linux1:8080</a></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165830360.png" alt="image-20210507165830360"></p>
+<h2 id="提交应用-1"><a href="#提交应用-1" class="headerlink" title="提交应用"></a>提交应用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;spark-submit \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark:&#x2F;&#x2F;linux1:7077 \</span><br><span class="line">.&#x2F;examples&#x2F;jars&#x2F;spark-examples_2.12-3.0.0.jar \</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li> –class 表示要执行程序的主类</li>
+<li> –master spark://linux1:7077 独立部署模式，连接到 Spark 集群</li>
+<li> spark-examples_2.12-3.0.0.jar 运行类所在的 jar 包</li>
+<li> 数字 10 表示程序的入口参数，用于设定当前应用的任务数量</li>
+</ol>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165920415.png" alt="image-20210507165920415"></p>
+<p>执行任务时，会产生多个 Java 进程</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507165942443.png" alt="image-20210507165942443"></p>
+<p>执行任务时，默认采用服务器集群节点的总核数，每个节点内存 1024M。</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507170007155.png" alt="image-20210507170007155"></p>
+<h2 id="提交参数说明"><a href="#提交参数说明" class="headerlink" title="提交参数说明"></a>提交参数说明</h2><p>在提交应用中，一般会同时一些提交参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;spark-submit \</span><br><span class="line">--class &lt;main-class&gt;</span><br><span class="line">--master &lt;master-url&gt; \</span><br><span class="line">... # other options</span><br><span class="line">&lt;application-jar&gt; \</span><br><span class="line">[application-arguments]</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>解释</th>
+<th>可选值举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>–class</td>
+<td>Spark 程序中包含主函数的类</td>
+<td></td>
+</tr>
+<tr>
+<td>–master</td>
+<td>Spark 程序运行的模式(环境)</td>
+<td>模式：local[*]、spark://linux1:7077、Yarn</td>
+</tr>
+<tr>
+<td>–executor-memory 1G</td>
+<td>指定每个 executor 可用内存为 1G</td>
+<td>符合集群内存配置即可，具体情况具体分析。</td>
+</tr>
+<tr>
+<td>–total-executor-cores 2</td>
+<td>指定所有executor使用的cpu核数为 2 个</td>
+<td></td>
+</tr>
+<tr>
+<td>–executor-cores</td>
+<td>指定每个executor使用的cpu核数</td>
+<td></td>
+</tr>
+<tr>
+<td>application-jar</td>
+<td>打包好的应用 jar，包含依赖。这个 URL 在集群中全局可见。 比如 hdfs:// 共享存储系统，如果是file:// path，那么所有的节点的path 都包含同样的 jar</td>
+<td></td>
+</tr>
+<tr>
+<td>application-arguments</td>
+<td>传给 main()方法的参数</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="配置历史服务"><a href="#配置历史服务" class="headerlink" title="配置历史服务"></a>配置历史服务</h2><p>由于 spark-shell 停止掉后，集群监控 linux1:4040 页面就看不到历史任务的运行情况，所以开发时都配置历史服务器记录任务运行情况。</p>
+<ol>
+<li> 修改 spark-defaults.conf.template 文件名为 spark-defaults.conf<br><code>mv spark-defaults.conf.template spark-defaults.conf</code></li>
+<li> 修改 spark-default.conf 文件，配置日志存储路径<br><code>spark.eventLog.enabled true</code><br><code>spark.eventLog.dir hdfs://linux1:8020/directory</code><br>注意：需要启动 hadoop 集群，HDFS 上的 directory 目录需要提前存在。<br><code>sbin/start-dfs.sh</code><br><code>hadoop fs -mkdir /directory</code></li>
+<li> 修改 spark-env.sh 文件, 添加日志配置<br>`export SPARK_HISTORY_OPTS=”</li>
+</ol>
+<p>-Dspark.history.ui.port=18080<br>-Dspark.history.fs.logDirectory=hdfs://linux1:8020/directory<br>-Dspark.history.retainedApplications=30”<code>⚫  参数 1 含义：WEB UI 访问的端口号为 18080 ⚫  参数 2 含义：指定历史服务器日志存储路径 ⚫  参数 3 含义：指定保存 Application 历史记录的个数，如果超过这个值，旧的应用程序信息将被删除，这个是内存中的应用数，而不是页面上显示的应用数。 4)  分发配置文件</code>xsync conf<code>5)  重新启动集群和历史服务</code>sbin/start-all.sh<br>sbin/start-history-server.sh<code>6)  重新执行任务</code>bin/spark-submit <br>–class org.apache.spark.examples.SparkPi <br>–master spark://linux1:7077 <br>./examples/jars/spark-examples_2.12-3.0.0.jar <br>10`</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171723554.png" alt="image-20210507171723554"></p>
+<ol start="7">
+<li> 查看历史服务：<a target="_blank" rel="noopener" href="http://linux1:18080/">http://linux1:18080</a></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171937774.png" alt="image-20210507171937774"></p>
+<h2 id="配置高可用（HA-）"><a href="#配置高可用（HA-）" class="headerlink" title="配置高可用（HA ）"></a>配置高可用（HA ）</h2><p>所谓的高可用是因为当前集群中的 Master 节点只有一个，所以会存在单点故障问题。所以为了解决单点故障问题，需要在集群中配置多个 Master 节点，一旦处于活动状态的 Master发生故障时，由备用 Master 提供服务，保证作业可以继续执行。这里的高可用一般采用Zookeeper 设置.</p>
+<p>集群规划:</p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172122556.png" alt="image-20210507172122556"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172306974.png" alt="image-20210507172306974"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172327584.png" alt="image-20210507172327584"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172351209.png" alt="image-20210507172351209"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172413137.png" alt="image-20210507172413137"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172432559.png" alt="image-20210507172432559"></p>
+
       
 
       
@@ -1651,11 +366,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">CICD</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jenkins</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -1664,16 +375,24 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/30/%E5%86%8D%E8%A7%81-Jenkins%EF%BC%81%E5%87%A0%E8%A1%8C%E8%84%9A%E6%9C%AC%E6%90%9E%E5%AE%9A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%EF%BC%8C%E8%BF%99%E6%AC%BE%E7%A5%9E%E5%99%A8%E6%9C%89%E7%82%B9%E5%8E%89%E5%AE%B3/">展开全文 >></a>
-        </p>
-      
 
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/05/07/Spark%E5%B9%BF%E6%92%AD%E5%8F%98%E9%87%8F%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spark广播变量实现原理及代码示例</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -1688,17 +407,32 @@
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Local%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">Local模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">解压缩文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8-Local-%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.</span> <span class="toc-text">启动 Local  环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.</span> <span class="toc-text">命令行工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%80%E5%87%BA%E6%9C%AC%E5%9C%B0%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.4.</span> <span class="toc-text">退出本地模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E5%BA%94%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">提交应用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Standalone%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">Standalone模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-1"><span class="toc-number">2.1.</span> <span class="toc-text">解压缩文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.</span> <span class="toc-text">修改配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="toc-number">2.3.</span> <span class="toc-text">启动集群</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E5%BA%94%E7%94%A8-1"><span class="toc-number">2.4.</span> <span class="toc-text">提交应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">2.5.</span> <span class="toc-text">提交参数说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8E%86%E5%8F%B2%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.6.</span> <span class="toc-text">配置历史服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%AB%98%E5%8F%AF%E7%94%A8%EF%BC%88HA-%EF%BC%89"><span class="toc-number">2.7.</span> <span class="toc-text">配置高可用（HA ）</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
 
 
+  
+  
+  
 
   
+
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
-    </nav>
+
   
 
 
@@ -1721,8 +455,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
