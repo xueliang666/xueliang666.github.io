@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaGVpYmFpeWluZy9CaWdEYXRhLU5vdGVzL3Jhdy9tYXN0ZXIvcGljdHVyZXMvc3BhcmstQmlnLXRhYmxlJUUyJTgwJTkzdG8lRTIlODAlOTNiaWctdGFibGUucG5n?x-oss-process=image/format,png#pic_center">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaGVpYmFpeWluZy9CaWdEYXRhLU5vdGVzL3Jhdy9tYXN0ZXIvcGljdHVyZXMvc3BhcmstQmlnLXRhYmxlJUUyJTgwJTkzdG8lRTIlODAlOTNzbWFsbC10YWJsZS5wbmc?x-oss-process=image/format,png#pic_center">
 <meta property="article:published_time" content="2021-05-08T07:53:21.000Z">
-<meta property="article:modified_time" content="2021-05-08T08:10:44.782Z">
+<meta property="article:modified_time" content="2021-05-08T08:16:25.361Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -195,6 +195,7 @@
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> spark = <span class="type">SparkSession</span>.builder().appName(<span class="string">&quot;aggregations&quot;</span>).master(<span class="string">&quot;local[2]&quot;</span>).getOrCreate()</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> empDF = spark.read.json(<span class="string">&quot;/usr/file/json/emp.json&quot;</span>)</span><br><span class="line">empDF.createOrReplaceTempView(<span class="string">&quot;emp&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> deptDF = spark.read.json(<span class="string">&quot;/usr/file/json/dept.json&quot;</span>)</span><br><span class="line">deptDF.createOrReplaceTempView(<span class="string">&quot;dept&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 
+
 <p>两表的主要字段如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">emp 员工表</span><br><span class="line"> |-- ENAME: 员工姓名</span><br><span class="line"> |-- DEPTNO: 部门编号</span><br><span class="line"> |-- EMPNO: 员工编号</span><br><span class="line"> |-- HIREDATE: 入职时间</span><br><span class="line"> |-- JOB: 职务</span><br><span class="line"> |-- MGR: 上级编号</span><br><span class="line"> |-- SAL: 薪资</span><br><span class="line"> |-- COMM: 奖金 </span><br></pre></td></tr></table></figure>
 
@@ -202,7 +203,7 @@
 
 
 
-
+<p>注：emp.json，dept.json 可以在本仓库的resources 目录进行下载。</p>
 <h1 id="二、连接类型"><a href="#二、连接类型" class="headerlink" title="二、连接类型"></a>二、连接类型</h1><p>Spark 中支持多种连接类型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Inner Join : 内连接；</span><br><span class="line">Full Outer Join : 全外连接；</span><br><span class="line">Left Outer Join : 左外连接；</span><br><span class="line">Right Outer Join : 右外连接；</span><br><span class="line">Left Semi Join : 左半连接；</span><br><span class="line">Left Anti Join : 左反连接；</span><br><span class="line">Natural Join : 自然连接；</span><br><span class="line">Cross (or Cartesian) Join : 交叉 (或笛卡尔) 连接。</span><br></pre></td></tr></table></figure>
 
@@ -216,40 +217,23 @@
 <p>所有连接类型的示例代码如下：</p>
 <h2 id="2-1-INNER-JOIN"><a href="#2-1-INNER-JOIN" class="headerlink" title="2.1 INNER JOIN"></a>2.1 INNER JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.定义连接表达式</span></span><br><span class="line"><span class="keyword">val</span> joinExpression = empDF.col(<span class="string">&quot;deptno&quot;</span>) === deptDF.col(<span class="string">&quot;deptno&quot;</span>)</span><br><span class="line"><span class="comment">// 2.连接查询 </span></span><br><span class="line">empDF.join(deptDF,joinExpression).select(<span class="string">&quot;ename&quot;</span>,<span class="string">&quot;dname&quot;</span>).show()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等价 SQL 如下：</span></span><br><span class="line">spark.sql(<span class="string">&quot;SELECT ename,dname FROM emp JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="2-2-FULL-OUTER-JOIN"><a href="#2-2-FULL-OUTER-JOIN" class="headerlink" title="2.2 FULL OUTER JOIN"></a>2.2 FULL OUTER JOIN</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, &quot;outer&quot;).<span class="keyword">show</span>()</span><br><span class="line">spark.sql(&quot;SELECT * FROM emp FULL OUTER JOIN dept ON emp.deptno = dept.deptno&quot;).<span class="keyword">show</span>()</span><br></pre></td></tr></table></figure>
-
-
 
 <h2 id="2-3-LEFT-OUTER-JOIN"><a href="#2-3-LEFT-OUTER-JOIN" class="headerlink" title="2.3 LEFT OUTER JOIN"></a>2.3 LEFT OUTER JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, <span class="string">&quot;left_outer&quot;</span>).show()</span><br><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp LEFT OUTER JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="2-4-RIGHT-OUTER-JOIN"><a href="#2-4-RIGHT-OUTER-JOIN" class="headerlink" title="2.4 RIGHT OUTER JOIN"></a>2.4 RIGHT OUTER JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, <span class="string">&quot;right_outer&quot;</span>).show()</span><br><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp RIGHT OUTER JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
-
-
 
 <h2 id="2-5-LEFT-SEMI-JOIN"><a href="#2-5-LEFT-SEMI-JOIN" class="headerlink" title="2.5 LEFT SEMI JOIN"></a>2.5 LEFT SEMI JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, <span class="string">&quot;left_semi&quot;</span>).show()</span><br><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp LEFT SEMI JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="2-6-LEFT-ANTI-JOIN"><a href="#2-6-LEFT-ANTI-JOIN" class="headerlink" title="2.6 LEFT ANTI JOIN"></a>2.6 LEFT ANTI JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, <span class="string">&quot;left_anti&quot;</span>).show()</span><br><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp LEFT ANTI JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
-
-
 
 <h2 id="2-7-CROSS-JOIN"><a href="#2-7-CROSS-JOIN" class="headerlink" title="2.7 CROSS JOIN"></a>2.7 CROSS JOIN</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(deptDF, joinExpression, <span class="string">&quot;cross&quot;</span>).show()</span><br><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp CROSS JOIN dept ON emp.deptno = dept.deptno&quot;</span>).show()</span><br></pre></td></tr></table></figure>
 
-
-
 <h2 id="2-8-NATURAL-JOIN"><a href="#2-8-NATURAL-JOIN" class="headerlink" title="2.8 NATURAL JOIN"></a>2.8 NATURAL JOIN</h2><p>自然连接是在两张表中寻找那些数据类型和列名都相同的字段，然后自动地将他们连接起来，并返回所有符合条件的结果。</p>
-<p>2.8 NATURAL JOIN<br>自然连接是在两张表中寻找那些数据类型和列名都相同的字段，然后自动地将他们连接起来，并返回所有符合条件的结果。</p>
-<p>2.7 CROSS JOIN<br>empDF.join(deptDF, joinExpression, “cross”).show()<br>spark.sql(“SELECT * FROM emp CROSS JOIN dept ON emp.deptno = dept.deptno”).show()<br>1<br>2<br>2.8 NATURAL JOIN<br>自然连接是在两张表中寻找那些数据类型和列名都相同的字段，然后自动地将他们连接起来，并返回所有符合条件的结果。</p>
-<p>2.4 RIGHT OUTER JOIN<br>empDF.join(deptDF, joinExpression, “right_outer”).show()<br>spark.sql(“SELECT * FROM emp RIGHT OUTER JOIN dept ON emp.deptno = dept.deptno”).show()<br>1<br>2<br>2.5 LEFT SEMI JOIN<br>empDF.join(deptDF, joinExpression, “left_semi”).show()<br>spark.sql(“SELECT * FROM emp LEFT SEMI JOIN dept ON emp.deptno = dept.deptno”).show()<br>1<br>2<br>2.6 LEFT ANTI JOIN<br>empDF.join(deptDF, joinExpression, “left_anti”).show()<br>spark.sql(“SELECT * FROM emp LEFT ANTI JOIN dept ON emp.deptno = dept.deptno”).show()<br>1<br>2<br>2.7 CROSS JOIN<br>empDF.join(deptDF, joinExpression, “cross”).show()<br>spark.sql(“SELECT * FROM emp CROSS JOIN dept ON emp.deptno = dept.deptno”).show()<br>1<br>2<br>2.8 NATURAL JOIN<br>自然连接是在两张表中寻找那些数据类型和列名都相同的字段，然后自动地将他们连接起来，并返回所有符合条件的结果。</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.sql(<span class="string">&quot;SELECT * FROM emp NATURAL JOIN dept&quot;</span>).show()</span><br></pre></td></tr></table></figure>
 
 
-<p>以下是一个自然连接的查询结果，程序自动推断出使用两张表都存在的 dept 列进行连接，其实际等价于：</p>
+
 <p>以下是一个自然连接的查询结果，程序自动推断出使用两张表都存在的 dept 列进行连接，其实际等价于：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark.sql(&quot;SELECT * FROM emp JOIN dept ON emp.deptno = dept.deptno&quot;).<span class="keyword">show</span>()</span><br></pre></td></tr></table></figure>
 
@@ -262,6 +246,10 @@
 <p>是否采用广播方式进行 Join 取决于程序内部对小表的判断，如果想明确使用广播方式进行 Join，则可以在 DataFrame API 中使用 broadcast 方法指定需要广播的小表：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">empDF.join(broadcast(deptDF), joinExpression).show()</span><br></pre></td></tr></table></figure>
 
+
+
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37809146/article/details/91282446">https://blog.csdn.net/m0_37809146/article/details/91282446</a></p>
 
       
 
