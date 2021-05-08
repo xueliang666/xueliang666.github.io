@@ -15,13 +15,13 @@
 <meta property="og:site_name" content="学亮编程手记">
 <meta property="og:description" content="GeoSpark SQL默认是无法读取Shp和GeoJson格式的矢量数据的，必须要通过RDD读取，然后利用GeoSpark提供的Adapter在RDD和DataFrame之间互转。 接下来我们还是利用我们上一节的公园的数据来学习。">
 <meta property="og:locale">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/18085087-47b33fa7864868db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/256/format/webp">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/00ab694d3346e0d528f2fff1670adbe7.png">
 <meta property="article:published_time" content="2021-05-08T01:29:06.000Z">
-<meta property="article:modified_time" content="2021-05-08T01:34:58.627Z">
+<meta property="article:modified_time" content="2021-05-08T01:41:32.150Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="GeoSpark">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/18085087-47b33fa7864868db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/256/format/webp">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/00ab694d3346e0d528f2fff1670adbe7.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -207,7 +207,7 @@
 <h4 id="渲染"><a href="#渲染" class="headerlink" title="渲染"></a>渲染</h4><p>方法参考上一小节。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 转为像素</span></span><br><span class="line">sqlText = <span class="string">&quot;select ST_Envelope_Aggr(shape) as boundary from park&quot;</span>;</span><br><span class="line">rawDF = spark.sql(sqlText);</span><br><span class="line">rawDF.createOrReplaceTempView(<span class="string">&quot;bound&quot;</span>);</span><br><span class="line"></span><br><span class="line">sqlText = <span class="string">&quot;select ST_Pixelize(shape, 256, 256, (select boundary from bound)) as pixel, shape from park &quot;</span>;</span><br><span class="line">rawDF = spark.sql(sqlText);</span><br><span class="line">rawDF.createOrReplaceTempView(<span class="string">&quot;pixels&quot;</span>);</span><br><span class="line">rawDF.show(<span class="keyword">false</span>);</span><br><span class="line"><span class="comment">// 选择颜色</span></span><br><span class="line">sqlText = <span class="string">&quot;select pixel, shape, ST_Colorize(1, 1, &#x27;red&#x27;) as color from pixels&quot;</span>;</span><br><span class="line">rawDF = spark.sql(sqlText);</span><br><span class="line">rawDF.createOrReplaceTempView(<span class="string">&quot;pixels&quot;</span>);</span><br><span class="line">rawDF.show();</span><br><span class="line"><span class="comment">// 渲染</span></span><br><span class="line">sqlText = <span class="string">&quot;select ST_Render(pixel, color) as image from pixels&quot;</span>;</span><br><span class="line">rawDF = spark.sql(sqlText);</span><br><span class="line">rawDF.createOrReplaceTempView(<span class="string">&quot;images&quot;</span>);</span><br><span class="line">rawDF.show();</span><br><span class="line"><span class="comment">// 保存</span></span><br><span class="line">Dataset&lt;org.apache.spark.sql.Row&gt; images = spark.table(<span class="string">&quot;images&quot;</span>);</span><br><span class="line">Row[] take = (Row[])images.take(<span class="number">1</span>);</span><br><span class="line">ImageSerializableWrapper image = (ImageSerializableWrapper)take[<span class="number">0</span>].get(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">new</span> ImageGenerator().SaveRasterImageAsLocalFile(image.getImage(),System.getProperty(<span class="string">&quot;user.home&quot;</span>) + <span class="string">&quot;/park&quot;</span>, ImageType.PNG);</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://upload-images.jianshu.io/upload_images/18085087-47b33fa7864868db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/256/format/webp" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/00ab694d3346e0d528f2fff1670adbe7.png" alt="img"></p>
 
       
 
