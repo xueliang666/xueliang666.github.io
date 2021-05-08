@@ -163,6 +163,71 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-【解决POST提交乱码】增强request-getParameter-方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/%E3%80%90%E8%A7%A3%E5%86%B3POST%E6%8F%90%E4%BA%A4%E4%B9%B1%E7%A0%81%E3%80%91%E5%A2%9E%E5%BC%BArequest-getParameter-%E6%96%B9%E6%B3%95/">【解决POST提交乱码】增强request.getParameter()方法</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/%E3%80%90%E8%A7%A3%E5%86%B3POST%E6%8F%90%E4%BA%A4%E4%B9%B1%E7%A0%81%E3%80%91%E5%A2%9E%E5%BC%BArequest-getParameter-%E6%96%B9%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:12:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.zxl.login.filter;</span><br><span class="line"></span><br><span class="line">import java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line">import javax.servlet.http.HttpServletRequestWrapper;</span><br><span class="line"></span><br><span class="line">public class MyHttpServletRequest extends HttpServletRequestWrapper &#123;</span><br><span class="line">	private HttpServletRequest request;</span><br><span class="line">	public MyHttpServletRequest(HttpServletRequest request) &#123;</span><br><span class="line">		super(request);</span><br><span class="line">		this.request &#x3D; request;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	&#x2F;&#x2F; 增强request.getParameter()方法:</span><br><span class="line">	public String getParameter(String name) &#123;</span><br><span class="line">		&#x2F;&#x2F; 获得请求方式：</span><br><span class="line">		String method &#x3D; request.getMethod();</span><br><span class="line">		&#x2F;&#x2F; 根据get还是post请求进行不同方式的乱码的处理:</span><br><span class="line">		if(&quot;GET&quot;.equalsIgnoreCase(method))&#123;</span><br><span class="line">			&#x2F;&#x2F; get方式的请求</span><br><span class="line">			String value &#x3D; super.getParameter(name);</span><br><span class="line">			try &#123;</span><br><span class="line">				value &#x3D; new String(value.getBytes(&quot;ISO-8859-1&quot;),&quot;UTF-8&quot;);</span><br><span class="line">			&#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			return value;</span><br><span class="line">		&#125;else if(&quot;POST&quot;.equalsIgnoreCase(method))&#123;</span><br><span class="line">			&#x2F;&#x2F; post方式的请求</span><br><span class="line">			try &#123;</span><br><span class="line">				request.setCharacterEncoding(&quot;UTF-8&quot;);</span><br><span class="line">			&#125; catch (UnsupportedEncodingException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return super.getParameter(name);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">package com.zxl.login.filter;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import javax.servlet.Filter;</span><br><span class="line">import javax.servlet.FilterChain;</span><br><span class="line">import javax.servlet.FilterConfig;</span><br><span class="line">import javax.servlet.ServletException;</span><br><span class="line">import javax.servlet.ServletRequest;</span><br><span class="line">import javax.servlet.ServletResponse;</span><br><span class="line">import javax.servlet.http.HttpServletRequest;</span><br><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> * Servlet Filter implementation class GenericEncodingFilter</span><br><span class="line"> *&#x2F;</span><br><span class="line">public class GenericEncodingFilter implements Filter &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Default constructor. </span><br><span class="line">     *&#x2F;</span><br><span class="line">    public GenericEncodingFilter() &#123;</span><br><span class="line">        &#x2F;&#x2F; TODO Auto-generated constructor stub</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * @see Filter#destroy()</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public void destroy() &#123;</span><br><span class="line">		&#x2F;&#x2F; TODO Auto-generated method stub</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException &#123;</span><br><span class="line">		&#x2F;&#x2F; 在过滤器中增强request对象，并将增强后的request对象传递给Servlet:</span><br><span class="line">		HttpServletRequest req &#x3D; (HttpServletRequest) request;</span><br><span class="line">		&#x2F;&#x2F; 增强req:</span><br><span class="line">		MyHttpServletRequest myReq &#x3D; new MyHttpServletRequest(req);</span><br><span class="line">		chain.doFilter(myReq, response);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;**</span><br><span class="line">	 * @see Filter#init(FilterConfig)</span><br><span class="line">	 *&#x2F;</span><br><span class="line">	public void init(FilterConfig fConfig) throws ServletException &#123;</span><br><span class="line">		&#x2F;&#x2F; TODO Auto-generated method stub</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/%E3%80%90%E8%A7%A3%E5%86%B3POST%E6%8F%90%E4%BA%A4%E4%B9%B1%E7%A0%81%E3%80%91%E5%A2%9E%E5%BC%BArequest-getParameter-%E6%96%B9%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-c3p0连接池使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
