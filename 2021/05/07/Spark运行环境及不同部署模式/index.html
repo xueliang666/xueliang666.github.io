@@ -27,14 +27,13 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507170007155.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171723554.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171937774.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172122556.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172306974.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172327584.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172351209.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172413137.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172432559.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095000994.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095230153.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095256223.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095339248.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095407380.png">
 <meta property="article:published_time" content="2021-05-07T08:16:02.000Z">
-<meta property="article:modified_time" content="2021-05-07T09:25:23.013Z">
+<meta property="article:modified_time" content="2021-05-08T01:54:28.363Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -347,12 +346,36 @@
 <p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507171937774.png" alt="image-20210507171937774"></p>
 <h2 id="配置高可用（HA-）"><a href="#配置高可用（HA-）" class="headerlink" title="配置高可用（HA ）"></a>配置高可用（HA ）</h2><p>所谓的高可用是因为当前集群中的 Master 节点只有一个，所以会存在单点故障问题。所以为了解决单点故障问题，需要在集群中配置多个 Master 节点，一旦处于活动状态的 Master发生故障时，由备用 Master 提供服务，保证作业可以继续执行。这里的高可用一般采用Zookeeper 设置.</p>
 <p>集群规划:</p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172122556.png" alt="image-20210507172122556"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172306974.png" alt="image-20210507172306974"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172327584.png" alt="image-20210507172327584"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172351209.png" alt="image-20210507172351209"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172413137.png" alt="image-20210507172413137"></p>
-<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210507172432559.png" alt="image-20210507172432559"></p>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095000994.png" alt="image-20210508095000994"></p>
+<ol>
+<li> 停止集群<br><code>sbin/stop-all.sh</code></li>
+<li> 启动 Zookeeper<br><code>xstart zk </code></li>
+<li> 修改 spark-env.sh 文件添加如下配置<br>注释如下内容：<br><code>#SPARK_MASTER_HOST=linux1 #SPARK_MASTER_PORT=7077</code><br>添加如下内容:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#Master 监控页面默认访问端口为 8080，但是可能会和 Zookeeper 冲突，所以改成 8989，也可以自</span><br><span class="line">定义，访问 UI 监控页面时请注意</span><br><span class="line">SPARK_MASTER_WEBUI_PORT&#x3D;8989</span><br><span class="line">export SPARK_DAEMON_JAVA_OPTS&#x3D;&#39;&#39;</span><br><span class="line">-Dspark.deploy.recoveryMode&#x3D;ZOOKEEPER</span><br><span class="line">-Dspark.deploy.zookeeper.url&#x3D;linux1,linux2,linux3</span><br><span class="line">-Dspark.deploy.zookeeper.dir&#x3D;&#x2F;spark&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li> 分发配置文件<br><code>xsync conf/ </code></li>
+<li> 启动集群<br><code>sbin/start-all.sh</code></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095230153.png" alt="image-20210508095230153"></p>
+<ol start="6">
+<li> 启动 linux2 的单独 Master 节点，此时 linux2 节点 Master 状态处于备用状态<br><code>[root@linux2 spark-standalone]# sbin/start-master.sh</code></li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095256223.png" alt="image-20210508095256223"></p>
+<ol start="7">
+<li> 提交应用到高可用集群</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;spark-submit \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark:&#x2F;&#x2F;linux1:7077,linux2:7077 \</span><br><span class="line">.&#x2F;examples&#x2F;jars&#x2F;spark-examples_2.12-3.0.0.jar \</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li> 停止 linux1 的 Master 资源监控进程</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095339248.png" alt="image-20210508095339248"></p>
+<ol start="9">
+<li> 查看 linux2 的 Master 资源监控 Web UI，稍等一段时间后，linux2 节点的 Master 状态提升为活动状态</li>
+</ol>
+<p><img src="https://raw.githubusercontent.com/a772304419/TyporaPicGo/master/image-20210508095407380.png" alt="image-20210508095407380"></p>
 
       
 
