@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9naXRlZS5jb20vaGVpYmFpeWluZy9CaWdEYXRhLU5vdGVzL3Jhdy9tYXN0ZXIvcGljdHVyZXMvc3BhcmstJUU3JUFBJTg0JUU0JUJFJTlEJUU4JUI1JTk2JUU1JTkyJThDJUU1JUFFJUJEJUU0JUJFJTlEJUU4JUI1JTk2LnBuZw?x-oss-process=image/format,png#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/9e49098e3d587f87bd38dd66953e3282.png">
 <meta property="article:published_time" content="2021-05-08T08:24:20.000Z">
-<meta property="article:modified_time" content="2021-05-08T09:18:15.916Z">
+<meta property="article:modified_time" content="2021-05-08T14:13:42.286Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
@@ -221,13 +221,18 @@
 <h2 id="2-2-引用外部存储系统中的数据集"><a href="#2-2-引用外部存储系统中的数据集" class="headerlink" title="2.2 引用外部存储系统中的数据集"></a>2.2 引用外部存储系统中的数据集</h2><p>引用外部存储系统中的数据集，例如本地文件系统，HDFS，HBase 或支持 Hadoop InputFormat 的任何数据源。</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> fileRDD = sc.textFile(<span class="string">&quot;/usr/file/emp.txt&quot;</span>)</span><br><span class="line"><span class="comment">// 获取第一行文本</span></span><br><span class="line">fileRDD.take(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
-
-
 <p>使用外部存储系统时需要注意以下两点：</p>
-<p>如果在集群环境下从本地文件系统读取数据，则要求该文件必须在集群中所有机器上都存在，且路径相同；<br>支持目录路径，支持压缩文件，支持使用通配符。</p>
+<ul>
+<li>如果在集群环境下从本地文件系统读取数据，则要求该文件必须在集群中所有机器上都存在，且路径相同；</li>
+<li>支持目录路径，支持压缩文件，支持使用通配符。</li>
+</ul>
 <h2 id="2-3-textFile-amp-wholeTextFiles"><a href="#2-3-textFile-amp-wholeTextFiles" class="headerlink" title="2.3 textFile &amp; wholeTextFiles"></a>2.3 textFile &amp; wholeTextFiles</h2><p>两者都可以用来读取外部文件，但是返回格式是不同的：</p>
-<p>textFile：其返回格式是 RDD[String] ，返回的是就是文件内容，RDD 中每一个元素对应一行数据；<br>wholeTextFiles：其返回格式是 RDD[(String, String)]，元组中第一个参数是文件路径，第二个参数是文件内容；<br>两者都提供第二个参数来控制最小分区数；<br>从 HDFS 上读取文件时，Spark 会为每个块创建一个分区。</p>
-<p>三、操作RDD<br>RDD 支持两种类型的操作：transformations（转换，从现有数据集创建新数据集）和 actions（在数据集上运行计算后将值返回到驱动程序）。RDD 中的所有转换操作都是惰性的，它们只是记住这些转换操作，但不会立即执行，只有遇到 action 操作后才会真正的进行计算，这类似于函数式编程中的惰性求值。</p>
+<ul>
+<li>textFile：其返回格式是 RDD[String] ，返回的是就是文件内容，RDD 中每一个元素对应一行数据；</li>
+<li>wholeTextFiles：其返回格式是 RDD[(String, String)]，元组中第一个参数是文件路径，第二个参数是文件内容；</li>
+<li>两者都提供第二个参数来控制最小分区数；</li>
+<li>从 HDFS 上读取文件时，Spark 会为每个块创建一个分区。</li>
+</ul>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">textFile</span></span>(path: <span class="type">String</span>,minPartitions: <span class="type">Int</span> = defaultMinPartitions): <span class="type">RDD</span>[<span class="type">String</span>] = withScope &#123;...&#125;</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wholeTextFiles</span></span>(path: <span class="type">String</span>,minPartitions: <span class="type">Int</span> = defaultMinPartitions): <span class="type">RDD</span>[(<span class="type">String</span>, <span class="type">String</span>)]=&#123;..&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="三、操作RDD"><a href="#三、操作RDD" class="headerlink" title="三、操作RDD"></a>三、操作RDD</h1><p>RDD 支持两种类型的操作：transformations（转换，从现有数据集创建新数据集）和 actions（在数据集上运行计算后将值返回到驱动程序）。RDD 中的所有转换操作都是惰性的，它们只是记住这些转换操作，但不会立即执行，只有遇到 action 操作后才会真正的进行计算，这类似于函数式编程中的惰性求值。</p>
@@ -237,8 +242,11 @@
 <p>Spark 支持多种缓存级别 ：</p>
 <p><img src="https://img-blog.csdnimg.cn/img_convert/617bb6048926fcb291dac43c4287ce68.png" alt="image-20210508165140937"></p>
 <p>启动堆外内存需要配置两个参数：</p>
-<p>spark.memory.offHeap.enabled ：是否开启堆外内存，默认值为 false，需要设置为 true；<br>spark.memory.offHeap.size : 堆外内存空间的大小，默认值为 0，需要设置为正值。</p>
-<h2 id="4-2-使用缓存"><a href="#4-2-使用缓存" class="headerlink" title="4.2 使用缓存"></a>4.2 使用缓存</h2><p>缓存数据的方法有两个：persist 和 cache 。cache 内部调用的也是 persist，它是 persist 的特殊化形式，等价于 persist(StorageLevel.MEMORY_ONLY)。示例如下：</p>
+<ul>
+<li>spark.memory.offHeap.enabled ：是否开启堆外内存，默认值为 false，需要设置为 true；</li>
+<li>spark.memory.offHeap.size : 堆外内存空间的大小，默认值为 0，需要设置为正值。</li>
+</ul>
+<h2 id="4-2-使用缓存"><a href="#4-2-使用缓存" class="headerlink" title="4.2 使用缓存"></a>4.2 使用缓存</h2><p>缓存数据的方法有两个：<code>persist</code> 和 <code>cache</code> 。cache 内部调用的也是 persist，它是 persist 的特殊化形式，等价于 <code>persist(StorageLevel.MEMORY_ONLY)</code>。示例如下：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 所有存储级别均定义在 StorageLevel 对象中</span></span><br><span class="line">fileRDD.persist(<span class="type">StorageLevel</span>.<span class="type">MEMORY_AND_DISK</span>)</span><br><span class="line">fileRDD.cache()</span><br></pre></td></tr></table></figure>
 
 <h2 id="4-3-移除缓存"><a href="#4-3-移除缓存" class="headerlink" title="4.3 移除缓存"></a>4.3 移除缓存</h2><p>Spark 会自动监视每个节点上的缓存使用情况，并按照最近最少使用（LRU）的规则删除旧数据分区。当然，你也可以使用 RDD.unpersist() 方法进行手动删除。</p>
