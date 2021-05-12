@@ -163,6 +163,242 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-（十一）Shapefile编码（下）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/12/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/">（十一）Shapefile编码（下）</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/12/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2021-05-12T09:24:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>shp文件编码转换</p>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/12/%EF%BC%88%E5%8D%81%E4%B8%80%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8B%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-（十）Shapefile编码（上）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/12/%EF%BC%88%E5%8D%81%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/">（十）Shapefile编码（上）</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/12/%EF%BC%88%E5%8D%81%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/" class="archive-article-date">
+  	<time datetime="2021-05-12T09:21:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先来讲下shp文件组成，一个shp文件通常由：shp、dbf、shx、prj四个文件组成，其中prj代表空间参考信息，shx存储了索引信息，有助于程序加快搜索效率，shp保存了元素的几何实体，<strong>最后dbf里面存放了每个几何形状的属性数据</strong>，所以我们将shp文件编码，实际上是将dbf文件编码，因为只有dbf来说，才有可能存储GBK编码的中文或其他编码的其他语言的。</p>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/12/%EF%BC%88%E5%8D%81%EF%BC%89Shapefile%E7%BC%96%E7%A0%81%EF%BC%88%E4%B8%8A%EF%BC%89/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-geospark-geotrellis-geomesa-geowave的异同" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/12/geospark-geotrellis-geomesa-geowave%E7%9A%84%E5%BC%82%E5%90%8C/">geospark geotrellis geomesa geowave的异同</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/12/geospark-geotrellis-geomesa-geowave%E7%9A%84%E5%BC%82%E5%90%8C/" class="archive-article-date">
+  	<time datetime="2021-05-12T09:16:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <span id="more"></span>
+
+<h1 id="一"><a href="#一" class="headerlink" title="一"></a>一</h1><p>我是GeoSpark的作者。我的个人网站的Talk section里面有非常详细的教程讲解GeoSpark到底是做什么的。简单来说：</p>
+<p>GeoSpark provides distributed index and query.on spatial vector data in Apache Spark. Spatia vector data includes point polygon linestrings trajectories.</p>
+<p> GeoMesa是一个基于Apache Accumulo key value store的spatial index, also for spatial vector data. GeoMesa里面的Spark核心部分是GeoSpark算法的再造轮子（GeoMesa的作者当面告诉我的）</p>
+<p> GeoTrellies provides distributed query and map algebra on spatial raster data such as satellite imagery data.</p>
+<h1 id="二"><a href="#二" class="headerlink" title="二"></a>二</h1><p>①PostGis为PostgreSql提供了空间数据类型，空间函数，空间索引，作为插件使PostGreSql成为了一个空间关系型数据库。<br> ②Ganos同理为Hbase提供空间能力，使得Hbase成为了一个空间分布式数据库，但是不仅仅如此，数据库仅仅是存储，而Ganos还通过Spark进行数据分析。<br> ③PolarDb底层通过存储集群的方式实现了按存储容量收费，避免Mysql按照2T的实例购买。首先抛开原理谈优点，相比Mysql实现了容量大，高性价比，分钟级弹性，读一致性，毫秒级延迟，无锁备份，复杂Sql查询加速。说白了是对标于Mysql的竞争产品。<br> ④GeoHash通过一定的规则把经纬度二维坐标转换成一维编码，从而更加高效，同时在个别场景下有更好的用途。实质是个算法。<br> ⑤GeoMesa被阿里进一步封装，形成了Ganos。GeoMesa同样是基于Hbase或者其他分布式数据库进行存储，基于Spark进行时空数据分析，两者说白了就是使用一定的方法（添加时空数据类型，添加时空函数等等）把时空数据与大数据组件如存储Hbase，计算Spark结合起来，使之成为能处理，存储，分析时空的大数据平台。<br> ⑥在上面的场景下，GeoMesa不能处理时空栅格数据，那么就引入了GeoTrellis来处理时空栅格数据。可以说是对GeoMesa的补充。<br> ⑦GeoMesa中空间处理部分Spark核心部分是GeoSpark算法的优化和改进。<br> ⑧GeoWave作为Apache顶级项目Accumulo键值对数据库的spatial index，为Accumulo键值对数据库提供了空间能力的同时也提供了空间数据处理能力。<br> ⑨lgnite可以看作分布式内存网格的一种实现，提供分布式计算的同时提供分布式内存存储（可以看作redis）<br> ⑩Sphinx使用C++语言编写，作为一种基于Sql的全文检索引擎。与其对标的典型有<br> Lucene,Solr,ElstaticSearch。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/12/geospark-geotrellis-geomesa-geowave%E7%9A%84%E5%BC%82%E5%90%8C/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-（九）GeoSpark关于属性字段处理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1464,232 +1700,6 @@
 
 
   
-    <article id="post-（一）Geospark入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/">（一）Geospark入门</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:20:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoSpark是基于Spark分布式的地理信息计算引擎，相比于传统的ArcGIS，GeoSpark可以提供更好性能的空间分析、查询服务。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-GeoMesa-空间数据存储引擎" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">GeoMesa空间数据存储引擎入门学习手册</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="archive-article-date">
-  	<time datetime="2021-04-24T11:09:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GeoMesa-空间数据存储引擎架构介绍及常见操作代码示例。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SparkSQL操作Hive" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/">SparkSQL操作Hive</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/" class="archive-article-date">
-  	<time datetime="2020-05-12T08:12:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Apache Hive 是 Hadoop 上的 SQL 引擎，Spark SQL 编译时可以包含 Hive 支持，也可以不包含。包含 Hive 支持的 Spark SQL 可以支持 Hive 表访问、UDF (用户自定义函数)以及 Hive 查询语言(HiveQL/HQL)等。需要强调的一点是，如果要在 Spark SQL 中包含Hive 的库，并不需要事先安装 Hive。一般来说，最好还是在编译 Spark SQL 时引入 Hive支持，这样就可以使用这些特性了。如果你下载的是二进制版本的 Spark，它应该已经在编译时添加了 Hive 支持。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &gt;&gt;</a>
@@ -1960,6 +1970,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">sqlite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
               </li>
             
             <div class="clearfix"></div>

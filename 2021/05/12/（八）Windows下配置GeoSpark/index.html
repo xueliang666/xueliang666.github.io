@@ -16,7 +16,7 @@
 <meta property="og:description" content="Windows下配置Geospark">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-05-12T08:48:41.000Z">
-<meta property="article:modified_time" content="2021-05-12T08:57:28.615Z">
+<meta property="article:modified_time" content="2021-05-12T09:06:40.603Z">
 <meta property="article:author" content="学亮">
 <meta property="article:tag" content="GeoSpark">
 <meta name="twitter:card" content="summary">
@@ -186,55 +186,36 @@
         <p>Windows下配置Geospark</p>
 <span id="more"></span>
 
-<h4 id="JDK安装"><a href="#JDK安装" class="headerlink" title="JDK安装"></a>JDK安装</h4><ol>
-<li>下载地址<ol>
-<li>官网下载地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.oracle.com/technetwork/java/javase/downloads/index.html">https://www.oracle.com/technetwork/java/javase/downloads/index.html</a></li>
-<li>在官网下载时，需要先注册oracle网站的账号，为了方便下载，这里提供一个百度云下载地址：链接：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://pan.baidu.com/s/16T1meL7pWD4Rk2qdmIS6kQ">https://pan.baidu.com/s/16T1meL7pWD4Rk2qdmIS6kQ</a> 提取码：9obn</li>
-</ol>
-</li>
-<li>下载完成后，直接双击安装，安装完成后，配置<code>JAVA_HOME</code>为<code>JDK</code>安装目录，在将<code>%JAVA_HOME%\bin</code>配置到<code>PATH</code>下，配置CLASSPATH为<code>.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar</code></li>
-</ol>
-<h4 id="Maven安装"><a href="#Maven安装" class="headerlink" title="Maven安装"></a>Maven安装</h4><ol>
-<li><p>下载地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://maven.apache.org/download.cgi">http://maven.apache.org/download.cgi</a></p>
-</li>
-<li><p>解压后，将解压文件拷贝到任意目录，然后将maven下面的bin目录添加到环境变量</p>
-</li>
-<li><p>在命令控制行中输入<code>mvn -v</code>，如果有提示以下信息，则代表maven安装成功</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Apache Maven <span class="number">3.6</span>.<span class="number">1</span> (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; <span class="number">2019</span>-<span class="number">04</span>-<span class="number">05</span>T03:<span class="number">00</span>:<span class="number">29</span>+<span class="number">08</span>:<span class="number">00</span>)</span><br><span class="line">Maven home: D:\Program Files\Java\apache-maven-<span class="number">3.6</span>.<span class="number">1</span>\bin\..</span><br><span class="line">Java version: <span class="number">1.8</span>.<span class="number">0</span>_181, vendor: Oracle Corporation, runtime: D:\Program Files\Java\jdk1.<span class="number">8.0</span>_181\jre</span><br><span class="line">Default locale: zh_CN, platform encoding: GBK</span><br><span class="line">OS name: <span class="string">&quot;windows 10&quot;</span>, version: <span class="string">&quot;10.0&quot;</span>, arch: <span class="string">&quot;amd64&quot;</span>, family: <span class="string">&quot;windows&quot;</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="Scala安装"><a href="#Scala安装" class="headerlink" title="Scala安装"></a>Scala安装</h4><ol>
-<li>下载地址: <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.scala-lang.org/download/2.11.12.html">https://www.scala-lang.org/download/2.11.12.html</a></li>
-<li>scala安装很简单，直接双击下载好的msi文件，scala会自动配置环境变量。</li>
-</ol>
-<h4 id="Hadoop安装"><a href="#Hadoop安装" class="headerlink" title="Hadoop安装"></a>Hadoop安装</h4><ol>
-<li><p>下载地址：</p>
+<h4 id="JDK安装"><a href="#JDK安装" class="headerlink" title="JDK安装"></a>JDK安装</h4><p>下载地址</p>
+<p>官网下载地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.oracle.com/technetwork/java/javase/downloads/index.html">https://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+<p>在官网下载时，需要先注册oracle网站的账号，为了方便下载，这里提供一个百度云下载地址：链接：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://pan.baidu.com/s/16T1meL7pWD4Rk2qdmIS6kQ">https://pan.baidu.com/s/16T1meL7pWD4Rk2qdmIS6kQ</a> 提取码：9obn</p>
+<p>下载完成后，直接双击安装，安装完成后，配置<code>JAVA_HOME</code>为<code>JDK</code>安装目录，在将<code>%JAVA_HOME%\bin</code>配置到<code>PATH</code>下，配置CLASSPATH为<code>.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar</code></p>
+<h4 id="Maven安装"><a href="#Maven安装" class="headerlink" title="Maven安装"></a>Maven安装</h4><p>下载地址：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=http://maven.apache.org/download.cgi">http://maven.apache.org/download.cgi</a></p>
+<p>解压后，将解压文件拷贝到任意目录，然后将maven下面的bin目录添加到环境变量</p>
+<p>在命令控制行中输入<code>mvn -v</code>，如果有提示以下信息，则代表maven安装成功</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Apache Maven <span class="number">3.6</span>.<span class="number">1</span> (d66c9c0b3152b2e69ee9bac180bb8fcc8e6af555; <span class="number">2019</span>-<span class="number">04</span>-<span class="number">05</span>T03:<span class="number">00</span>:<span class="number">29</span>+<span class="number">08</span>:<span class="number">00</span>)</span><br><span class="line">Maven home: D:\Program Files\Java\apache-maven-<span class="number">3.6</span>.<span class="number">1</span>\bin\..</span><br><span class="line">Java version: <span class="number">1.8</span>.<span class="number">0</span>_181, vendor: Oracle Corporation, runtime: D:\Program Files\Java\jdk1.<span class="number">8.0</span>_181\jre</span><br><span class="line">Default locale: zh_CN, platform encoding: GBK</span><br><span class="line">OS name: <span class="string">&quot;windows 10&quot;</span>, version: <span class="string">&quot;10.0&quot;</span>, arch: <span class="string">&quot;amd64&quot;</span>, family: <span class="string">&quot;windows&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Scala安装"><a href="#Scala安装" class="headerlink" title="Scala安装"></a>Scala安装</h4><p>下载地址: <a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://www.scala-lang.org/download/2.11.12.html">https://www.scala-lang.org/download/2.11.12.html</a></p>
+<p>scala安装很简单，直接双击下载好的msi文件，scala会自动配置环境变量。</p>
+<h4 id="Hadoop安装"><a href="#Hadoop安装" class="headerlink" title="Hadoop安装"></a>Hadoop安装</h4><p>下载地址：</p>
 <ul>
 <li><p><a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://archive.apache.org/dist/hadoop/common/hadoop-2.7.2/">https://archive.apache.org/dist/hadoop/common/hadoop-2.7.2/</a></p>
 </li>
 <li><p>winutil.exe下载：<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/steveloughran/winutils">https://github.com/steveloughran/winutils</a>，选择hadoop-2.7.1即可。</p>
 </li>
 </ul>
-</li>
-<li><p>解压后，配置环境变量，设置<strong>HADOOP_HOME</strong>为Hadoop的解压目录，然后再设置该目录下的bin目录到系统变量的<strong>PATH</strong>下。</p>
-</li>
-<li><p>将下载winutils.exe复制到hadoop的bin目录下完成安装。</p>
-</li>
-</ol>
-<h4 id="Spark安装"><a href="#Spark安装" class="headerlink" title="Spark安装"></a>Spark安装</h4><ol>
-<li><p>下载地址:</p>
+<p>解压后，配置环境变量，设置<strong>HADOOP_HOME</strong>为Hadoop的解压目录，然后再设置该目录下的bin目录到系统变量的<strong>PATH</strong>下。</p>
+<p>将下载winutils.exe复制到hadoop的bin目录下完成安装。</p>
+<h4 id="Spark安装"><a href="#Spark安装" class="headerlink" title="Spark安装"></a>Spark安装</h4><p>下载地址:</p>
 <p><a target="_blank" rel="noopener" href="https://archive.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz">https://archive.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz</a>](<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://archive.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz%5D(https://archive.apache.org/dist/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz)">https://links.jianshu.com/go?to=https%3A%2F%2Farchive.apache.org%2Fdist%2Fspark%2Fspark-2.3.4%2Fspark-2.3.4-bin-hadoop2.7.tgz%5D(https%3A%2F%2Farchive.apache.org%2Fdist%2Fspark%2Fspark-2.3.4%2Fspark-2.3.4-bin-hadoop2.7.tgz)</a>)</p>
-</li>
-<li><p>解压后，配置环境变量，设置<strong>SPARK_HOME</strong>为Spark的解压目录，然后再设置该目录下的bin目录到系统变量的<strong>PATH</strong>下。</p>
-</li>
-<li><p>在CMD中输入<code>spark-shell</code>，若有以下信息提示，则代表成功</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Setting default log level to <span class="string">&quot;WARN&quot;</span>.</span><br><span class="line">To adjust logging level <span class="keyword">use</span> sc.setLogLevel(newLevel). For SparkR, <span class="keyword">use</span> setLogLevel(newLevel).</span><br><span class="line">Spark context Web UI available at http:<span class="comment">//hwang:4040</span></span><br><span class="line">Spark context available <span class="keyword">as</span> <span class="symbol">&#x27;sc</span>&#x27; (master = local[*], app id = local-<span class="number">1591705705311</span>).</span><br><span class="line">Spark session available <span class="keyword">as</span> <span class="symbol">&#x27;spark</span>&#x27;.</span><br><span class="line">Welcome to</span><br><span class="line">      ____              __</span><br><span class="line">     / __/__  ___ _____/ /__</span><br><span class="line">    _\ \/ _ \/ _ `/ __/  <span class="symbol">&#x27;_</span>/</span><br><span class="line">   /___/ .__/\_,_/_/ /_/\_\   version <span class="number">2.3</span>.<span class="number">4</span></span><br><span class="line">      /_/</span><br><span class="line"></span><br><span class="line">Using Scala version <span class="number">2.11</span>.<span class="number">8</span> (Java HotSpot(TM) <span class="number">64</span>-Bit Server VM, Java <span class="number">1.8</span>.<span class="number">0_181</span>)</span><br><span class="line">Type <span class="keyword">in</span> expressions to have them evaluated.</span><br><span class="line">Type :help <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h4 id="搭建工程"><a href="#搭建工程" class="headerlink" title="搭建工程"></a>搭建工程</h4><ol>
-<li>首先从<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/scially/GeosparkBook">https://github.com/scially/GeosparkBook</a>将整个工程下载下来，并解压（选择geospark分支而不是master分支<a target="_blank" rel="noopener" href="https://github.com/scially/GeosparkBook/tree/geospark/src/main/java/cn/dev%EF%BC%89">https://github.com/scially/GeosparkBook/tree/geospark/src/main/java/cn/dev）</a></li>
-<li>打开IDEA，选择<code>Import Project</code>，选择刚才解压的目录，选中<code>Import project from external model</code>，选择<code>Maven</code>，点击<code>Next</code></li>
-<li>勾选<code>Import Maven projects automatically</code>，然后点击<code>Environment Settings</code>，选择我们之前安装的maven目录，然后一路<code>Next</code>，完成后IDEA会去自动构建工程，如果你是第一次开发Spark相关应用，这个构建时间会有点长，因为IDEA要去maven中央仓库拉取依赖，耐心等待即可（需要30分钟左右）。</li>
-<li>构建完成后，打开cn.dev下面的任意一个类，点击main函数左边的执行按钮，若运行成功，则代表环境配置成功。</li>
-</ol>
+<p>解压后，配置环境变量，设置<strong>SPARK_HOME</strong>为Spark的解压目录，然后再设置该目录下的bin目录到系统变量的<strong>PATH</strong>下。</p>
+<p>在CMD中输入<code>spark-shell</code>，若有以下信息提示，则代表成功</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Setting default log level to <span class="string">&quot;WARN&quot;</span>.</span><br><span class="line">To adjust logging level <span class="keyword">use</span> sc.setLogLevel(newLevel). For SparkR, <span class="keyword">use</span> setLogLevel(newLevel).</span><br><span class="line">Spark context Web UI available at http:<span class="comment">//hwang:4040</span></span><br><span class="line">Spark context available <span class="keyword">as</span> <span class="symbol">&#x27;sc</span>&#x27; (master = local[*], app id = local-<span class="number">1591705705311</span>).</span><br><span class="line">Spark session available <span class="keyword">as</span> <span class="symbol">&#x27;spark</span>&#x27;.</span><br><span class="line">Welcome to</span><br><span class="line">      ____              __</span><br><span class="line">     / __/__  ___ _____/ /__</span><br><span class="line">    _\ \/ _ \/ _ `/ __/  <span class="symbol">&#x27;_</span>/</span><br><span class="line">   /___/ .__/\_,_/_/ /_/\_\   version <span class="number">2.3</span>.<span class="number">4</span></span><br><span class="line">      /_/</span><br><span class="line"></span><br><span class="line">Using Scala version <span class="number">2.11</span>.<span class="number">8</span> (Java HotSpot(TM) <span class="number">64</span>-Bit Server VM, Java <span class="number">1.8</span>.<span class="number">0_181</span>)</span><br><span class="line">Type <span class="keyword">in</span> expressions to have them evaluated.</span><br><span class="line">Type :help <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure>
+
+<h4 id="搭建工程"><a href="#搭建工程" class="headerlink" title="搭建工程"></a>搭建工程</h4><p>从<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://github.com/scially/GeosparkBook">https://github.com/scially/GeosparkBook</a>将整个工程下载下来，并解压（选择geospark分支而不是master分支<a target="_blank" rel="noopener" href="https://github.com/scially/GeosparkBook/tree/geospark/src/main/java/cn/dev%EF%BC%89">https://github.com/scially/GeosparkBook/tree/geospark/src/main/java/cn/dev）</a></p>
+<p>打开IDEA，选择<code>Import Project</code>，选择刚才解压的目录，选中<code>Import project from external model</code>，选择<code>Maven</code>，点击<code>Next</code></p>
+<p>勾选<code>Import Maven projects automatically</code>，然后点击<code>Environment Settings</code>，选择我们之前安装的maven目录，然后一路<code>Next</code>，完成后IDEA会去自动构建工程，如果你是第一次开发Spark相关应用，这个构建时间会有点长，因为IDEA要去maven中央仓库拉取依赖，耐心等待即可（需要30分钟左右）。</p>
+<p>构建完成后，打开cn.dev下面的任意一个类，点击main函数左边的执行按钮，若运行成功，则代表环境配置成功。</p>
 
       
 
@@ -590,6 +571,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">sqlite</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">GIS</a>
               </li>
             
             <div class="clearfix"></div>
