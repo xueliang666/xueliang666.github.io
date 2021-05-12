@@ -163,6 +163,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-（九）GeoSpark关于属性字段处理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/">（九）GeoSpark关于属性字段处理</a>
+    </h1>
+  
+
+        
+        <a href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/" class="archive-article-date">
+  	<time datetime="2021-05-12T08:58:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Geospark将从shapefile、csv等格式文件以及DataFrame中的读取的字段保存到了<code>Geometry</code>的<code>userData</code>字段中，可以通过调用<code>.getUserData()</code>方法获取，他会返回一个String对象，各个字段以<code>\t</code>连接。</p>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-（八）Windows下配置GeoSpark" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1587,80 +1661,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-SparkSQL-MySQL数据的加载和保存代码示例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/12/SparkSQL-MySQL%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/">SparkSQL MySQL数据的加载和保存代码示例</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/12/SparkSQL-MySQL%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2020-05-12T07:50:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Spark SQL 可以通过 JDBC 从关系型数据库中读取数据的方式创建 DataFrame，通过对DataFrame 一系列的计算后，还可以将数据再写回关系型数据库中。如果使用 spark-shell 操作，可在启动 shell 时指定相关的数据库驱动路径或者将相关的数据库驱动放到 spark 的类路径下。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/12/SparkSQL-MySQL%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/">展开全文 >></a>
         </p>
       
 

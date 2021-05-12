@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>Archives: 2021 | 学亮编程手记</title>
+  <title>（九）GeoSpark关于属性字段处理 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
-<meta property="og:type" content="website">
-<meta property="og:title" content="学亮编程手记">
-<meta property="og:url" content="http://xueliang666.github.com/archives/2021/index.html">
+  <meta name="description" content="Geospark将从shapefile、csv等格式文件以及DataFrame中的读取的字段保存到了Geometry的userData字段中，可以通过调用.getUserData()方法获取，他会返回一个String对象，各个字段以\t连接。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（九）GeoSpark关于属性字段处理">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="og:description" content="Geospark将从shapefile、csv等格式文件以及DataFrame中的读取的字段保存到了Geometry的userData字段中，可以通过调用.getUserData()方法获取，他会返回一个String对象，各个字段以\t连接。">
 <meta property="og:locale">
+<meta property="article:published_time" content="2021-05-12T08:58:12.000Z">
+<meta property="article:modified_time" content="2021-05-12T09:03:32.787Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="article:tag" content="GeoSpark">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
@@ -161,36 +163,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-（九）GeoSpark关于属性字段处理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      （九）GeoSpark关于属性字段处理
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/" class="archive-article-date">
+
+        
+        <a href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/" class="archive-article-date">
   	<time datetime="2021-05-12T08:58:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/12/%EF%BC%88%E4%B9%9D%EF%BC%89GeoSpark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86/">（九）GeoSpark关于属性字段处理</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Geospark将从shapefile、csv等格式文件以及DataFrame中的读取的字段保存到了<code>Geometry</code>的<code>userData</code>字段中，可以通过调用<code>.getUserData()</code>方法获取，他会返回一个String对象，各个字段以<code>\t</code>连接。</p>
+<span id="more"></span>
 
-        <div class="article-info info-on-right">
-          
+<h3 id="Geospark关于属性字段处理"><a href="#Geospark关于属性字段处理" class="headerlink" title="Geospark关于属性字段处理"></a>Geospark关于属性字段处理</h3><p>Geospark将从shapefile、csv等格式文件以及DataFrame中的读取的字段保存到了<code>Geometry</code>的<code>userData</code>字段中，可以通过调用<code>.getUserData()</code>方法获取，他会返回一个String对象，各个字段以<code>\t</code>连接。</p>
+<p>额外补充一点：Geometry属于<code>JTS</code>开源库的一部分，Geospark将<code>JTS</code>集成在了项目中，并且对其做了改动，所以我们在pom.xml中无需在配置。JTS中核心类是<code>Geometry</code>，代表了一个几何图形，存储了这个几何图形的坐标信息，并且支持拓扑运算。</p>
+<p>下面我们首先以CSV为例，他每条属性有两个字段（元数据只有一个字段，我在后面又增加了一个字段），我们看看如何读取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-88.331492,32.324142,hotel,NewYork</span><br><span class="line">-88.175933,32.360763,gas,NewYork</span><br><span class="line">-88.388954,32.357073,bar,NewYork</span><br><span class="line">-88.221102,32.35078,restaurant,NewYork</span><br></pre></td></tr></table></figure>
+
+<p>我们还是仿照第一节的例子，来读取checkin.csv，并且将其转为Geometry</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化Spark</span></span><br><span class="line">SparkSession spark = SparkSession.builder().</span><br><span class="line">        config(<span class="string">&quot;spark.serializer&quot;</span>,<span class="string">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span>).</span><br><span class="line">        config(<span class="string">&quot;spark.kryo.registrator&quot;</span>, <span class="string">&quot;org.datasyslab.geospark.serde.GeoSparkKryoRegistrator&quot;</span>).</span><br><span class="line">        master(<span class="string">&quot;local[*]&quot;</span>).appName(<span class="string">&quot;Learn08&quot;</span>).getOrCreate();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 加载CSV文件</span></span><br><span class="line">JavaSparkContext sc = <span class="keyword">new</span> JavaSparkContext(spark.sparkContext());</span><br><span class="line">String pointRDDInputLocation = Learn08.class.getResource(<span class="string">&quot;/checkin.csv&quot;</span>).toString();</span><br><span class="line">Integer pointRDDOffset = <span class="number">0</span>; <span class="comment">// 地理位置(经纬度)从第0列开始</span></span><br><span class="line">FileDataSplitter pointRDDSplitter = FileDataSplitter.CSV;</span><br><span class="line">Boolean carryOtherAttributes = <span class="keyword">true</span>; <span class="comment">// 第二列的属性(酒店名)，这里我们要加载的字段</span></span><br><span class="line"></span><br><span class="line">PointRDD rdd = <span class="keyword">new</span> PointRDD(sc, pointRDDInputLocation, pointRDDOffset, pointRDDSplitter, carryOtherAttributes);</span><br><span class="line">rdd.rawSpatialRDD.foreach((point -&gt; &#123;</span><br><span class="line">    String[] attrs = point.getUserData().toString().split(<span class="string">&quot;\t&quot;</span>);</span><br><span class="line">    System.out.println(StringUtils.join(attrs, <span class="string">&quot;|&quot;</span>));</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+
+<p>注意这一行，<code>PointRDD rdd = new PointRDD(sc, pointRDDInputLocation, pointRDDOffset, pointRDDSplitter, carryOtherAttributes);</code>，我们将<code>carryOtherAttributes</code>设置为true，并且调用<code>.split(&quot;\t&quot;)</code>将字段分隔，并用<code>|</code>重新拼接：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hotel<span class="params">|NewYork</span></span><br><span class="line"><span class="params">gas|</span>NewYork</span><br><span class="line">restaurant<span class="params">|NewYork</span></span><br><span class="line"><span class="params">bar|</span>NewYork</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>对于shp文件也是如此，geospark会将shp文件中的每一个图斑的所有字段全部放在<code>userData</code>中，并用<code>\t</code>连接。大家感兴趣可以试一试，由于目前geospark在读取shp中只支持utf8编码，如果是gbk的话，我们就要处理下了，下一节我们会讲如何来判断shp文件编码以及如何转换。</p>
+<h3 id="代码位置说明"><a href="#代码位置说明" class="headerlink" title="代码位置说明"></a>代码位置说明</h3><p>本节代码可以在<a target="_blank" rel="noopener" href="https://github.com/scially/GeosparkBook/blob/geospark/src/main/java/cn/dev/Learn08.java">https://github.com/scially/GeosparkBook/blob/geospark/src/main/java/cn/dev/Learn08.java</a>找到（Learn08.java）</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -202,747 +219,68 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/12/%EF%BC%88%E5%85%AB%EF%BC%89Windows%E4%B8%8B%E9%85%8D%E7%BD%AEGeoSpark/" class="archive-article-date">
-  	<time datetime="2021-05-12T08:48:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/05/12/%EF%BC%88%E5%85%AB%EF%BC%89Windows%E4%B8%8B%E9%85%8D%E7%BD%AEGeoSpark/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">（八）Windows下配置GeoSpark</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/12/%EF%BC%88%E5%85%AB%EF%BC%89Windows%E4%B8%8B%E9%85%8D%E7%BD%AEGeoSpark/">（八）Windows下配置GeoSpark</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Geospark%E5%85%B3%E4%BA%8E%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">Geospark关于属性字段处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">代码位置说明</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/12/%EF%BC%88%E4%B8%83%EF%BC%89GeoSpark%E4%B8%8EPostgreSQL/" class="archive-article-date">
-  	<time datetime="2021-05-12T08:38:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-12</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/12/%EF%BC%88%E4%B8%83%EF%BC%89GeoSpark%E4%B8%8EPostgreSQL/">（七）GeoSpark与PostgreSQL</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/08/%EF%BC%88%E5%85%AD%EF%BC%89Geospark-SQL%E5%8A%A0%E8%BD%BDSHP%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2021-05-08T01:29:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/08/%EF%BC%88%E5%85%AD%EF%BC%89Geospark-SQL%E5%8A%A0%E8%BD%BDSHP%E6%95%B0%E6%8D%AE/">（六）Geospark SQL加载SHP数据(JAVA版)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T09:31:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%89%E3%80%90%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之三【空间查询篇】</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E3%80%90Spatial-RDD%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T09:00:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%BA%8C%E3%80%90Spatial-RDD%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之二【Spatial RDD篇】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/" class="archive-article-date">
-  	<time datetime="2021-05-06T08:53:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/%E5%B8%A6%E4%BD%A0%E5%85%A5%E9%97%A8GeoSpark%E7%B3%BB%E5%88%97%E4%B9%8B%E4%B8%80%E3%80%90%E7%8E%AF%E5%A2%83%E7%AF%87%E3%80%91/">带你入门GeoSpark系列之一【环境篇】</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GeoSpark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/" class="archive-article-date">
-  	<time datetime="2021-05-06T07:19:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/GeoMesa-HBase%E9%83%A8%E7%BD%B2%E5%AE%9E%E8%B7%B5/">GeoMesa-HBase部署实践</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:48:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/%E4%BD%BF%E7%94%A8Geomesa-spark%E5%A4%84%E7%90%86%E7%AE%A1%E7%BA%BF%E6%95%B0%E6%8D%AE/">使用Geomesa-spark处理管线数据</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:38:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/GeoMesa-Spark%E7%A9%BA%E9%97%B4Join%E5%92%8C%E8%81%9A%E5%90%88/">GeoMesa Spark空间Join和聚合</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:33:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/GeoMesa-Spark%E5%B9%BF%E6%92%AD%E5%92%8C%E8%81%9A%E5%90%88/">GeoMesa Spark广播和聚合</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/GeoMesa-Spark%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:24:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/GeoMesa-Spark%E5%9F%BA%E7%A1%80%E5%88%86%E6%9E%90/">GeoMesa Spark基础分析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/06/GeoMesa-FileSystem%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/" class="archive-article-date">
-  	<time datetime="2021-05-06T05:15:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/06/GeoMesa-FileSystem%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/">GeoMesa FileSystem快速上手</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2021-04-29T08:11:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/">（五）GeosparkViz 可视化</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/" class="archive-article-date">
-  	<time datetime="2021-04-29T08:03:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/">（四）Geospark SQL简介</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/29/%EF%BC%88%E4%B8%89%EF%BC%89Geospark%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:57:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/29/%EF%BC%88%E4%B8%89%EF%BC%89Geospark%E7%A9%BA%E9%97%B4%E6%9F%A5%E8%AF%A2/">（三）Geospark空间查询</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:50:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/29/%EF%BC%88%E4%BA%8C%EF%BC%89Geospark%E4%BB%8EShapefile%E4%B8%AD%E5%8A%A0%E8%BD%BDRDD/">（二）Geospark从Shapefile中加载RDD</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/" class="archive-article-date">
-  	<time datetime="2021-04-29T07:20:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/29/%EF%BC%88%E4%B8%80%EF%BC%89Geospark%E5%85%A5%E9%97%A8/">（一）Geospark入门</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/" class="archive-article-date">
-  	<time datetime="2021-04-24T11:09:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/24/GeoMesa-%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">GeoMesa空间数据存储引擎入门学习手册</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -965,8 +303,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

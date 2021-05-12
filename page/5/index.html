@@ -163,6 +163,69 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java-mail发送邮件示例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/Java-mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E7%A4%BA%E4%BE%8B/">Java mail发送邮件示例</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/Java-mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:17:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangxueliang.demo;</span><br><span class="line"></span><br><span class="line">import java.util.*;</span><br><span class="line">import javax.mail.*;</span><br><span class="line">import javax.mail.Message.RecipientType;</span><br><span class="line">import javax.mail.internet.*;</span><br><span class="line">import javax.activation.*;</span><br><span class="line"> </span><br><span class="line">public class SendEmailUtils&#123;</span><br><span class="line">	private static String smtp_host &#x3D; &quot;smtp.163.com&quot;; &#x2F;&#x2F; 网易</span><br><span class="line">	private static String username &#x3D; &quot;zhangxueliang***********@163.com&quot;; &#x2F;&#x2F; 邮箱账户</span><br><span class="line">	private static String password &#x3D; &quot;***********&quot;; &#x2F;&#x2F; 邮箱授权码</span><br><span class="line">	private static String from &#x3D; &quot;zhangxueliang***********@163.com&quot;; &#x2F;&#x2F; 使用当前账户</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;测试代码：测试邮件能否发送成功</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		sendMail(&quot;张学亮在测试邮件玩玩&quot;, &quot;邮件正文内容&quot;, &quot;zhangxueliang********@163.com&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void sendMail(String subject, String content, String to) &#123;</span><br><span class="line">		Properties props &#x3D; new Properties();</span><br><span class="line">		props.setProperty(&quot;mail.smtp.host&quot;, smtp_host);</span><br><span class="line">		props.setProperty(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);</span><br><span class="line">		props.setProperty(&quot;mail.smtp.auth&quot;, &quot;true&quot;);</span><br><span class="line">		Session session &#x3D; Session.getInstance(props);</span><br><span class="line">		Message message &#x3D; new MimeMessage(session);</span><br><span class="line">		try &#123;</span><br><span class="line">			message.setFrom(new InternetAddress(from));</span><br><span class="line">			message.setRecipient(RecipientType.TO, new InternetAddress(to));</span><br><span class="line">			message.setSubject(subject);</span><br><span class="line">			message.setContent(content, &quot;text&#x2F;html;charset&#x3D;utf-8&quot;);</span><br><span class="line">			Transport transport &#x3D; session.getTransport();</span><br><span class="line">			transport.connect(smtp_host, username, password);</span><br><span class="line">			transport.sendMessage(message, message.getAllRecipients());</span><br><span class="line">			System.out.println(&quot;邮件发送成功...&quot;);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			throw new RuntimeException(&quot;邮件发送失败...&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/Java-mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6%E7%A4%BA%E4%BE%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Java面向对象之构造方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
