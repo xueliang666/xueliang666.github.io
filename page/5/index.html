@@ -163,6 +163,148 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Spring中使用Dubbo框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/">Spring中使用Dubbo框架</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:15:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Dubbo框架</strong></p>
+<p><em>什么是dubbo</em></p>
+<blockquote>
+<p>随着互联网的发展，网站应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。</p>
+</blockquote>
+<p><img src="https://i.imgur.com/RhVWWNP.jpg"></p>
+<blockquote>
+<p><img src="https://i.imgur.com/5XUjg8u.jpg"></p>
+</blockquote>
+<p><em>Dubbo架构</em></p>
+<p><img src="https://i.imgur.com/qrkO7ir.jpg"></p>
+<p><img src="https://i.imgur.com/GFzqmtA.jpg"></p>
+<p><em>使用方法</em></p>
+<p><em>Spring配置</em></p>
+<blockquote>
+<p>Dubbo采用全Spring配置方式，透明化接入应用，对应用没有任何API侵入，只需用Spring加载Dubbo的配置即可，Dubbo基于Spring的Schema扩展进行加载。</p>
+</blockquote>
+<p><strong>单一工程中spring的配置</strong></p>
+<pre><code>&lt;bean id=&quot;xxxService&quot; class=&quot;com.xxx.XxxServiceImpl&quot; /&gt;
+&lt;bean id=&quot;xxxAction&quot; class=&quot;com.xxx.XxxAction&quot;&gt;
+    &lt;property name=&quot;xxxService&quot; ref=&quot;xxxService&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+<p><strong>远程服务：</strong></p>
+<blockquote>
+<p>在本地服务的基础上，只需做简单配置，即可完成远程化：</p>
+</blockquote>
+<blockquote>
+<p>将上面的local.xml配置拆分成两份，将服务定义部分放在服务提供方remote-provider.xml，将服务引用部分放在服务消费方remote-consumer.xml。</p>
+<p>并在提供方增加暴露服务配置<a href="dubbo:service">dubbo:service</a>，在消费方增加引用服务配置<a href="dubbo:reference">dubbo:reference</a>。</p>
+</blockquote>
+<p><strong>发布服务：</strong></p>
+<pre><code>&lt;!-- 和本地服务一样实现远程服务 --&gt;
+&lt;bean id=&quot;xxxService&quot; class=&quot;com.xxx.XxxServiceImpl&quot; /&gt;
+&lt;!-- 增加暴露远程服务配置 --&gt;
+&lt;dubbo:service interface=&quot;com.xxx.XxxService&quot; ref=&quot;xxxService&quot; /&gt;
+</code></pre>
+<p><strong>调用服务：</strong></p>
+<pre><code>&lt;!-- 增加引用远程服务配置 --&gt;
+&lt;dubbo:reference id=&quot;xxxService&quot; interface=&quot;com.xxx.XxxService&quot; /&gt;
+&lt;!-- 和本地服务一样使用远程服务 --&gt;
+&lt;bean id=&quot;xxxAction&quot; class=&quot;com.xxx.XxxAction&quot;&gt;
+    &lt;property name=&quot;xxxService&quot; ref=&quot;xxxService&quot; /&gt;
+&lt;/bean&gt;
+</code></pre>
+<p><em>注册中心</em></p>
+<blockquote>
+<p>注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小。使用dubbo-2.3.3以上版本，建议使用zookeeper注册中心。<br>Zookeeper是Apacahe Hadoop的子项目，是一个树型的目录服务，支持变更推送，适合作为Dubbo服务的注册中心，工业强度较高，可用于生产环境，并推荐使用。</p>
+</blockquote>
+<p><img src="https://i.imgur.com/IAApCJ5.jpg"></p>
+<p><em>框架整合</em></p>
+<p><strong>添加dubbo的依赖</strong></p>
+<blockquote>
+<p>加入dubbo相关的jar包。服务层、表现层都添加。</p>
+</blockquote>
+<pre><code>&lt;!-- dubbo相关 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;dubbo&lt;/artifactId&gt;
+    &lt;!-- 排除依赖 --&gt;
+    &lt;exclusions&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;org.jboss.netty&lt;/groupId&gt;
+            &lt;artifactId&gt;netty&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.apache.zookeeper&lt;/groupId&gt;
+    &lt;artifactId&gt;zookeeper&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.github.sgroschupf&lt;/groupId&gt;
+    &lt;artifactId&gt;zkclient&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/Spring%E4%B8%AD%E4%BD%BF%E7%94%A8Dubbo%E6%A1%86%E6%9E%B6/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-spring-mvc配置文件的主要内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
