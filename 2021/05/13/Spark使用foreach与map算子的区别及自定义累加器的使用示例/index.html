@@ -6,32 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>HBase与时空索引技术 | 学亮编程手记</title>
+  <title>Spark使用foreach与map算子的区别及自定义累加器的使用示例 | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="所谓时空数据，顾名思义，包含了两个维度的信息：空间信息与时间信息。空间信息，以地理位置点最为基础，还包括线、多边形以及更为复杂的多维结构。最典型的时空数据，莫过于移动对象的轨迹点数据，如每隔5秒钟记录的车辆实时位置信息。这类数据，在物联网领域司空见惯，在可预见的未来，这类数据将会出现爆炸性的增长。">
+  <meta name="description" content="如下代码，使用累加器对数据进行求和的过程中，发现代码没有报错，运行也无异常，但是累加器结果总是为空，经过多番查证，发现问题出现在下面代码的第六步。开始时使用的是map算子对RDD中数据遍历，通过累加器进行计算，结果没有值。后来发现map底层使用的是迭代器，循环遍历一遍之后，迭代器的指针已经跳到了最末尾，当进行累加器计算的时候，已经没有数据进行计算了，因此迭代器结果没有值。 修正后结果：使用fore">
 <meta property="og:type" content="article">
-<meta property="og:title" content="HBase与时空索引技术">
-<meta property="og:url" content="http://xueliang666.github.com/2021/05/13/HBase%E4%B8%8E%E6%97%B6%E7%A9%BA%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:title" content="Spark使用foreach与map算子的区别及自定义累加器的使用示例">
+<meta property="og:url" content="http://xueliang666.github.com/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="所谓时空数据，顾名思义，包含了两个维度的信息：空间信息与时间信息。空间信息，以地理位置点最为基础，还包括线、多边形以及更为复杂的多维结构。最典型的时空数据，莫过于移动对象的轨迹点数据，如每隔5秒钟记录的车辆实时位置信息。这类数据，在物联网领域司空见惯，在可预见的未来，这类数据将会出现爆炸性的增长。">
+<meta property="og:description" content="如下代码，使用累加器对数据进行求和的过程中，发现代码没有报错，运行也无异常，但是累加器结果总是为空，经过多番查证，发现问题出现在下面代码的第六步。开始时使用的是map算子对RDD中数据遍历，通过累加器进行计算，结果没有值。后来发现map底层使用的是迭代器，循环遍历一遍之后，迭代器的指针已经跳到了最末尾，当进行累加器计算的时候，已经没有数据进行计算了，因此迭代器结果没有值。 修正后结果：使用fore">
 <meta property="og:locale">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/a065ae2ea96266a914558f622442c71b.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fc76db5a6f581118576d6224d4a73b57.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f1183de49e9ff0a538945e4165f8d87c.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f5cfea7382a9d2354fc7403d0f466ba6.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c120c43f2edb3ca9944892cc950e2f48.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f430eacdf63b8f16e7ed03322790a663.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/dbfb4c537305c9b92c3d1a9d9a4e7de5.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/71927629b990c8c828a0f01f100de461.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/af192a64be428ac3832ef97a68905846.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/e5081dfb5ec22b24bb5be7ac5980c0fb.png">
-<meta property="article:published_time" content="2021-05-13T02:04:05.000Z">
-<meta property="article:modified_time" content="2021-05-13T02:14:12.011Z">
+<meta property="article:published_time" content="2021-05-13T09:14:21.000Z">
+<meta property="article:modified_time" content="2021-05-13T09:16:25.405Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="GIS">
-<meta property="article:tag" content="HBase">
+<meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/a065ae2ea96266a914558f622442c71b.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -175,162 +163,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-HBase与时空索引技术" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Spark使用foreach与map算子的区别及自定义累加器的使用示例" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      HBase与时空索引技术
+      Spark使用foreach与map算子的区别及自定义累加器的使用示例
     </h1>
   
 
         
-        <a href="/2021/05/13/HBase%E4%B8%8E%E6%97%B6%E7%A9%BA%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF/" class="archive-article-date">
-  	<time datetime="2021-05-13T02:04:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-13</time>
+        <a href="/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
+  	<time datetime="2021-05-13T09:14:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-13</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>所谓时空数据，顾名思义，包含了两个维度的信息：空间信息与时间信息。空间信息，以地理位置点最为基础，还包括线、多边形以及更为复杂的多维结构。最典型的时空数据，莫过于移动对象的轨迹点数据，如每隔5秒钟记录的车辆实时位置信息。这类数据，在物联网领域司空见惯，在可预见的未来，这类数据将会出现爆炸性的增长。</p>
+        <p>如下代码，使用累加器对数据进行求和的过程中，发现代码没有报错，运行也无异常，但是累加器结果总是为空，经过多番查证，发现问题出现在下面代码的第六步。<br>开始时使用的是map算子对RDD中数据遍历，通过累加器进行计算，结果没有值。<br>后来发现map底层使用的是迭代器，循环遍历一遍之后，迭代器的指针已经跳到了最末尾，当进行累加器计算的时候，已经没有数据进行计算了，因此迭代器结果没有值。</p>
+<p>修正后结果：使用foreach替代map进行循环计算。</p>
 <span id="more"></span>
 
+<h1 id="spark使用map算子不产生数据的问题"><a href="#spark使用map算子不产生数据的问题" class="headerlink" title="spark使用map算子不产生数据的问题"></a>spark使用map算子不产生数据的问题</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spark.exercise</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.util.<span class="type">AccumulatorV2</span></span><br><span class="line"><span class="keyword">import</span> org.apache.spark.&#123;<span class="type">SparkConf</span>, <span class="type">SparkContext</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">$02_request1Update</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//1.创建SparkContext</span></span><br><span class="line">    <span class="keyword">val</span> sc = <span class="keyword">new</span> <span class="type">SparkContext</span>(<span class="keyword">new</span> <span class="type">SparkConf</span>().setMaster(<span class="string">&quot;local[4]&quot;</span>).setAppName(<span class="string">&quot;test&quot;</span>))</span><br><span class="line">    <span class="comment">//2.读取数据</span></span><br><span class="line">    <span class="keyword">val</span> datas = sc.textFile(<span class="string">&quot;datas/user_visit_action.txt&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//3.创建累加器对象</span></span><br><span class="line">    <span class="keyword">val</span> acc = <span class="keyword">new</span> <span class="type">SumAcc</span></span><br><span class="line">    <span class="comment">//4.注册累加器</span></span><br><span class="line">    sc.register(acc)</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//5、切割数据,选择点击品类id，下单品类ids,支付品类ids,转换</span></span><br><span class="line">    <span class="keyword">val</span> source = datas.flatMap(line=&gt;&#123;</span><br><span class="line">      <span class="keyword">val</span> arr = line.split(<span class="string">&quot;_&quot;</span>)</span><br><span class="line">      <span class="comment">//创建容器，封装数据</span></span><br><span class="line">      <span class="keyword">var</span> result:<span class="type">List</span>[(<span class="type">String</span>,<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>)] = <span class="type">Nil</span></span><br><span class="line">    </span><br><span class="line">      <span class="keyword">val</span> clickid = arr(<span class="number">6</span>)</span><br><span class="line">      <span class="keyword">if</span>(clickid!=<span class="string">&quot;-1&quot;</span>)&#123;</span><br><span class="line">        result = (clickid,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>) :: result</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>( arr(<span class="number">8</span>)!=<span class="string">&quot;null&quot;</span> )&#123;</span><br><span class="line">        arr(<span class="number">8</span>).split(<span class="string">&quot;,&quot;</span>).foreach(x=&gt;&#123;</span><br><span class="line">          result = (x,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>) :: result</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;<span class="keyword">else</span> <span class="keyword">if</span>(arr(<span class="number">10</span>)!=<span class="string">&quot;null&quot;</span>)&#123;</span><br><span class="line">        arr(<span class="number">10</span>).split(<span class="string">&quot;,&quot;</span>).foreach(x=&gt;&#123;</span><br><span class="line">          result = (x,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>) :: result</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      result</span><br><span class="line">    &#125; )</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//6.通过累加器累加数据</span></span><br><span class="line">   source.foreach(x =&gt; acc.add(x))</span><br><span class="line">  </span><br><span class="line">   <span class="comment">// println(acc.value.toBuffer)</span></span><br><span class="line">  </span><br><span class="line">    <span class="comment">//7.获取累加结果，并排序取前十</span></span><br><span class="line">    <span class="keyword">val</span> result =  acc.value.toList.sortBy(_._2).reverse.take(<span class="number">10</span>)</span><br><span class="line">  </span><br><span class="line">    println(result)</span><br><span class="line">    </span><br><span class="line">    <span class="type">Thread</span>.sleep(<span class="number">100000</span>)</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义累加器</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SumAcc</span> <span class="keyword">extends</span> <span class="title">AccumulatorV2</span>[(<span class="type">String</span>,<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>),<span class="type">Map</span>[<span class="type">String</span>,(<span class="type">Int</span>,<span class="type">Int</span>,<span class="type">Int</span>)]] </span>&#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//创建一个容器，累加每个品类的点击次数、下单次数、支付次数</span></span><br><span class="line">  <span class="keyword">var</span> result = <span class="type">Map</span>[<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)]()</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//判断是否为空</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">isZero</span></span>: <span class="type">Boolean</span> = result.isEmpty</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//赋值副本</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">copy</span></span>(): <span class="type">AccumulatorV2</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>), <span class="type">Map</span>[<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)]] = <span class="keyword">new</span> <span class="type">SumAcc</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">//重置累加器</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">reset</span></span>(): <span class="type">Unit</span> = <span class="type">Map</span>[<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)]()</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//累加元素</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">add</span></span>(v: (<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)): <span class="type">Unit</span> = &#123;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//判断品类在容器中是否存在</span></span><br><span class="line">    <span class="keyword">if</span>(result.contains(v._1))&#123;</span><br><span class="line">    </span><br><span class="line">      <span class="comment">//取出之前的累加结果</span></span><br><span class="line">      <span class="keyword">val</span> value = result.getOrElse(v._1,(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">      result = result.+((v._1,(value._1+v._2,value._2+v._3,value._3+v._4)))</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      result = result.+((v._1,(v._2,v._3,v._4)))</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//合并多个累加器的结果</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">merge</span></span>(other: <span class="type">AccumulatorV2</span>[(<span class="type">String</span>, <span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>), <span class="type">Map</span>[<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)]]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="comment">//取出累加器的值</span></span><br><span class="line">    <span class="keyword">val</span> values = other.value</span><br><span class="line">    </span><br><span class="line">    values.foreach&#123;</span><br><span class="line">      <span class="keyword">case</span> (id,(clicknum,ordernum,paynum)) =&gt;</span><br><span class="line">        <span class="comment">//判断品类在容器中是否存在</span></span><br><span class="line">        <span class="keyword">if</span>(result.contains(id))&#123;</span><br><span class="line">      </span><br><span class="line">          <span class="comment">//取出之前的累加结果</span></span><br><span class="line">          <span class="keyword">val</span> value = result.getOrElse(id,(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">          result = result.+((id,(value._1+clicknum,value._2+ordernum,value._3+paynum)))</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          result = result.+((id,(clicknum,ordernum,paynum)))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//返回值</span></span><br><span class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">value</span></span>: <span class="type">Map</span>[<span class="type">String</span>, (<span class="type">Int</span>, <span class="type">Int</span>, <span class="type">Int</span>)] = <span class="keyword">this</span>.result</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
-<h3 id="用HBase存放时空数据"><a href="#用HBase存放时空数据" class="headerlink" title="用HBase存放时空数据"></a><strong>用HBase存放时空数据</strong></h3><p>时空数据，尤其是移动对象位置点数据，结构简单，但关于吞吐量的要求却往往很高。单从这点信息来看，这类数据属于HBase的适用范畴。</p>
-<p>先不谈论时间纬度与复杂的多边形数据，我们先从最简单的地理位置点数据开始，探讨一下如果用HBase来存储这类数据会遭遇哪些技术挑战。</p>
-<p>地理位置点Point中包含两个信息：经度X与纬度Y，按照传统的思路，将一个Point存成一行数据，而经度X与纬度Y则分别是构成这行数据的两个列，可以为每一个Point设置一个ID，并以此ID作为数据RowKey。所有的Points在表中按ID字典顺序存放。</p>
-<p>围绕地理位置点的典型的查询方式，如“查询某一个建筑附近有哪些酒店？”，按照刚刚表设计思路，数据如按主键ID顺序存放，某个建筑附近的所有酒店，它们在主键顺序上却未必是相邻的，因此，这个查询可能涉及扫描大量的无关数据。</p>
-<p>可见，针对最简单的时空数据类型，传统HBase表设计思路已经显得非常低效，传统关系型数据库基于B-Tree的数据组织结构也更是疲于应对。再放大到整个时空数据的范畴，要支持的典型场景更为复杂：</p>
-<ul>
-<li>查询某一个地理区域在某个历史时间范围内发生的关键事件</li>
-<li>查询某一个地理区域的人流量、车流量信息</li>
-<li>查询某一天上午先后在A，B，C三个地理区域出现过的具有某些特征的人</li>
-<li>查询某嫌疑人在某一天的行动轨迹</li>
-</ul>
-<p>归根结底，HBase中的数据按照RowKey单维度排序组织，而我们现在却面临的是一个多维数据问题。因此，HBase如果想很好的支持时空数据的存储，需要引入时空索引技术。</p>
-<p>从上面的查询场景来看，原生HBase的访问接口难以直接支持这些能力，因此，时空数据领域需要更加专业的访问接口，这是GeoMesa项目存在的关键原因。</p>
-<h3 id="常见的时空索引技术"><a href="#常见的时空索引技术" class="headerlink" title="常见的时空索引技术"></a><strong>常见的时空索引技术</strong></h3><p>关于时空索引，已经有不少常见的技术，这里，我们主要介绍一下R-Trees、Quad-Trees、K-D Trees以及Space Filling Curve这四种技术。</p>
-<h4 id="R-Trees"><a href="#R-Trees" class="headerlink" title="R-Trees"></a><strong>R-Trees</strong></h4><p>R-Trees源自论文《R-Trees: A Dynamic Index Structure For Spatial Searching》，下面的图也源自此论文：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/a065ae2ea96266a914558f622442c71b.png" alt="图片"></p>
-<p>R-Trees基于这样的思想设计：</p>
-<p>每一个空间对象，如一个多边形区域，都存在一个最小的矩形，能够恰好包含此时空对象，如上图中的矩形R6所包含的弯月形区域。这个最小包围矩形被称之为MBR(Minimum Bounding Rectangle)。</p>
-<p>多个相邻的矩形，可以被包含在一个更大的最小包围矩形中。如R6、R9以及R10三个矩形，可以被包含在R3中，而R11与R12则被包含在R4中。</p>
-<p>继续迭代，总能找到若干个最大的区域，以一种树状的形式，将所有的时空对象给容纳进去，如上图中的R1, R2。这样，整个树状结构，呈现如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/fc76db5a6f581118576d6224d4a73b57.png" alt="图片"></p>
-<p>从最小的矩形区域，到最大的矩形区域，就好比地图中的行政区域划分：村 -&gt; 县 -&gt; 市 -&gt; 省份。查询时，先从锁定的最大区域开始，逐级缩小比例尺后，就可找到最终的对象。如若将上图中的R1与R2理解成两个平级的”行政区域”，却又存在本质的区别：不同的行政区域，并不存在相互重叠，而R1与R2却可能是重叠的。</p>
-<p>R-Trees的定义：</p>
-<p>\1. 每一个Leaf Node包含m到M个索引记录（Root节点除外）。</p>
-<p>\2. 每一个索引记录是一个关于(I, tuple-identifier)的二元组信息，I是空间对象的最小包围矩形，而tuple-identifier用来描述空间对象本身。</p>
-<p>\3. 每一个Non-leaf节点，包含m到M个子节点（Root节点除外）。</p>
-<p>\4. Non-leaf节点上的每一个数据元素，是一个(I, child-pointer)的二元组信息，child-pointer指向其中一个子节点，而I则是这个子节点上所有矩形的最小包围矩形。</p>
-<p>如上图中，R3、R4以及R5，共同构成一个non-leaf节点，R3指向包含元素R8，R9以及R10的子节点，这个指针就是child-pointer，而与R8，R9以及R10相关的最小包围矩形，就是I。</p>
-<p>\5. Root节点至少包含两个子节点，除非它本身也是一个Leaf Node。</p>
-<p>\6. 所有的Leaf Nodes都出现在树的同一层上。</p>
-<p>从定义上来看，R-Trees与B-Trees存在诸多类似：Root节点与Non-Leaf节点，均包含限定数量的子节点；所有的Leaf Nodes都出现在树的同一层上。这两种树也都是自平衡的。</p>
-<p>前面也已经提到了，B-Trees主要用来存放一维排序的数据元素，而R-Tree存放的则是多维空间数据元素。从查询方式上来看，两者也存在显著的差异：B-Trees更擅长于数据点查，它的设计并不利于数据的范围查询。基于空间元素的查询，却以范围查询为主，而且往往需要对多个子树进行并行查询，例如，在地图上划定某一个区域，查询这个区域内有哪些公园，可能有多个子树都与划定的这个区域存在交集。从这一点看来，R-Tree的搜索性能其实并没有很好的保障。</p>
-<p>R-Trees有多种变种，如R+-Trees，R*-Trees，X-Trees, M-Trees，BR-Trees等等，不再展开过多的介绍。</p>
-<h4 id="Quad-Trees"><a href="#Quad-Trees" class="headerlink" title="Quad-Trees"></a><strong>Quad-Trees</strong></h4><p>同很多数据结构类似，Quad-Trees也存在多种变种，最初的Quad-Trees设计源自论文《Quad Trees: A Data Structure for Retrieval on Composite Keys》，下图源自论文，是关于Quad-Trees的直观呈现：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f1183de49e9ff0a538945e4165f8d87c.png" alt="图片"></p>
-<p>上图中的A,B,C,E,F,G均为Point，以每一个Point作为中心点，可以将一个区间分成4个象限。</p>
-<p>假设，先写入Point A，以A为中心，将整个区间分成了4个象限。</p>
-<p>写入Point B，Point B位于A的东北象限中，同样，以B为中心，依然可以将A东北象限进一步细分为4个子象限。</p>
-<p>写入Point C，Point C位于A的东南象限中，以C为中心，可以将A的东南象限细分成4个子象限。</p>
-<p>…..</p>
-<p>任何新写入的一个Point，总能找到一个某一个已存在的Point的子象限，来存放这个新的Point。</p>
-<p>整个树状结构呈现如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f5cfea7382a9d2354fc7403d0f466ba6.png" alt="图片"></p>
-<p>可见，Quad-Trees有几个鲜明的特点：1. 对于非叶子节点，均包含4个子节点，对应4个面积不一的象限。2.<strong>不平衡，树的结构与数据的写入顺序直接相关。</strong>3.有空的Leave Nodes，且所有的Leave Nodes则是”参差不齐”的(并不一定都出现在树的同一层中)。4.数据既可能出现在分枝节点中，也可能出现在叶子节点中。</p>
-<p>因为Quad-Trees存在诸多变种，为了有所区分，上面提到的最简单的这种Quad-Tree，被称之为Point Quad-Trees。还有一种典型的Quad-Trees，被称之为Point Region QuadTrees(简称为PR QuadTrees)：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/c120c43f2edb3ca9944892cc950e2f48.png" alt="图片"></p>
-<p>PR Quad-Trees中，每一次迭代出来的4个象限，面积相同，且不依赖于用户数据Point作为分割点，或者说，<strong>数据分区与用户数据无关</strong>。每一个划分出来的子象限中，只允许存在一个Point。</p>
-<p>与Point Quad-Trees相比，PR Quad-Trees允许两份不同的数据集，拥有相同的分区信息。但PR Quad-Trees存在的问题也明显：1. 两个相邻的Points，可能在树的Level高度上相隔甚远。2.两份数据集如果追求相同的分区信息，可能需要进行足够粒度的分割，这可能导致空间浪费。</p>
-<h4 id="K-D-Trees"><a href="#K-D-Trees" class="headerlink" title="K-D Trees"></a><strong>K-D Trees</strong></h4><p>K-D Trees是一种针对高维点向量数据的索引结构，一棵简单的K-D Tree如下图所示(原图源自James Fogarty的”K-D Trees and Quad Trees”，但为了更直观，关于分区分割线的线条做了改动)：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f430eacdf63b8f16e7ed03322790a663.png" alt="图片"></p>
-<p>与Quad Trees思想类似，K-D Trees也是将整个区间进行不断分割，不同之处在于，Quad Trees每一次迭代，将一个区间分割成四个象限，而K-D Trees则是分成左右或上下两个区间。如上图所示：S1把整个空间分成了左右两个区间，左侧区间中，又被S2横向分割成了上下两个区间，而S3又在S2的分割基础上，将下部分分割成了左右两个区间，….</p>
-<p>如果已经存在一批Points，则较容易针对这批数据构建出一棵趋于平衡的K-D Tree，如若接收实时写入的数据，或者说数据更新频繁，K-D Tree则难以维持平衡态，除非对整棵树进行重构。</p>
-<h4 id="Space-Filling-Curve"><a href="#Space-Filling-Curve" class="headerlink" title="Space Filling Curve"></a><strong>Space Filling Curve</strong></h4><p>如果将一个完整的二维空间，分割成一个个大小相同的矩形，可以将Space Filling Curve简单理解为它是一种将所有的矩形区域用一条线”串”起来的方法，因”串”的方式不同，也就引申出了不同的Space Filling Curve算法。</p>
-<p>比较典型的如Z-Order Curve：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/dbfb4c537305c9b92c3d1a9d9a4e7de5.png" alt="图片"></p>
-<p>再如Hilbert Curve:</p>
-<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-43z6zHOE-1620871556108)(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)]</p>
-<p>Space Filling Curve事实上是为空间数据提供了一种一维排序的方法，它拉近了空间数据与传统数据库的距离：因为这意味着可以使用传统的B-Tree或B+-Tree索引，来存储空间数据。</p>
-<p>我们再借助于Z-Order的迭代构建过程，来加深读者关于Space Filling Curve的理解：</p>
-<p>如果将整个区间划分成4个象限，第一轮迭代就是将这4个象限利用Z-Order曲线连接起来：</p>
-<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-zTNW3nCz-1620871556108)(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)]</p>
-<p>而后，将第一轮迭代中的每一个象限，再进一步细分成4个象限，这样共变成了16个区间。在第二轮迭代中，再将16一个小区间用Z-Order曲线连接起来：</p>
-<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-zlvUOgjf-1620871556110)(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)]</p>
-<p>第三轮迭代再进一步拆分、连接，变成下图的样子：</p>
-<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-DbbDkGxl-1620871556111)(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)]</p>
-<p>每一次迭代，都是在上一次迭代的”方格”基础上，将每一个”方格”拆成了4个”子方格”，这种思想与Quad-Tree的思路是一致的，尤其是PR Quad-Tree，因此，也可<strong>将Space Filling Curve理解成一种高效构建Quad-Tree的方式</strong>，但需要说明的一点是，Z-Order论文的发布时间要远早于Quad-Tree论文的时间。</p>
-<h4 id="GeoHash"><a href="#GeoHash" class="headerlink" title="GeoHash"></a><strong>GeoHash</strong></h4><p>GeoHash可以将Point编码成一个字符串，如：</p>
-<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-vke3Ejyf-1620871556112)(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)]</p>
-<p><a href="http://geohash.org这个网站提供了经纬度与Geohash的在线转换能力。从编码结果来看，可以发现三个特点：">http://geohash.org这个网站提供了经纬度与Geohash的在线转换能力。从编码结果来看，可以发现三个特点：</a></p>
-<ol>
-<li><p>越高的精度，字符串越长，可对比上表中的P1到P3的Geohash值变化。</p>
-</li>
-<li><p>P3所表示的区域涵盖了P2，而P2涵盖了P1，这层关系，在生成的Geohash值中这样体现：</p>
-<p>“ws10rn6y”(对应P2)以”ws10rn”(对应P3)为前缀</p>
-<p>“ws10rn6yp9ms”(对应P1)以”ws10rn6y”(对应P2)为前缀。</p>
-</li>
-<li><p>位置相近的点，生成的Geohash值也相似，如P2与P4，两者纬度相同，经度仅差0.001，在生成的Geohash值中仅最后一个字符有区别。</p>
-</li>
-</ol>
-<p>GeoMesa官方资料中，也给出了这样一个典型的例子：</p>
-<p>针对 (-78.48, 38.03)，编码的过程，如下：</p>
-<p><strong>第1步</strong>：经度二分</p>
-<p><strong>规则</strong>：先将完整的坐标系统(-180.000 -90.000, 180.000 90.000)按经度中点0.000进行二分，如果处于左边则编码为0，处于右边，则编码为1。</p>
-<p><strong>结果</strong>：因 (-78.48, 38.03)处于左侧区间(-180.000, 0.000)，因此，实际编码为0。此时， (-78.48, 38.03)所处的区间被缩小为(-180.000 -90.000, 0.000 90.000)。</p>
-<p><strong>第2步</strong>：纬度二分</p>
-<p><strong>规则</strong>：基于第1步的结果，再将(-180.000 -90.000, 0.000 90.000)按纬度中点0.000进行二分，如果处于上侧则编码为1，处于下侧，则编码为0。</p>
-<p><strong>结果</strong>：因 (-78.48, 38.03)处于上侧区间(-180.000, 0.000)，编码为1，与第一步的结果结合在一起，编码变为”01″。此时， (-78.48, 38.03)所处的区间被缩小为(-180.000 0.000, 0.000 90.000)。</p>
-<p><strong>第3步</strong>：经度二分</p>
-<p><strong>规则</strong>：基于第2步的结果，再将(-180.000 0.000, 0.000 90.000)按经度中点-90.000进行二分，同样，如果处于左侧则编码为0，处于右侧，则编码为1。</p>
-<p><strong>结果</strong>：因 (-78.48, 38.03)处于上侧区间(-90.000, 0.000)，编码为1，与前两步的结果结合在一起，编码变为”011″。此时， (-78.48, 38.03)所处的区间被缩小为(-90.000 0.000, 0.000 90.000)。</p>
-<p><strong>第4步</strong>：纬度二分</p>
-<p>…..</p>
-<p>就这样，经度纬度不断交替二分迭代，每一步的输出结果如下表所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/71927629b990c8c828a0f01f100de461.png" alt="图片"></p>
-<p>关于上表中的Bounding Boxes的不断编码，可直观的体现在下图中：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/af192a64be428ac3832ef97a68905846.png" alt="图片"></p>
-<p>通过Base-32 Encoding，可以将上表中的编码结果进一步编码成字符串。例如，基于Base-32编码规则：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/e5081dfb5ec22b24bb5be7ac5980c0fb.png" alt="图片"></p>
-<p>因此，(-78.48, 38.03)的编码为01100 10110 01010 00000 10110，将其转换成对应的字符：</p>
-<pre><code>01100 -&gt; d
-
-10110 -&gt; q
-
-01010 -&gt; b
-
-00000 -&gt; 0
-
-10110 -&gt; q
-</code></pre>
-<p>连在一起，(-78.48, 38.03)的最终编码结果变为：dqb0q</p>
-<p>经Geohash编码后，其顺序与Z-Order编码保持一致，因此，也可以将Geohash是针对Z-Order算法的一种<strong>编码机制</strong>。Geohash编码带来的显著优势是：以字符串字典顺序表达Z-Order顺序，利用字符串的前缀匹配规则，也可快速实现多边形区域的重叠计算，但在编码效率上却并无任何优势，如sfcurve项目中提供的Z2编码算法，性能要远高于Geohash算法。</p>
-<h3 id="哪种时空索引可应用于HBase"><a href="#哪种时空索引可应用于HBase" class="headerlink" title="哪种时空索引可应用于HBase?"></a><strong>哪种时空索引可应用于HBase?</strong></h3><p>HBase基于LSM-Tree架构，底层HFile文件以B+ Tree形式组织。在不影响HBase现有架构的基础上，我们来分别探讨一下各种时空索引与HBase结合的可能性。</p>
-<p>从R-Trees的原始论文描述来看，它的设计是为了充分利用Disk Page的优势，这一点与B-Tree类似。它支持良好的数据随机写入能力，能够自平衡，从设计上来看，非常适合于矩形/多边形空间对象的存储。既然是致力于磁盘上的索引设计，对HBase现有架构带来较大的侵入性，即使能对HBase进行改造，与B-Tree类似的这种设计，已经被证明难以支撑高吞吐量数据写入。如果不做任何改造，我们只能考虑<strong>如何将R-Trees的数据映射到HBase的KeyValue模型中</strong>：HBase的数据按RowKey排序，从而能够按照RowKey快速检索，如果将R-Trees的数据以HBase原生数据形态组织，自然希望能提供一种方法，使得R-Trees中的数据排序方式与RowKey的排序一致，或者说，如何为R-Trees中的数据对象找到一种RowKey生成机制，使得R-Trees中的数据顺序就是RowKey的字典顺序。但我们知道，R-Trees中，其实已经弱化了数据对象”排序”的含义，一个节点与子节点之间，更多是一种包含于被包含的关系，一个空间对象可能归属于不同的分枝，这取决于那种划分方案更优，当一个Leaf Node承载的对象过多时，也可能出现Split。如果按照传统的树遍历的顺序来理解R-Trees中的对象排序，这种排序是不确定的。这意味着，我们无法构建出一种确定顺序的RowKey。</p>
-<p>再来看一下K-D Trees：K-D Trees是针对高维点向量而设计，用来存储二维的Point数据，自然也能很好的应对。K-D Trees的结构，与数据的写入顺序强相关，也可以说，同样的一批数据，因顺序不同，所构成的树的结构截然不同，这个问题也存在于Point Quad Trees中，因树结构的不确定性，它们<strong>与HBase结合的最大障碍，依然在于如何将Trees中的数据映射到KeyValue模型中</strong>。</p>
-<p>PR Quad Tree的分区则不依赖于数据本身，更与数据的写入顺序无关，但PR Quad Tree限制每一个Point都独占一个小方格的设计，使得每一个Point可能处在树的不同层次/高度中，而且随着数据的不断写入，同一个Point所处的高度可能会发生变化：如原来某一个方格中只有一个Point，但如果有新的数据写入后，这个方格需要进一步被分拆成4个新的子方格，原来的Point在树中的位置也发生了变化，因此，PR Quad Tree也无法直接应用于HBase。</p>
-<p>如果对PR Quad Tree进行稍加改造：</p>
-<ol>
-<li>将完整空间经过X次迭代后，预先将其划分成4^x个小方格。</li>
-<li>所有的Point都必须存放在最小的方格中。</li>
-<li>不限制每一个小方格中存放的Points的数量。</li>
-</ol>
-<p>这样，带来了三点”确定性”：树的层次是确定的，每一个小方格在树中的访问路径是确定的，每一个Point所属的小方格也是确定的。因此，只要我们存在一种方法，将每一个小方格的访问路径，映射成HBase的RowKey，就完美解决了时空Points数据存放在HBase中的问题，这种思路正是Spatial Filling Curve的核心思想。</p>
-<p>我们提到了两种常见的Spatial Filling Curve: Z-Order Curve与Hilbert Curve。评价一种Spatial Filling Curve的优劣，有两个关键的维度：</p>
-<ol>
-<li><strong>距离保留度</strong>：将二维空间对象映射成一维曲线后，两个对象在二维区间上如果是相近的，那么，在一维曲线中也应当是相近的。一个更优的曲线，理应更大程度上在一维曲线中维持对象在二维空间上的距离，或者说，应该有更高的距离保留度。对于查询而言，更高的距离保留度，也往往意味着更高的Caching命中率。</li>
-<li><strong>编码复杂度</strong>：可以简单理解为将二维空间对象映射成一维曲线的计算复杂度。</li>
-</ol>
-<p>Z-Order曲线在距离保留度上，略弱于Hilbert曲线，但在编码复杂度上，却比Hilbert曲线更低，这是GeoMesa选择Z-Order曲线的关键原因。</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1620870619&amp;ver=3065&amp;signature=zlh-C0Tyirjl1ZCMyt2loo9vgELA8scV9bXGjLP-wpqP69uXwPMfZLySueEC3anQa0IvCW5hc7PdT0KHdA2UAIry3wLtKsPAAfOLJuj00seQIRNQbu2utTjOlullpAm9&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1620870619&amp;ver=3065&amp;signature=zlh-C0Tyirjl1ZCMyt2loo9vgELA8scV9bXGjLP-wpqP69uXwPMfZLySueEC3anQa0IvCW5hc7PdT0KHdA2UAIry3wLtKsPAAfOLJuj00seQIRNQbu2utTjOlullpAm9&amp;new=1</a></p>
 
       
 
@@ -344,11 +202,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">HBase</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		
 		</ul>
@@ -367,18 +221,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Spark使用foreach与map算子的区别及自定义累加器的使用示例
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/05/12/%EF%BC%88%E5%8D%81%E4%BA%8C%EF%BC%89Geospark%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">（十二）Geospark源码解析（一）</div>
+    <a href="/2021/05/13/HBase%E4%B8%8E%E6%97%B6%E7%A9%BA%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">HBase与时空索引技术</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -405,7 +250,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8HBase%E5%AD%98%E6%94%BE%E6%97%B6%E7%A9%BA%E6%95%B0%E6%8D%AE"><span class="toc-number">1.</span> <span class="toc-text">用HBase存放时空数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%97%B6%E7%A9%BA%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF"><span class="toc-number">2.</span> <span class="toc-text">常见的时空索引技术</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#R-Trees"><span class="toc-number">2.1.</span> <span class="toc-text">R-Trees</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Quad-Trees"><span class="toc-number">2.2.</span> <span class="toc-text">Quad-Trees</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#K-D-Trees"><span class="toc-number">2.3.</span> <span class="toc-text">K-D Trees</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Space-Filling-Curve"><span class="toc-number">2.4.</span> <span class="toc-text">Space Filling Curve</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoHash"><span class="toc-number">2.5.</span> <span class="toc-text">GeoHash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%AA%E7%A7%8D%E6%97%B6%E7%A9%BA%E7%B4%A2%E5%BC%95%E5%8F%AF%E5%BA%94%E7%94%A8%E4%BA%8EHBase"><span class="toc-number">3.</span> <span class="toc-text">哪种时空索引可应用于HBase?</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spark%E4%BD%BF%E7%94%A8map%E7%AE%97%E5%AD%90%E4%B8%8D%E4%BA%A7%E7%94%9F%E6%95%B0%E6%8D%AE%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">spark使用map算子不产生数据的问题</span></a></li></ol>
                     </div>
                 </span>
             </div>

@@ -163,6 +163,86 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Nodejs模块原理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/01/Nodejs%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86/">Nodejs模块原理</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/01/Nodejs%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2019-05-01T15:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在 Node 中，每个模块内部都有一个自己的 module 对象</p>
+</blockquote>
+<ul>
+<li>该 module 对象中，有一个成员叫：exports 也是一个对象</li>
+<li>也就是说如果你需要对外导出成员，只需要把导出的成员挂载到 module.exports 中</li>
+</ul>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Nodejs</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/01/Nodejs%E6%A8%A1%E5%9D%97%E5%8E%9F%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Nodejs中的模块系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1617,86 +1697,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/04/29/Spring-Boot%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%90%AF%E5%BC%82%E6%AD%A5%E4%BD%BF%E7%94%A8%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E6%A1%88%E4%BE%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Java包装类API详解" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/Java%E5%8C%85%E8%A3%85%E7%B1%BBAPI%E8%AF%A6%E8%A7%A3/">Java包装类API详解</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/29/Java%E5%8C%85%E8%A3%85%E7%B1%BBAPI%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2019-04-29T06:54:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>在实际程序使用中，程序界面上用户输入的数据都是以字符串类型进行存储的。而程序开发中，我们需要把字符串数据，根据需求转换成指定的基本数据类型，如年龄需要转换成int类型，考试成绩需要转换成double类型等。那么，想实现字符串与基本数据之间转换怎么办呢？<br>Java中提供了相应的对象来解决该问题，基本数据类型对象包装类：java将基本数据类型值封装成了对象。封装成对象有什么好处？可以提供更多的操作基本数值的功能。<br>8种基本类型对应的包装类中需要注意int对应的是Integer，char对应的Character，其他6个都是基本类型首字母大写即可。</p>
-</blockquote>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">java基础</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">包装类</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/29/Java%E5%8C%85%E8%A3%85%E7%B1%BBAPI%E8%AF%A6%E8%A7%A3/">展开全文 >></a>
         </p>
       
 
