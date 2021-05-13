@@ -163,81 +163,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Spark使用foreach与map算子的区别及自定义累加器的使用示例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/">Spark使用foreach与map算子的区别及自定义累加器的使用示例</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" class="archive-article-date">
-  	<time datetime="2021-05-13T09:14:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>如下代码，使用累加器对数据进行求和的过程中，发现代码没有报错，运行也无异常，但是累加器结果总是为空，经过多番查证，发现问题出现在下面代码的第六步。<br>开始时使用的是map算子对RDD中数据遍历，通过累加器进行计算，结果没有值。<br>后来发现map底层使用的是迭代器，循环遍历一遍之后，迭代器的指针已经跳到了最末尾，当进行累加器计算的时候，已经没有数据进行计算了，因此迭代器结果没有值。</p>
-<p>修正后结果：使用foreach替代map进行循环计算。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-HBase与时空索引技术" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1663,6 +1588,84 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E4%BA%94%EF%BC%89GeosparkViz%20%E5%8F%AF%E8%A7%86%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-（四）Geospark SQL简介" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/">（四）Geospark SQL简介</a>
+    </h1>
+  
+
+        
+        <a href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/" class="archive-article-date">
+  	<time datetime="2021-04-29T08:03:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Spark提供DataFrame数据集，并且可以通过SQL语句来操作。GeoSpark在这个基础上实现了一些空间上的函数，可以用于SQL语句中，以下是本节要用到的5个，其余的函数参考<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://datasystemslab.github.io/GeoSpark/api/sql/GeoSparkSQL-Function/">GeoSpark SQL</a></p>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">GeoMesa</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/29/%EF%BC%88%E5%9B%9B%EF%BC%89Geospark%20SQL%E7%AE%80%E4%BB%8B/">展开全文 >></a>
         </p>
       
 
