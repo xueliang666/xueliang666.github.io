@@ -163,6 +163,79 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Java数组-获取数组中的最大值案例" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/28/Java%E6%95%B0%E7%BB%84-%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC%E6%A1%88%E4%BE%8B/">Java数组--获取数组中的最大值案例</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/28/Java%E6%95%B0%E7%BB%84-%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC%E6%A1%88%E4%BE%8B/" class="archive-article-date">
+  	<time datetime="2019-04-28T08:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.zhangxueliang.demo;</span><br><span class="line"></span><br><span class="line">public class ArrayTest &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		&#x2F;&#x2F;定义数组</span><br><span class="line">		int[] arr &#x3D; &#123;12,98,45,73,60&#125;;</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;定义参照物</span><br><span class="line">		int max &#x3D; arr[0];</span><br><span class="line">		</span><br><span class="line">		&#x2F;&#x2F;遍历数组，获取除了0以外的所有元素，进行比较</span><br><span class="line">		for(int x&#x3D;1; x&lt;arr.length; x++) &#123;</span><br><span class="line">			if(arr[x] &gt; max) &#123;</span><br><span class="line">				max &#x3D; arr[x];</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(&quot;数组中的最大值是：&quot;+max);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数组</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/28/Java%E6%95%B0%E7%BB%84-%E8%8E%B7%E5%8F%96%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC%E6%A1%88%E4%BE%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Random类实例-猜数字游戏" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1788,69 +1861,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 
   
-    <article id="post-Mybatis核心配置文件SqlMapConfig-xml独立使用配置内容" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/Mybatis%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6SqlMapConfig-xml%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9/">Mybatis核心配置文件SqlMapConfig.xml独立使用配置内容</a>
-    </h1>
-  
-
-        
-        <a href="/2019/04/28/Mybatis%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6SqlMapConfig-xml%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9/" class="archive-article-date">
-  	<time datetime="2019-04-28T07:51:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; ?&gt;</span><br><span class="line">&lt;!DOCTYPE configuration</span><br><span class="line">PUBLIC &quot;-&#x2F;&#x2F;mybatis.org&#x2F;&#x2F;DTD Config 3.0&#x2F;&#x2F;EN&quot;</span><br><span class="line">&quot;http:&#x2F;&#x2F;mybatis.org&#x2F;dtd&#x2F;mybatis-3-config.dtd&quot;&gt;</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;!-- 配置属性 </span><br><span class="line">		先加载内部属性，再加载外部属性，如果有同名属性会覆盖。</span><br><span class="line">	--&gt;</span><br><span class="line">	&lt;properties resource&#x3D;&quot;db.properties&quot;&gt;</span><br><span class="line">		&lt;property name&#x3D;&quot;jdbc.driver&quot; value&#x3D;&quot;com.mysql.jdbc.Driver&quot;&#x2F;&gt;</span><br><span class="line">		&lt;property name&#x3D;&quot;jdbc.url&quot; value&#x3D;&quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;mybatis?characterEncoding&#x3D;utf-8&quot;&#x2F;&gt;</span><br><span class="line">		&lt;property name&#x3D;&quot;jdbc.username&quot; value&#x3D;&quot;hello&quot;&#x2F;&gt;</span><br><span class="line">	&lt;&#x2F;properties&gt;</span><br><span class="line">	&lt;!-- 配置pojo别名 --&gt;</span><br><span class="line">	&lt;typeAliases&gt;</span><br><span class="line">		&lt;!-- &lt;typeAlias type&#x3D;&quot;com.zxl.mybatis.po.User&quot; alias&#x3D;&quot;user&quot;&#x2F;&gt; --&gt;</span><br><span class="line">		&lt;!-- 扫描包的形式创建别名，别名就是类名，不区分大小写 --&gt;</span><br><span class="line">		&lt;package name&#x3D;&quot;com.zxl.mybatis.po&quot;&#x2F;&gt;</span><br><span class="line">	&lt;&#x2F;typeAliases&gt;</span><br><span class="line">	&lt;!-- 和spring整合后 environments配置将废除--&gt;</span><br><span class="line">	&lt;environments default&#x3D;&quot;development&quot;&gt;</span><br><span class="line">		&lt;environment id&#x3D;&quot;development&quot;&gt;</span><br><span class="line">		&lt;!-- 使用jdbc事务管理--&gt;</span><br><span class="line">			&lt;transactionManager type&#x3D;&quot;JDBC&quot; &#x2F;&gt;</span><br><span class="line">		&lt;!-- 数据库连接池--&gt;</span><br><span class="line">			&lt;dataSource type&#x3D;&quot;POOLED&quot;&gt;</span><br><span class="line">				&lt;property name&#x3D;&quot;driver&quot; value&#x3D;&quot;$&#123;jdbc.driver&#125;&quot; &#x2F;&gt;</span><br><span class="line">				&lt;property name&#x3D;&quot;url&quot; value&#x3D;&quot;$&#123;jdbc.url&#125;&quot; &#x2F;&gt;</span><br><span class="line">				&lt;property name&#x3D;&quot;username&quot; value&#x3D;&quot;$&#123;jdbc.username&#125;&quot; &#x2F;&gt;</span><br><span class="line">				&lt;property name&#x3D;&quot;password&quot; value&#x3D;&quot;$&#123;jdbc.password&#125;&quot; &#x2F;&gt;</span><br><span class="line">			&lt;&#x2F;dataSource&gt;</span><br><span class="line">		&lt;&#x2F;environment&gt;</span><br><span class="line">	&lt;&#x2F;environments&gt;</span><br><span class="line">	&lt;!-- 加载mapper文件 --&gt;</span><br><span class="line">	&lt;mappers&gt;</span><br><span class="line">		&lt;!-- resource基于classpath查找 --&gt;</span><br><span class="line">		&lt;!-- &lt;mapper resource&#x3D;&quot;sqlmap&#x2F;user.xml&quot;&#x2F;&gt; --&gt;</span><br><span class="line">		&lt;!-- &lt;mapper resource&#x3D;&quot;mapper&#x2F;mapper.xml&quot;&#x2F;&gt; --&gt;</span><br><span class="line">		&lt;!-- 根据接口名称加载mapper文件</span><br><span class="line">		要求：1、mapper映射文件和接口在同一个目录下</span><br><span class="line">		    2、mapper映射文件的名称和接口名称一致。</span><br><span class="line">		    3、class就是接口的权限定名</span><br><span class="line">		 --&gt;</span><br><span class="line">		&lt;!-- &lt;mapper class&#x3D;&quot;com.zxl.mybatis.mapper.UserMapper&quot;&#x2F;&gt; --&gt;</span><br><span class="line">		&lt;!-- 使用扫描包的形式加载mapper文件 --&gt;</span><br><span class="line">		&lt;package name&#x3D;&quot;com.zxl.mybatis.mapper&quot;&#x2F;&gt;</span><br><span class="line">	&lt;&#x2F;mappers&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/04/28/Mybatis%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6SqlMapConfig-xml%E7%8B%AC%E7%AB%8B%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&lt;&lt; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &gt;&gt;</a>
@@ -2129,6 +2139,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">HBase</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HDFS</a>
               </li>
             
             <div class="clearfix"></div>

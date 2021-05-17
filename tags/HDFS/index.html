@@ -6,23 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://xueliang666.github.com">
-  <title>SparkSQL操作Hive | 学亮编程手记</title>
+  <title>Tag: HDFS | 学亮编程手记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Apache Hive 是 Hadoop 上的 SQL 引擎，Spark SQL 编译时可以包含 Hive 支持，也可以不包含。包含 Hive 支持的 Spark SQL 可以支持 Hive 表访问、UDF (用户自定义函数)以及 Hive 查询语言(HiveQL&#x2F;HQL)等。需要强调的一点是，如果要在 Spark SQL 中包含Hive 的库，并不需要事先安装 Hive。一般来说，最好还是在编译">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SparkSQL操作Hive">
-<meta property="og:url" content="http://xueliang666.github.com/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/index.html">
+  <meta name="description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
+<meta property="og:type" content="website">
+<meta property="og:title" content="学亮编程手记">
+<meta property="og:url" content="http://xueliang666.github.com/tags/HDFS/index.html">
 <meta property="og:site_name" content="学亮编程手记">
-<meta property="og:description" content="Apache Hive 是 Hadoop 上的 SQL 引擎，Spark SQL 编译时可以包含 Hive 支持，也可以不包含。包含 Hive 支持的 Spark SQL 可以支持 Hive 表访问、UDF (用户自定义函数)以及 Hive 查询语言(HiveQL&#x2F;HQL)等。需要强调的一点是，如果要在 Spark SQL 中包含Hive 的库，并不需要事先安装 Hive。一般来说，最好还是在编译">
+<meta property="og:description" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
 <meta property="og:locale">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20210512163041313.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2021051216310339.png">
-<meta property="article:published_time" content="2020-05-12T08:12:55.000Z">
-<meta property="article:modified_time" content="2021-05-12T08:31:34.353Z">
 <meta property="article:author" content="学亮">
-<meta property="article:tag" content="Spark">
+<meta property="article:tag" content="学亮编程手记, 分享java，jQuery，spring，oracle，mysql，J2EE-SSM&#x2F;SSH主流框架，es6，HTML5&#x2F;CSS3，Vuejs，AngularJS，BootStrap，Linux运维，Scala，Grovvy，Maven&#x2F;Gradle等相关编程知识">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210512163041313.png">
   
     <link rel="alternative" href="/atom.xml" title="学亮编程手记" type="application/atom+xml">
   
@@ -166,152 +161,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SparkSQL操作Hive" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      SparkSQL操作Hive
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2020/05/17/HDFS%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7HDFS-Explorer%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/" class="archive-article-date">
+  	<time datetime="2020-05-17T02:30:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-17</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/05/17/HDFS%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7HDFS-Explorer%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">HDFS管理工具HDFS Explorer安装教程</a>
     </h1>
   
 
-        
-        <a href="/2020/05/12/SparkSQL%E6%93%8D%E4%BD%9CHive/" class="archive-article-date">
-  	<time datetime="2020-05-12T08:12:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Apache Hive 是 Hadoop 上的 SQL 引擎，Spark SQL 编译时可以包含 Hive 支持，也可以不包含。包含 Hive 支持的 Spark SQL 可以支持 Hive 表访问、UDF (用户自定义函数)以及 Hive 查询语言(HiveQL/HQL)等。需要强调的一点是，如果要在 Spark SQL 中包含Hive 的库，并不需要事先安装 Hive。一般来说，最好还是在编译 Spark SQL 时引入 Hive支持，这样就可以使用这些特性了。如果你下载的是二进制版本的 Spark，它应该已经在编译时添加了 Hive 支持。</p>
-<span id="more"></span>
-
-<p>若要把 Spark SQL 连接到一个部署好的 Hive 上，你必须把 hive-site.xml 复制到Spark 的配置文件目录中($SPARK_HOME/conf)。即使没有部署好 Hive，Spark SQL 也可以运行。 需要注意的是，如果你没有部署好 Hive，Spark SQL 会在当前的工作目录中创建出自己的 Hive 元数据仓库，叫作 metastore_db。此外，如果你尝试使用 HiveQL 中的CREATE TABLE (并非 CREATE EXTERNAL TABLE)语句来创建表，这些表会被放在你默<br>认的文件系统中的 /user/hive/warehouse 目录中(如果你的 classpath 中有配好的hdfs-site.xml，默认的文件系统就是 HDFS，否则就是本地文件系统)。spark-shell 默认是 Hive 支持的；代码中是默认不支持的，需要手动指定（加一个参数即可）。</p>
-<h1 id="内嵌的Hive"><a href="#内嵌的Hive" class="headerlink" title="内嵌的Hive"></a>内嵌的Hive</h1><p>如果使用 Spark 内嵌的 Hive, 则什么都不用做, 直接使用即可.<br>Hive 的元数据存储在 derby 中, 默认仓库地址:$SPARK_HOME/spark-warehouse</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; spark.sql(<span class="string">&quot;show tables&quot;</span>).show</span><br><span class="line">。。。</span><br><span class="line">+--------+---------+-----------+</span><br><span class="line">|database|tableName|isTemporary|</span><br><span class="line">+--------+---------+-----------+</span><br><span class="line">+--------+---------+-----------+</span><br><span class="line">scala&gt; spark.sql(<span class="string">&quot;create table aa(id int)&quot;</span>)</span><br><span class="line">。。。</span><br><span class="line">scala&gt; spark.sql(<span class="string">&quot;show tables&quot;</span>).show</span><br><span class="line">+--------+---------+-----------+</span><br><span class="line">|database|tableName|isTemporary|</span><br><span class="line">+--------+---------+-----------+</span><br><span class="line">| <span class="keyword">default</span>|aa     | <span class="literal">false</span>    |</span><br><span class="line">+--------+---------+-----------+</span><br></pre></td></tr></table></figure>
-
-<p>向表加载本地数据</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; spark.sql(<span class="string">&quot;load data local inpath &#x27;input/ids.txt&#x27; into table aa&quot;</span>)</span><br><span class="line">。。。</span><br><span class="line">scala&gt; spark.sql(<span class="string">&quot;select * from aa&quot;</span>).show</span><br><span class="line">+---+</span><br><span class="line">| id|</span><br><span class="line">+---+</span><br><span class="line">| <span class="number">1</span>|</span><br><span class="line">| <span class="number">2</span>|</span><br><span class="line">| <span class="number">3</span>|</span><br><span class="line">| <span class="number">4</span>|</span><br><span class="line">+---+</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>在实际使用中, 几乎没有任何人会使用内置的 Hive !!!</p>
-</blockquote>
-<h1 id="外部的-HIVE"><a href="#外部的-HIVE" class="headerlink" title="外部的 HIVE"></a>外部的 HIVE</h1><p>如果想连接外部已经部署好的 Hive，需要通过以下几个步骤：<br>➢  Spark 要接管 Hive 需要把 hive-site.xml 拷贝到 conf/目录下<br>➢  把 Mysql 的驱动 copy 到 jars/目录下<br>➢  如果访问不到 hdfs，则需要把 core-site.xml 和 hdfs-site.xml 拷贝到 conf/目录下<br>➢  重启 spark-shell</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; spark.sql(<span class="string">&quot;show tables&quot;</span>).show</span><br><span class="line"><span class="number">20</span>/<span class="number">04</span>/<span class="number">25</span> <span class="number">22</span>:<span class="number">05</span>:<span class="number">14</span> <span class="type">WARN</span> <span class="type">ObjectStore</span>: <span class="type">Failed</span> to get database global_temp, returning</span><br><span class="line"><span class="type">NoSuchObjectException</span></span><br><span class="line">+--------+--------------------+-----------+</span><br><span class="line">|database| tableName|isTemporary|</span><br><span class="line">+--------+--------------------+-----------+</span><br><span class="line">| <span class="keyword">default</span>| emp| <span class="literal">false</span>|</span><br><span class="line">| <span class="keyword">default</span>|hive_hbase_emp_table| <span class="literal">false</span>|</span><br><span class="line">| <span class="keyword">default</span>| relevance_hbase_emp| <span class="literal">false</span>|</span><br><span class="line">| <span class="keyword">default</span>| staff_hive| <span class="literal">false</span>|</span><br><span class="line">| <span class="keyword">default</span>| ttt| <span class="literal">false</span>|</span><br><span class="line">| <span class="keyword">default</span>| user_visit_action| <span class="literal">false</span>|</span><br><span class="line">+--------+--------------------+-----------+</span><br></pre></td></tr></table></figure>
-
-<h1 id="运行-Spark-SQL-CLI"><a href="#运行-Spark-SQL-CLI" class="headerlink" title="运行 Spark SQL CLI"></a>运行 Spark SQL CLI</h1><p>Spark SQL CLI 可以很方便的在本地运行 Hive 元数据服务以及从命令行执行查询任务。在Spark 目录下执行如下命令启动 Spark SQL CLI，直接执行 SQL 语句，类似一 Hive 窗口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;spark-sql</span><br></pre></td></tr></table></figure>
-
-<h1 id="运行-Spark-beeline"><a href="#运行-Spark-beeline" class="headerlink" title="运行 Spark beeline"></a>运行 Spark beeline</h1><p>Spark Thrift Server 是 Spark 社区基于 HiveServer2 实现的一个 Thrift 服务。旨在无缝兼容HiveServer2。因为 Spark Thrift Server 的接口和协议都和 HiveServer2 完全一致，因此我们部署好 Spark Thrift Server 后，可以直接使用 hive 的 beeline 访问 Spark Thrift Server 执行相关语句。Spark Thrift Server 的目的也只是取代 HiveServer2，因此它依旧可以和 Hive Metastore进行交互，获取到 hive 的元数据。<br>如果想连接 Thrift Server，需要通过以下几个步骤：<br>➢  Spark 要接管 Hive 需要把 hive-site.xml 拷贝到 conf/目录下<br>➢  把 Mysql 的驱动 copy 到 jars/目录下<br>➢  如果访问不到 hdfs，则需要把 core-site.xml 和 hdfs-site.xml 拷贝到 conf/目录下<br>➢  启动 Thrift Server</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sbin&#x2F;start-thriftserver.sh</span><br></pre></td></tr></table></figure>
-
-<p>➢  使用 beeline 连接 Thrift Server</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin&#x2F;beeline -u jdbc:hive2:&#x2F;&#x2F;linux1:10000 -n root</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20210512163041313.png" alt="补充图一"></p>
-<h1 id="代码操作"><a href="#代码操作" class="headerlink" title="代码操作"></a>代码操作</h1><h2 id="导入依赖"><a href="#导入依赖" class="headerlink" title="导入依赖"></a>导入依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.spark<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spark-hive_2.12<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hive<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hive-exec<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.1.27<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="拷贝hive-site-xml-文件"><a href="#拷贝hive-site-xml-文件" class="headerlink" title="拷贝hive-site.xml 文件"></a>拷贝hive-site.xml 文件</h2><p>将 hive-site.xml 文件拷贝到项目的 resources 目录中</p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建 SparkSession</span></span><br><span class="line"><span class="keyword">val</span> spark: <span class="type">SparkSession</span> = <span class="type">SparkSession</span></span><br><span class="line">.builder()</span><br><span class="line">.enableHiveSupport()</span><br><span class="line">.master(<span class="string">&quot;local[*]&quot;</span>)</span><br><span class="line">.appName(<span class="string">&quot;sql&quot;</span>)</span><br><span class="line">.getOrCreate()</span><br></pre></td></tr></table></figure>
-
-<p>注意：在开发工具中创建数据库默认是在本地仓库，通过参数修改数据库仓库的地址:<br><code>config(&quot;spark.sql.warehouse.dir&quot;, &quot;hdfs://linux1:8020/user/hive/warehouse&quot;)</code><br>如果在执行操作时，出现如下错误：</p>
-<p><img src="https://img-blog.csdnimg.cn/2021051216310339.png" alt="补充图二"></p>
-<p>可以代码最前面增加如下代码解决：<br><code>System.setProperty(&quot;HADOOP_USER_NAME&quot;, &quot;root&quot;)</code><br>此处的 root 改为你们自己的 hadoop 用户名称</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">HDFS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2020/05/13/Spark%E4%BD%BF%E7%94%A8foreach%E4%B8%8Emap%E7%AE%97%E5%AD%90%E7%9A%84%E5%8C%BA%E5%88%AB%E5%8F%8A%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B4%AF%E5%8A%A0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Spark使用foreach与map算子的区别及自定义累加器的使用示例
-        
-      </div>
-    </a>
   
   
-    <a href="/2020/05/12/SparkSQL-MySQL%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E4%BF%9D%E5%AD%98%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">SparkSQL MySQL数据的加载和保存代码示例</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%B5%8C%E7%9A%84Hive"><span class="toc-number">1.</span> <span class="toc-text">内嵌的Hive</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E7%9A%84-HIVE"><span class="toc-number">2.</span> <span class="toc-text">外部的 HIVE</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-Spark-SQL-CLI"><span class="toc-number">3.</span> <span class="toc-text">运行 Spark SQL CLI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C-Spark-beeline"><span class="toc-number">4.</span> <span class="toc-text">运行 Spark beeline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">代码操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96"><span class="toc-number">5.1.</span> <span class="toc-text">导入依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%B7%E8%B4%9Dhive-site-xml-%E6%96%87%E4%BB%B6"><span class="toc-number">5.2.</span> <span class="toc-text">拷贝hive-site.xml 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.3.</span> <span class="toc-text">代码实现</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -334,9 +237,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,
